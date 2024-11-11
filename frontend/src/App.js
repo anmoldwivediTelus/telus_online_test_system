@@ -6,11 +6,11 @@ import Header from './Header'
 const App = () => {
   const appRouter  = createBrowserRouter([
     {
-      path:'/',
+      path:'/home',
       element:<Home/>,
     },
     {
-      path:'/login',
+      path:'/',
       element:<Login/>
     },
   ])
@@ -18,7 +18,7 @@ const App = () => {
     <div>
       <Header/>
       <RouterProvider router={appRouter}/>
-      <div>footer</div>
+      {/* <div>footer</div> */}
     </div>
      
   )
