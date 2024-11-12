@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config({
-  path: "./.env",
+  path: "../.env",
 });
 
 import app from "./app.js";
@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 connectBD(DATABASE_URL)
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`servcer is listing at port: ${PORT}`);
+      console.log(`server is listing at port: ${PORT}`);
     });
   })
   .catch((error) => {
