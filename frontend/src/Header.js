@@ -1,10 +1,24 @@
-import React from 'react'
+import React from 'react';
+import ti_logo from './assets/img/telus_logo_digital.svg';
 
 const Header = () => {
   return (
-    <div className = "container m-auto flex justify-between relative mt-4 mb-4">
-        <div>logo</div>
-        <div>Anmol</div>
+    <div className = "">
+       <header>
+        <div className ="logo container-fluid">
+		<img className="telus-logo" alt="Telus logo" src= {ti_logo} />
+		<div id="userinfo_banner"></div>
+            <div className ="page-headers ">
+                <div className ="app-title-header themetext">TELUS ONLINE TEST</div>
+            </div>
+            <div className='textRight'>
+                <p className = 'themetext bold'>
+                New User ! - 
+                <span className="spantext themetext">Sign Up</span>
+                </p>
+            </div>
+	</div>
+    </header>
     </div>
   )
 }
