@@ -1,0 +1,48 @@
+.main {
+    margin-top: 20px;
+    padding: 30px;
+    border: 2px solid #66cc00;
+    border-radius: 5px;
+    background-color: #f7f9fa;
+}
+
+.head {
+    text-align: center;
+    font-style: italic;
+    color: #502c6c;
+    font-weight: bold;
+}
+
+.list {
+    padding: 20px;
+    list-style-type: circle;
+    font-weight: normal;
+    color: #333;
+}
+
+.list li {
+    padding: 6px;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.buttons {
+    width: 150px;
+    height: 40px;
+    color: white;
+    background-color: #2b8000;
+    border-radius: 6px;
+    border: none;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.buttons:hover {
+    background-color: #1f6000;
+}
