@@ -1,19 +1,31 @@
 /* Container for the main layout */
 .home-container {
-  display: flex;
-  height: 100vh;
   background-color: #f9f9fc;
+  flex: 1;
+  display: flex;
+  z-index: 8;
+  position: relative;
 }
 
 /* Sidebar styling */
-.sidebar {
-  width: 250px;
+ .sidebar {
   background-color: #502c6c;
   color: #ffffff;
   padding: 1rem;
   border-right: 2px solid #3e2159;
+width: 280px;
+display: flex;
+z-index: 11;
+overflow: hidden;
+min-width: 280px;
+position: relative;
+flex: 0 0 280px;
+margin-top: -25px;
+padding-top: 60px;
+transition: all .2s;
+position: fixed;
+height: 100vh;
 }
-
 .sidebar ul {
   list-style-type: none;
   padding: 0;
@@ -34,8 +46,13 @@
 
 /* Main content area */
 .main-content {
+  z-index: 9;
   flex: 1;
-  padding: 2rem;
-  background-color: #ffffff;
+  flex-direction: column;
   color: #502c6c;
+  display: flex;
+  background-color: #f1f1f1;
+  padding: 2rem;
+  padding-left: 320px;
+  margin-top: -25px;
 }
