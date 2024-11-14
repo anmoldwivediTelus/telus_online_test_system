@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import "./Test.css"
+import { quizdata } from './data';
 import ti_logo from '../../assets/img/telus_logo_digital.svg';
 
 
+const questionsData = quizdata
+
 // Generate sample questions with 40 items, divided into 4 sections
-const questionsData = Array.from({ length: 40 }, (_, index) => ({
-  section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
-  number: index + 1,
-  question: `Guess the output of the following program (Question ${index + 1})`,
-  code: `
-#include <stdio.h>
-int main() {
-  int x = 10;
-  float y = 10.0;
-  if(x == y)
-    printf("x and y are equal");
-  else
-    printf("x and y are not equal");
-  return 0;
-}
-`,
-  options: ['x and y are not equal', 'x and y are equal', 'Run time error', 'Syntax error'],
-}));
+// const questionsData = Array.from({ length: 40 }, (_, index) => ({
+//   section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
+//   number: index + 1,
+//   question: `Guess the output of the following program (Question ${index + 1})`,
+//   code: `
+//         #include <stdio.h>
+//         int main() {
+//         int x = 10;
+//         float y = 10.0;
+//         if(x == y)
+//         printf("x and y are equal");
+//         else
+//     printf("x and y are not equal");
+//   return 0;
+// }
+// `,
+//   options: ['x and y are not equal', 'x and y are equal', 'Run time error', 'Syntax error'],
+// }));
 
 function Test() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -147,7 +150,7 @@ function Test() {
         </aside>
 
         <main className="question-panel">
-          <h2>{questionsData[currentQuestion].question}</h2>
+          <h2>{currentQuestion+1} . {questionsData[currentQuestion].question}</h2>
           <pre className="code-block">{questionsData[currentQuestion].code}</pre>
           <div className="options">
             {questionsData[currentQuestion].options.map((option, idx) => (
