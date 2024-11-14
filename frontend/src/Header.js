@@ -12,10 +12,7 @@ const Header = () => {
                 <div className ="app-title-header themetext">TELUS ONLINE TEST</div>
             </div>
             <div className='textRight'>
-                <p className = 'themetext bold'>
-                New User ! - 
-                <span className="spantext themetext">Sign Up</span>
-                </p>
+              
             </div>
 	</div>
     </header>
