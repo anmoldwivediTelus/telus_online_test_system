@@ -1,31 +1,71 @@
-.main__profile{
+.main__profile {
     box-sizing: border-box;
-    margin-top: 100px;
-    margin-left: 170px;
+    margin-top: 0px;
+    margin-left: 0px;
     padding-top: 30px;
     padding-bottom: 50px;
     background: rgb(247, 249, 250);
 }
-.profile{
+
+.profile {
     font-size: 22px;
     color: rgb(63, 64, 64);
     margin-bottom: 30px;
     padding: 32px 0px 0px 32px;
+    text-align: center; /* Center-align title for consistency */
 }
-.details{
+
+.details {
     display: inline-block;
     vertical-align: middle;
+    text-align: center; /* Center-align details */
+    margin-top: 20px;
 }
-.details span{
+
+.details span {
     display: block;
 }
-.name{
+
+.name {
     font-size: 21px;
     color: rgb(63, 64, 64);
 }
-.position{
+
+.position {
     font-size: 14px;
 }
-.password-container{
+
+.password-container {
     width: 33%;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+    .main__profile {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .profile {
+        font-size: 18px;
+        padding: 20px 10px;
+        text-align: center;
+    }
+
+    .details {
+        display: block;
+        text-align: center; /* Center align details on mobile */
+    }
+
+    .name {
+        font-size: 18px;
+    }
+
+    .position {
+        font-size: 13px;
+    }
+
+    .password-container {
+        width: 100%;
+    }
 }

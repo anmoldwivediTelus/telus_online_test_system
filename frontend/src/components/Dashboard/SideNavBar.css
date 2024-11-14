@@ -12,6 +12,11 @@
   color: #ffffff;
   padding: 1rem;
   border-right: 2px solid #3e2159;
+  transition: all 0.3s ease; /* Smooth transition for collapsing */
+}
+
+.sidebar.collapsed {
+  width: 80px; /* Width of the sidebar when collapsed */
 }
 
 .sidebar ul {
@@ -25,11 +30,27 @@
   border-radius: 5px;
   margin-bottom: 0.5rem;
   transition: background-color 0.3s;
+  text-align: left; /* Align text left in expanded form */
 }
 
 .sidebar li:hover,
 .sidebar li.active {
   background-color: #3e2159;
+}
+
+.sidebar.collapsed li {
+  text-align: center; /* Align items center when collapsed */
+}
+
+.sidebar .toggle-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 10px;
+  display: block;
+  text-align: center;
 }
 
 /* Main content area */
@@ -38,4 +59,31 @@
   padding: 2rem;
   background-color: #ffffff;
   color: #502c6c;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+  .home-container {
+    flex-direction: column; /* Stack sidebar and content vertically */
+  }
+
+  .sidebar {
+    width: 100%; /* Make sidebar take full width on mobile */
+    padding: 1rem 0.5rem;
+    border-right: none;
+    border-bottom: 2px solid #3e2159;
+  }
+
+  .sidebar.collapsed {
+    width: 60px; /* Sidebar collapsed on mobile */
+  }
+
+  .sidebar li {
+    padding: 0.5rem;
+    text-align: center; /* Center-align items in sidebar on mobile */
+  }
+
+  .main-content {
+    padding: 1rem; /* Reduce padding on mobile for better spacing */
+  }
 }
