@@ -2,6 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+
 /*-----header---*/
 header{
     top: 0;
@@ -15,7 +16,15 @@ header{
     left: 0;
     right: 0;
 }
+a{
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
 
+}
+a:hover {
+    color: #4b286d;
+    border-bottom: 1px solid #4b286d;
+}
 .logo {
     padding-left: 6px !important;
     border-left: 1px solid #d0d0d0;
@@ -62,7 +71,9 @@ header{
 .bold{
     font-weight:bold;
 }
-
+.dark{
+    color: #000;
+}
 
 /*---Login---*/
 div.centered {
@@ -73,7 +84,6 @@ form {
     display: grid;
     grid-template-columns: 25em;
     justify-content: center;
-    color: #4B286D;
     padding: 3.5em 2em;
     text-align: left;
 }
@@ -84,7 +94,7 @@ form fieldset {
 .f-small {
     font-size: 14px;
 }
-input[type="text"], input[type="password"]{
+input{
     width: 100%;
     height:40px;
     border: 1px ridge;
@@ -123,4 +133,9 @@ font-size: large;
 }
 .forgotpswd a {
     text-decoration: none;
+}
+.loginbtn:hover{
+    border-color: #4b286d !important;
+    background: #4b286d;
+    color: #fff;
 }
