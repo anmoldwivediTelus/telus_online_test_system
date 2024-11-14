@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaReact, FaJs, FaNode, FaAngular, FaJava, FaPython } from 'react-icons/fa';
-import './Courses.css';
+import './AllAvailableTest.css';
 
 const CourseCard = ({ title, Icon, iconColor }) => {
   return (

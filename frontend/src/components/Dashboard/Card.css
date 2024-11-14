@@ -1,24 +1,20 @@
-.card-container{
+.card-container1{
     display: flex;
-    gap:10px;
-    align-items: center;
-    
-    
+    align-items: center;    
 }
 .card{
     flex: 1;
-    background: rgb(76,41,112);
+    background: white;
+    color: black;
     padding: 10px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 10px;
-    transition: 0.5s ease-in-out;
 }
 .card:hover{
-    transform: scale(1.04);
-    border:2px solid rgb(76,194,233);
+    border: 1px solid rgb(76,194,233);
   
     cursor: pointer;  
 }
@@ -35,4 +31,8 @@
 }
 h2{
     color: white;
+}
+
+.card--title h2{
+    color: rgb(63, 64, 64); 
 }

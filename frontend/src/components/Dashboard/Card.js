@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Courses from './AllAvailableTest'
 import './Card.css';
 const content=[
     {
@@ -6,18 +7,19 @@ const content=[
     },
     {
         title:'Leader Board',
-
     },
     {
-        title:'Test Result '
+        title:'Test Result'
     },
 ];  
 
-const Card=()=>{
+
+
+const Card=({handleClick})=>{
     return(
-        <div className="card-container">
+        <div className="card-container1">
             {content.map((item)=>(
-                <div className="card"> 
+                <div key={item.title} className="card" onClick={()=>handleClick(item.title)}> 
                 <div className="card--title">
                     <h2>{item.title}</h2>
 

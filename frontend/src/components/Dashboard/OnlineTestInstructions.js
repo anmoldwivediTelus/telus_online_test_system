@@ -1,7 +1,14 @@
 import React from 'react';
+import useHistory, { useNavigate } from 'react-router-dom'
 import './OnlineTestInstructions.css';
 
 function OnlineTestInstructions() {
+
+  const navigate=useNavigate()
+function hello(){
+  navigate('/test')
+}
+
   return (
     <div className='main'>
       <h2 className='head'>INSTRUCTIONS FOR THE TEST (MCQ)</h2>
@@ -16,7 +23,7 @@ function OnlineTestInstructions() {
       </div>
       <div className='buttonGroup'>
         <button className='buttons'>Back</button>
-        <button className='buttons'>Start the test</button>
+        <button className='buttons' onClick={hello}>Start the test</button>
       </div>
     </div>
   );
