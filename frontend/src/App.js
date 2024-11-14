@@ -4,6 +4,7 @@ import Home from './components/Home'
 import Login from './components/Login'
 import Header from './Header'
 import Dashboard from './components/Dashboard/SideNavBar'
+import Test from './components/Test/Test'
 const App = () => {
   const appRouter  = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ const App = () => {
     {
       path:'/dashboard',
       element:<Dashboard/>,
+    },
+    {
+      path:'/test',
+      element:<Test/>,
     },
   ])
   return (
