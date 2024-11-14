@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./Test.css"
 import ti_logo from '../../assets/img/telus_logo_digital.svg';
-
+import FinishDialog from './FinishDialog';
 
 // Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
@@ -30,6 +30,8 @@ function Test() {
   const [markedForReview, setMarkedForReview] = useState(new Set());
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
   const [testFinished, setTestFinished] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
 
   // Timer logic
   useEffect(() => {
@@ -42,6 +44,18 @@ function Test() {
       setTestFinished(true);
     }
   }, [timeLeft]);
+
+  const handleFinishClick = () => {
+    setDialogOpen(true); // Open the dialog
+  };
+  const handleClose = () => {
+    setDialogOpen(false); // Close the dialog without exiting
+  };
+  const handleExit = () => {
+    // Handle the exit logic, such as submitting the test or navigating away
+    setDialogOpen(false);
+    console.log("Test finished");
+  };
 
   // Format time as mm:ss
   const formatTime = (time) => {
@@ -87,19 +101,19 @@ function Test() {
   };
 
   // Finish test handler
-  const handleFinish = () => {
-    setTestFinished(true);
-  };
+  // const handleFinish = () => {
+  //   setTestFinished(true);
+  // };
 
-  if (testFinished) {
-    return (
-      <div className="thank-you-page">
-        <h1>Thank you for taking the test!</h1>
-        <p>Your answers have been recorded.</p>
-        <button className='btn'>Exit</button>
-      </div>
-    );
-  }
+  // if (testFinished) {
+  //   return (
+  //     <div className="thank-you-page">
+  //       <h1>Thank you for taking the test!</h1>
+  //       <p>Your answers have been recorded.</p>
+  //       <button className='btn'>Exit</button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="app">
@@ -110,9 +124,9 @@ function Test() {
           Questions: 40 | Answered: {Object.keys(selectedOptions).length} | Marked for Review: {markedForReview.size} | Skipped: {40 - Object.keys(selectedOptions).length - markedForReview.size}
         </div>
         <div className="timer">{formatTime(timeLeft)}</div>
-        <button className="finish-button" onClick={handleFinish}>Finish</button>
+        <button className="finish-button" onClick={handleFinishClick}>Finish</button>
       </header>
-
+      <FinishDialog open={dialogOpen} handleClose={handleClose} handleExit={handleExit} />
       <div className="content">
         <aside className="sidebar">
           <h3>Sections:</h3>
