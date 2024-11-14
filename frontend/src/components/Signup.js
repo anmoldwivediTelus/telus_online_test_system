@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
     // State to hold form input values
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -66,4 +66,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Signup;
