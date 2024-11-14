@@ -7,7 +7,7 @@ import ti_logo from './assets/img/telus_logo_digital.svg';
 
 const Header = () => {
   return (
-   <div class="row headbar">
+   <div className="row headbar">
     <header className="d-flex flex-wrap align-items-center py-3 mb-4 border-bottom">
       <div className ="logo col-md-5">
          <img className="telus-logo" alt="Telus logo" src= {ti_logo} />
