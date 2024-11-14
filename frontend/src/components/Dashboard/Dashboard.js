@@ -1,10 +1,12 @@
 // Dashboard.js
 import React from 'react';
+import Card from './Card';
 
 function Dashboard() {
   return (
     <div className="dashboard-content">
-      <p>No content to show as of now</p>
+      <Card/>
+
     </div>
   );
 }

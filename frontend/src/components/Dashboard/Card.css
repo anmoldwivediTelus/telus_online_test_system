@@ -1,0 +1,38 @@
+.card-container{
+    display: flex;
+    gap:10px;
+    align-items: center;
+    
+    
+}
+.card{
+    flex: 1;
+    background: rgb(76,41,112);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    transition: 0.5s ease-in-out;
+}
+.card:hover{
+    transform: scale(1.04);
+    border:2px solid rgb(76,194,233);
+  
+    cursor: pointer;  
+}
+.card--cover{
+    background: #fff;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 20px;
+    color: #969393;
+    
+}
+h2{
+    color: white;
+}
