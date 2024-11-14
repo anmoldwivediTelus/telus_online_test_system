@@ -46,3 +46,27 @@
 .buttons:hover {
     background-color: #1f6000;
 }
+
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+    .main {
+        padding: 15px; /* Reduce padding for smaller screens */
+    }
+
+    .list {
+        padding: 10px; /* Reduce padding in list */
+        font-size: 0.9rem; /* Slightly smaller font size */
+    }
+
+    .buttons {
+        width: 100px; /* Smaller button width */
+        height: 35px; /* Adjust button height */
+        font-size: 0.9rem; /* Smaller font size for buttons */
+        margin: 5px; /* Reduce margin between buttons */
+    }
+
+    .buttonGroup {
+        flex-direction: column; /* Stack buttons vertically on mobile */
+        align-items: center;
+    }
+}
