@@ -8,6 +8,7 @@ import Forgotpassword from './components/Forgotpassword'
 import Dashboard from './components/Dashboard/SideNavBar'
 import Test from './components/Test/Test'
 import Forgotpassword from './components/Forgotpassword'
+import ExitPage from './components/Test/Exitpage'
 const App = () => {
   const appRouter  = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const App = () => {
     {
       path:'/test',
       element:<Test/>,
+    },
+    {
+      path:'/exit',
+      element:<ExitPage/>,
     },
   ])
   return (
