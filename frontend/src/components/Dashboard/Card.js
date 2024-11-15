@@ -16,10 +16,21 @@ const content=[
 
 
 const Card=({handleClick})=>{
+    const [activeCard, setActiveCard] =useState(content[0].title);
+
+    const handleCardClick = (title) => {
+        setActiveCard(title);  // Set the clicked card as active
+        handleClick(title);     // Call the parent click handler
+    };
+
     return(
         <div className="card-container1">
             {content.map((item)=>(
-                <div key={item.title} className="card" onClick={()=>handleClick(item.title)}> 
+                <div
+                    key={item.title}
+                    className={`card ${activeCard === item.title ? 'active' : ''}`} 
+                    onClick={() => handleCardClick(item.title)}
+                >
                 <div className="card--title">
                     <h2>{item.title}</h2>
 
