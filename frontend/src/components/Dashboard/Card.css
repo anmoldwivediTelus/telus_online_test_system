@@ -21,10 +21,12 @@
     border: none;
     background: #4b286d;
     color: #fff;
+    border-bottom: 1px solid #4b286d;
 }
 .card.active, .card.active h2 {
     background: #4b286d;
     color: #fff;
+    border-bottom: 1px solid #4b286d;
 }
 .card--cover{
     background: #fff;
