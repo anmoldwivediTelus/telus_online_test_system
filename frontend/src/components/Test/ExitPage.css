@@ -1,0 +1,56 @@
+.thank-you-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background-color: #2c3e50; /* Neutral dark blue background */
+    color: #6a4a8f; /* Lighter shade of #502c6c for a softer look */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .thank-you-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #6a4a8f; /* Lighter shade of #502c6c */
+  }
+  
+  .thank-you-page p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #bdc3c7; /* Lighter gray for the paragraph text */
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: #00b894; /* Green background for buttons */
+    border: 2px solid #4caf50; /* Darker shade of #66cc00 for the border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .btn:hover {
+    background-color: #019670; /* Darker green on hover */
+    border-color: #388e3c; /* Even darker green border on hover */
+  }
+  
+  @media (max-width: 768px) {
+    .thank-you-page h1 {
+      font-size: 2rem;
+    }
+  
+    .thank-you-page p {
+      font-size: 1rem;
+    }
+  
+    .btn {
+      font-size: 0.9rem;
+      padding: 8px 16px;
+    }
+  }
+  
