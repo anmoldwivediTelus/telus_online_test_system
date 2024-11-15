@@ -1,22 +1,30 @@
 .card-container1{
-    display: flex;
-    align-items: center;    
+    align-items: center;
+    display: flex;   
 }
 .card{
     flex: 1;
     background: white;
     color: black;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #dddddd;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     flex-direction: column;
     gap: 10px;
 }
-.card:hover{
-    border: 1px solid rgb(76,194,233);
-  
-    cursor: pointer;  
+
+.card:hover, .card:hover h2 {
+    cursor: pointer;
+    border: none;
+    background: #4b286d;
+    color: #fff;
+}
+.card.active, .card.active h2 {
+    background: #4b286d;
+    color: #fff;
 }
 .card--cover{
     background: #fff;
