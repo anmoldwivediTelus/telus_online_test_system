@@ -2,6 +2,10 @@
     padding: 20px;
     text-align: center;
   }
+
+  .tests-section{
+    margin-top: 5%;
+  }
   
   .tests-section h1 {
     margin-bottom: 20px;

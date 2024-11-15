@@ -5,9 +5,8 @@ import CandidateProfile from './CandidateProfile';
 import OnlineTestInstructions from './OnlineTestInstructions';
 import Dashboard from './Dashboard';
 import UpdateProfile from './UpdateProfile';
-import Courses from './Courses'
 function SideNavBar() {
-  const [selectedOption, setSelectedOption] = useState('profile');
+  const [selectedOption, setSelectedOption] = useState('dashboard');
   const [isCollapsed, setIsCollapsed] = useState(false); // State to handle collapse
 
   const toggleSidebar = () => {
@@ -55,7 +54,7 @@ function SideNavBar() {
       <div className="main-content">
         {selectedOption === 'profile' && <CandidateProfile />}
         {selectedOption === 'test' && <OnlineTestInstructions />}
-        {selectedOption === 'dashboard' && <Courses />}
+        {selectedOption === 'dashboard' && <Dashboard />}
         {selectedOption === 'updateprofile' && <UpdateProfile />}
       </div>
     </div>
