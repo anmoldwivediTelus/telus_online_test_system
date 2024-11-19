@@ -9,35 +9,26 @@ import Dashboard from './components/Dashboard/SideNavBar'
 import Test from './components/Test/Test'
 import Forgotpassword from './components/Forgotpassword'
 import ExitPage from './components/Test/Exitpage'
+import OnlineTestInstructions from './components/Dashboard/OnlineTestInstructions'
+import UserList from './components/Admin/UserList'
+// import UserList from './components/Admin/UserList'
 const App = () => {
   const appRouter  = createBrowserRouter([
     {
-      path:'/home',
-      element:<Home/>,
-    },
-    {
       path:'/',
-      element:<Login/>
+      element:<OnlineTestInstructions/>
     },
     {
-      path:'/signup',
-      element:<Signup/>,
-    },
-    {
-      path:'/forgotpassword',
-      element:<Forgotpassword/>,
-    },
-    {
-      path:'/dashboard',
-      element:<Dashboard/>,
-    },
-    {
-      path:'/test',
-      element:<Test/>,
+      path:'/admin',
+      element:<UserList/>,
     },
     {
       path:'/exit',
       element:<ExitPage/>,
+    },
+    {
+      path:'/test',
+      element:<Test/>,
     },
   ])
   return (
