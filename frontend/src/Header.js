@@ -1,7 +1,6 @@
 import React from 'react';
 import ti_logo from './assets/img/telus_logo_digital.svg';
 import user from './assets/img/user.png';
-// import './assets/js/boostrap.min.css';
 
 const Header = () => {
   return (
@@ -17,11 +16,11 @@ const Header = () => {
           <a className="link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
             <img src={user} alt="mdo" width="32" height="32" className="rounded-circle" /> Hello User
           </a>
-          <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+          {/* <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
             <li><a className="dropdown-item" >Settings</a></li>
             <li><a className="dropdown-item" >Profile</a></li>
             <li><a className="dropdown-item" >Sign out</a></li>
-          </ul>
+          </ul> */}
         </div>
          </div>
 	</div>

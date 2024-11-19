@@ -1,5 +1,5 @@
 import React from 'react';
-import '/src/assets/css/bootstrap/bootstrap.min.css';
+// import '/src/assets/css/bootstrap/bootstrap.min.css';
 
 const Signup = () => {
   return (

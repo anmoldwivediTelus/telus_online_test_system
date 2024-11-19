@@ -9,7 +9,9 @@ body{
 * {
     box-sizing: border-box;
   }
-  
+  .questionsTab{
+      display: flex;
+  }
   .flex-container {
     display: flex;
     flex-direction: row;
@@ -35,11 +37,14 @@ body{
     padding-right: 25px;
   }
   .flex-item-right a{
-    display: flex;
     align-items: center;
     text-decoration: none;
     border-bottom: none;
     font-size: 14px;
+    font-size: 15px;
+    text-decoration: none;
+    display: flex;
+    color: #000;
   }
   .flex-item-right img{
   margin-right: 10px;

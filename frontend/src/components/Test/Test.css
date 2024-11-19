@@ -20,7 +20,9 @@ body {
     background: #2C2E30;
     align-items: center;
   }
-  
+  .questionstabs{
+    display: flex;
+  }
   .timer {
     color: #4ed964;
   }

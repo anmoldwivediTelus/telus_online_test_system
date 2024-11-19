@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import '/src/assets/css/bootstrap/bootstrap.min.css';
+// import '/src/assets/css/bootstrap/bootstrap.min.css';
 
 const Login = () => {
   const navigate = useNavigate();
