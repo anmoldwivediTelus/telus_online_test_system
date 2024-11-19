@@ -22,8 +22,8 @@
 .sidebar ul {
   padding: 0;
   list-style-type: none;
-  text-transform: uppercase;
-  font-size: 13px;
+  text-transform: capitalize;
+  font-size: 15px;
   white-space: nowrap;
 }
 
@@ -31,8 +31,8 @@
   cursor: pointer;
   text-align: left;
   border-radius: 2px;
-  margin-bottom: .3rem;
-  padding: .5rem 0.8rem;
+  margin-bottom: .1rem;
+  padding: .4rem .8rem;
   transition: background-color .3s;
 }
 

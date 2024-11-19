@@ -117,11 +117,15 @@ function Test() {
 
   return (
     <div className="app">
-      <header className="header">
+      <header className="testheader">
         {/* <img className="telus-logo" alt="Telus logo" src={ti_logo} /> */}
         <div>Telus Digital Examination</div>
-        <div>
-          Questions: 40 | Answered: {Object.keys(selectedOptions).length} | Marked for Review: {markedForReview.size} | Skipped: {40 - Object.keys(selectedOptions).length - markedForReview.size}
+        <div className="questionstabs nav nav-pills flex-column flex-sm-row">
+         <div className='tab flex-sm-fill text-sm-center'> Questions: 40 </div>
+         <div className='tab flex-sm-fill text-sm-center'> Answered: {Object.keys(selectedOptions).length} </div>
+         <div className='tab flex-sm-fill text-sm-center'>  Marked for Review: {markedForReview.size} </div>
+         <div className='tab flex-sm-fill text-sm-center'> Skipped: {40 - Object.keys(selectedOptions).length - markedForReview.size}</div>
+        
         </div>
         <div className="timer">{formatTime(timeLeft)}</div>
         <button className="finish-button" onClick={handleFinishClick}>Finish</button>
@@ -177,12 +181,14 @@ function Test() {
             ))}
           </div>
           <div className="actions">
-            <label>
+            <label className="reviewcheckbox">
               <input
                 type="checkbox"
                 checked={markedForReview.has(currentQuestion)}
                 onChange={toggleMarkForReview}
               />
+                <span class="checkmark"></span>
+
               <span>Mark for review</span>
             </label>
             <div>
