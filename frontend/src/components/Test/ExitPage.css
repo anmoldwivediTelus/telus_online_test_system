@@ -12,10 +12,10 @@
   }
   
   .thank-you-page h1 {
-    font-size: 2.5rem;
+    color: #fff;
     margin-bottom: 20px;
-    color: #6a4a8f; /* Lighter shade of #502c6c */
-  }
+    font-size: 2.5rem;
+}
   
   .thank-you-page p {
     font-size: 1.2rem;
@@ -24,15 +24,15 @@
   }
   
   .btn {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #ffffff;
-    background-color: #00b894; /* Green background for buttons */
-    border: 2px solid #4caf50; /* Darker shade of #66cc00 for the border */
-    border-radius: 5px;
+    color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s ease, border 0.3s ease; /* Smooth hover effect */
-  }
+    background-color: #2b8000;
+    border: 2px solid #4caf50;
+    border-radius: 5px;
+    padding: 5px 20px;
+    font-size: 1rem;
+    transition: background-color .3s, border .3s;
+}
   
   .btn:hover {
     background-color: #019670; /* Darker green on hover */
