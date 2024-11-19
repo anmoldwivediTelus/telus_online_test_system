@@ -2,8 +2,53 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-
+body{
+   font: normal normal 400 14px/1.34 Roboto,Helvetica Neue,Helvetica,Arial,sans-serif
+}
 /*-----header---*/
+* {
+    box-sizing: border-box;
+  }
+  
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  .flex-item-left {
+    padding: 10px;
+    flex: 20%;
+  }
+  .flex-item-center {
+    flex: 50%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  .flex-item-right {
+    flex: 15%;
+    justify-content: end;
+    align-items: center;
+    display: flex;
+    padding-right: 25px;
+  }
+  .flex-item-right a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-bottom: none;
+    font-size: 14px;
+  }
+  .flex-item-right img{
+  margin-right: 10px;
+  }
+  .flex-item-right a:hover{
+    border-bottom: none;
+
+  }
+
 header{
     position: relative;
     top: 0;
@@ -42,12 +87,10 @@ a:hover {
     width: 3in;
 }
 .page-headers {
-    text-align: center;
-    vertical-align: top;
+  
     justify-content: center;
     align-items: center;
-    margin-top: -50px;
-    display: flex;
+        display: flex;
 }
 #userinfo_banner {
     float: right;
@@ -140,3 +183,19 @@ font-size: large;
     background: #4b286d;
     color: #fff;
 }
+.actions label {
+    white-space: nowrap;
+    justify-content: left;
+    align-items: center;
+    font-size: 16px;
+    display: flex;
+  }
+  .actions label input {
+    border: 1px ridge;
+    border-radius: 4px;
+    width: 22px;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }

@@ -22,7 +22,6 @@ function hello(){
         </ol>
       </div>
       <div className='buttonGroup'>
-        <button className='buttons'>Back</button>
         <button className='buttons' onClick={hello}>Start the test</button>
       </div>
     </div>
