@@ -4,7 +4,7 @@ import user from './assets/img/user.png';
 
 const Header = () => {
   return (
-<div className ="flex-container">
+<div className ="header flex-container">
     <div className ="logo flex-item-left">
 		  <img className="telus-logo" alt="Telus logo" src= {ti_logo} />
     </div>

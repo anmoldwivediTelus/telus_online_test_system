@@ -12,6 +12,8 @@ import ExitPage from './components/Test/Exitpage'
 import OnlineTestInstructions from './components/Dashboard/OnlineTestInstructions'
 import UserList from './components/Admin/UserList'
 import AdminQuestion from './components/Admin/AdminQuestion'
+import AdminQuestions from './components/Admin/AdminQuestions'
+
 // import UserList from './components/Admin/UserList'
 const App = () => {
   const appRouter  = createBrowserRouter([
@@ -34,6 +36,10 @@ const App = () => {
     {
       path:'/question',
       element:<AdminQuestion/>,
+    },
+    {
+      path:'/questions',
+      element:<AdminQuestions/>,
     }
   ])
   return (

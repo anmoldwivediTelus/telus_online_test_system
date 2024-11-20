@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import './AdminQuestions.css'
 
 
 
@@ -10,7 +10,7 @@ function AdminQuestion() {
   return (
   
       <div>
-        
+        <form className="addquestion">
       <label>Select Course:</label>
       <select>
                 <option value="course">Course</option>
@@ -42,8 +42,13 @@ function AdminQuestion() {
                 <label>Answer</label>
                 <input type="text" name='answer' placeholder='Please add your answer here for the question'/>
 
-                <button className='btn btn'>Add Question</button>
-    </div>
+               <div className='row quesbtn'>
+               <button className='btn quesbtn'>Add Question</button>
+
+               </div>
+                </form>
+
+   </div>
   )
 }
 
