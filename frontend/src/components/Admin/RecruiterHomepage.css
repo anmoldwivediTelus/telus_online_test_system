@@ -30,7 +30,10 @@
   /* Main content area */
   .main-content {
     flex: 1;
-    padding: 2rem;
+    padding: 1rem;
     background-color: #ffffff;
     color: #502c6c;
+  }
+  .MuiBox-root.css-1wcaknn{
+    padding: 0 !important;
   }
