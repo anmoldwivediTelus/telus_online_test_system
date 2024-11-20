@@ -1,6 +1,7 @@
 h4.MuiTypography-root{
-    color: #000;
-    font-size: 1.3rem;
+    color: #502c6d;
+    font-size: 1rem;
+    text-transform: uppercase;
 }
 .MuiDialog-paper .MuiDialogContent-root .MuiButton-textSecondary.MuiButton-root{
     color: #000 !important;

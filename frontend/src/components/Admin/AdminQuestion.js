@@ -18,7 +18,7 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { Delete, Edit, ForkRight } from "@mui/icons-material";
 import './AdminQuestion.css'
 function AdminQuestions() {
   const [questions, setQuestions] = useState([]);
@@ -70,7 +70,15 @@ function AdminQuestions() {
   const handleDeleteQuestions = (index) => {
     setQuestions(questions.filter((_, i) => i !== index));
   };
-
+  const styles = {
+    baseButtonStyle: {
+      color: "#000",
+      backgroundColor: "#2B8000",
+      borderColor: "#2B8000",
+      float:"right",
+    }
+  };
+  
  
 
   return (
@@ -78,12 +86,12 @@ function AdminQuestions() {
       <Typography variant="h4" gutterBottom>
         Recruiter Dashboard - Add Question
       </Typography>
-
-      <Button
+      
+      <Button sx={[styles.baseButtonStyle]}
         variant="contained"
-        color="primary"
+        color="success"
         onClick={() => setDialogOpen(true)}
-        sx={{ marginLeft: "auto" ,mb: 2}}
+        sx={{ float:'right', marginBottom:'10px' }}
       >
         Add Question
       </Button>

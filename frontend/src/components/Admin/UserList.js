@@ -101,9 +101,9 @@ function UserList() {
 
       <Button
         variant="contained"
-        color="primary"
+        color="success"
         onClick={() => setDialogOpen(true)}
-        sx={{ mb: 2 }}
+        sx={{ float:'right', marginBottom:'10px' }}
       >
         Add Candidate
       </Button>
