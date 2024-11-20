@@ -14,6 +14,7 @@ import UserList from './components/Admin/UserList'
 import AdminQuestion from './components/Admin/AdminQuestion'
 import AdminQuestions from './components/Admin/AdminQuestions'
 
+import RecruiterHomepage from './components/Admin/RecruiterHomepage'
 // import UserList from './components/Admin/UserList'
 const App = () => {
   const appRouter  = createBrowserRouter([
@@ -23,7 +24,7 @@ const App = () => {
     },
     {
       path:'/admin',
-      element:<UserList/>,
+      element:<RecruiterHomepage/>,
     },
     {
       path:'/exit',

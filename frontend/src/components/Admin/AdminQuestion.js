@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './AdminQuestions.css'
+import './AdminQuestion.css'
 
 
 
