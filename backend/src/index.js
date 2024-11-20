@@ -1,14 +1,12 @@
-import dotenv from "dotenv";
-dotenv.config({
-  path: "../.env",
-});
-
+import {config} from "dotenv";
 import app from "./app.js";
 import connectBD from "./dataBase/connectDB.js";
-
+import router from './routes/routes.js';
+config();
 const DATABASE_URL = process.env.DATABASE_URI;
-const PORT = process.env.PORT;
-
+const PORT = process.env.PORT || 5000;
+console.log(process.env.PORT)
+app.use('/api', router); 
 connectBD(DATABASE_URL)
   .then(() => {
     app.listen(PORT, () => {
