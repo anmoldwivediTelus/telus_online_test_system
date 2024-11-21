@@ -1,6 +1,6 @@
 import sequelize from './sequelize.js';
 
-const connectBD = async (DB_URL) => {
+const connectBD = async () => {
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');

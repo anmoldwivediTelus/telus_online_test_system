@@ -4,13 +4,9 @@ import {Test,Question} from '../models/index.js';
 
 
 (async () => {
-  try {
-    // Force synchronization (drops tables and recreates them)
+  try { 
     await sequelize.sync({ alter: true  });
-
     console.log('Database synchronized.',Test);
-
-    // Optionally, create some initial test data to verify relationships
     const test = await Test.create({
         title: 'JavaScript Basics Test',
         description: 'A basic test on JavaScript.',

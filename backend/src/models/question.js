@@ -9,7 +9,7 @@ import sequelize from './../dataBase/sequelize.js';
     autoIncrement: true,
   },
   testId: {
-    type: DataTypes.INTEGER, // Foreign key for the Test model
+    type: DataTypes.INTEGER, 
     allowNull: false,
   },
   questionText: {
@@ -17,11 +17,11 @@ import sequelize from './../dataBase/sequelize.js';
     allowNull: false,
   },
   options: {
-    type: DataTypes.JSONB, // Use JSONB for structured option data
+    type: DataTypes.JSONB, 
     allowNull: false,
   },
   correctOption: {
-    type: DataTypes.INTEGER, // Stores the index of the correct option
+    type: DataTypes.INTEGER, 
     allowNull: false,
   },
   createdAt: {
