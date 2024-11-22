@@ -52,24 +52,37 @@ function Test() {
     setDialogOpen(false); // Close the dialog without exiting
   };
   const handleExit = () => {
-    // Handle the exit logic, such as submitting the test or navigating away
+        // Handle the exit logic, such as submitting the test or navigating away
     setDialogOpen(false);
     console.log("Test finished");
   };
 
-  // Format time as mm:ss
+    // Format time as mm:ss
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
-
+  
   // Handle option selection
   const handleOptionSelect = (option) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [currentQuestion]: option,
-    }));
+    setSelectedOptions((prev) => {
+      const updatedOptions = {
+        ...prev,
+        [currentQuestion]:
+          prev[currentQuestion] === option ? null : option, // Toggle logic
+      };
+
+      if (updatedOptions[currentQuestion] === null) {
+        setMarkedForReview((prevMarked) => {
+          const updatedMarked = new Set(prevMarked);
+          updatedMarked.delete(currentQuestion); // Remove from marked
+          return updatedMarked;
+        });
+      }
+
+      return updatedOptions;
+    });
   };
 
   // Handle Next and Previous buttons
@@ -85,16 +98,20 @@ function Test() {
     }
   };
 
-  // Toggle Mark for Review
+    // Toggle Mark for Review
   const toggleMarkForReview = () => {
-    setMarkedForReview((prev) =>
-      prev.has(currentQuestion)
-        ? new Set([...prev].filter((q) => q !== currentQuestion))
-        : new Set(prev).add(currentQuestion)
-    );
+    setMarkedForReview((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(currentQuestion)) {
+        updated.delete(currentQuestion);
+      } else {
+        updated.add(currentQuestion);
+      }
+      return updated;
+    });
   };
 
-  // Handle section change
+    // Handle section change
   const handleSectionChange = (section) => {
     setCurrentSection(section);
     setCurrentQuestion((section - 1) * 10); // Set to the first question of the selected section
@@ -118,14 +135,14 @@ function Test() {
   return (
     <div className="app">
       <header className="testheader">
-        {/* <img className="telus-logo" alt="Telus logo" src={ti_logo} /> */}
+       {/* <img className="telus-logo" alt="Telus logo" src={ti_logo} /> */}
         <div className='headingtimer'>Telus Digital Examination</div>
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
-         <div className='tab flex-sm-fill text-sm-center'> Questions: 40 </div>
-         <div className='tab flex-sm-fill text-sm-center'> Answered: {Object.keys(selectedOptions).length} </div>
-         <div className='tab flex-sm-fill text-sm-center'>  Marked for Review: {markedForReview.size} </div>
-         <div className='tab flex-sm-fill text-sm-center'> Skipped: {40 - Object.keys(selectedOptions).length - markedForReview.size}</div>
-        
+          <div className='tab flex-sm-fill text-sm-center'> Questions: 40 </div>
+          <div className='tab flex-sm-fill text-sm-center'> Answered: {Object.keys(selectedOptions).length} </div>
+          <div className='tab flex-sm-fill text-sm-center'>  Marked for Review: {markedForReview.size} </div>
+          <div className='tab flex-sm-fill text-sm-center'> Skipped: {40 - Object.keys(selectedOptions).length - markedForReview.size}</div>
+
         </div>
         <div className="timer">{formatTime(timeLeft)}</div>
         <button className="finish-button" onClick={handleFinishClick}>Finish</button>
@@ -186,8 +203,9 @@ function Test() {
                 type="checkbox"
                 checked={markedForReview.has(currentQuestion)}
                 onChange={toggleMarkForReview}
+                disabled={!selectedOptions[currentQuestion]}
               />
-                <span class="checkmark"></span>
+              <span className="checkmark"></span>
 
               <span>Mark for review</span>
             </label>
