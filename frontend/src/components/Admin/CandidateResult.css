@@ -1,3 +1,118 @@
-.default{
-    color:black;
-}
+.result-page {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  h2 {
+    text-align: center;
+    color: rgb(76,194,233); 
+  }
+  
+  .layout {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .chart-container {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .chart-container .chart-labels {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  
+  .chart-container .chart-labels div {
+    text-align: center;
+  }
+  
+  .chart-container .chart-labels span {
+    font-size: 20px;
+    vertical-align: middle;
+  }
+  
+  .progress-container {
+    margin-top: 20px;
+  }
+  
+  .progress-container p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: rgb(76,41,112); /* Deep purple */
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: rgb(76,194,233); /* Light blue */
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress-bar-filled {
+    height: 100%;
+    border-radius: 5px;
+  }
+  
+  .table-container {
+    flex: 2;
+  }
+  
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    text-align: left;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .result-table th,
+  .result-table td {
+    padding: 10px;
+    border: 1px solid rgb(76,194,233); /* Light blue */
+  }
+  
+  .result-table th {
+    font-size: 16px;
+    color: rgb(76,41,112); /* Deep purple */
+    background-color: rgb(76,194,233); /* Light blue */
+  }
+  
+  .result-table td {
+    font-size: 14px;
+    color: rgb(76,41,112); /* Deep purple */
+  }
+  
+  .result-table tr:hover {
+    background-color: rgb(109,219,0); /* Green */
+  }
+  .progress-bar-filled {
+    height: 100%;
+    border-radius: 5px;
+    background-color: rgb(76,41,112); /* Purple color for progress bar */
+  }
+  .chart-labels div {
+    color: rgb(76,41,112); /* Purple color for all labels */
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgb(76,41,112); /* Light blue background */
+    color: rgb(76,194,233); /* Deep purple text */
+    border-radius: 8px;
+  }
+  .header h2 {
+    margin: 10px 0;
+  }
+  
+  .header p {
+    margin: 5px 0;
+    font-size: 16px;
+  }

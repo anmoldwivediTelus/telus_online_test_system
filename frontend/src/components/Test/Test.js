@@ -119,7 +119,7 @@ function Test() {
     <div className="app">
       <header className="testheader">
         {/* <img className="telus-logo" alt="Telus logo" src={ti_logo} /> */}
-        <div>Telus Digital Examination</div>
+        <div className='headingtimer'>Telus Digital Examination</div>
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
          <div className='tab flex-sm-fill text-sm-center'> Questions: 40 </div>
          <div className='tab flex-sm-fill text-sm-center'> Answered: {Object.keys(selectedOptions).length} </div>
