@@ -1,18 +1,53 @@
-import {config} from "dotenv";
-import app from "./app.js";
-import connectBD from "./dataBase/connectDB.js";
-import router from './routes/routes.js';
-config();
-const DATABASE_URL = process.env.DATABASE_URI;
+import express from 'express';
+import { config } from 'dotenv';
+import userRoutes from './routes/user.js';
+import connectDB from './dataBase/connectDB.js'; 
+import inviteRouter from './routes/inviteRouter.js';
+import morgan from 'morgan';
+
+config(); 
+
+const app = express();
+app.use(express.json());
+
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+// Routes
+app.use('/api/users', userRoutes);
+app.use('/api/invites', inviteRouter);
+
+
+app.get('/', (req, res) => {
+  res.send('Hello Amit ANAND!');
+});
+
+
 const PORT = process.env.PORT || 5000;
-console.log(process.env.PORT)
-app.use('/api', router); 
-connectBD(DATABASE_URL)
-  .then(() => {
+
+
+(async () => {
+  try {
+    await connectDB(); // Connect to the database
     app.listen(PORT, () => {
-      console.log(`server is listing at port: ${PORT}`);
+      console.log(`Server is running on port: ${PORT}`);
     });
-  })
-  .catch((error) => {
-    console.log(`failed to start the server, the error is: ${error.message}`);
-  });
+  } catch (error) {
+    console.error(`Failed to start the server: ${error.message}`);
+    process.exit(1); 
+  }
+})();
+
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err.message);
+  process.exit(1);
+});
+
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+  process.exit(1);
+});
