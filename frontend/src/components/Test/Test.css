@@ -13,36 +13,63 @@ body {
 }
 
 .testheader {
-  display: flex;
-  justify-content: space-evenly;
-  padding: 10px 20px;
-  color: #fff;
-  background: #2C2E30;
+  color: #000;
+  background: #fff;
+  justify-content: space-between;
   align-items: center;
+  padding: 1px 20px;
+  display: flex;
 }
 .questionstabs{
   display: flex;
 }
 .timer {
-  color: #4ed964;
+  white-space: nowrap;
+  align-items: center;
+  display: flex;
+  padding: 3px 14px;
+}
+.timebox{
+  margin-right: 10px;
+  border: #502c6d;
+  border-radius: 5px;
+  align-items: center;
+  padding: 3px 14px;
+  font-size: 1.2em;
+  font-weight: bold;
+  display: flex;
+  color: #502c6d;
+  white-space: nowrap;
+  letter-spacing: .03em;
+}
+.sidebar.testSidebar{
+  padding-top:1.3rem;
+}
+.timer svg{
+  margin-right: 2px;
 }
 .tab.flex-sm-fill.text-sm-center{
-  margin-left: 10px;
-  background: #fff;
   color: #000;
-  border-radius: 2px;
+  background: #fff;
+  border-radius: 15px;
+  margin-left: 10px;
   padding: 2px 8px;
 } 
-.finish-button {
-color: #fff;
-cursor: pointer;
-background-color: red;
-border: none;
-border-radius: 4px;
-padding: 6px 15px;
+button.finish-button:hover {
+background: #623786;
+border: 1px solid #623786;
+
 }
-.headingtimer{
-  font-size: 22px;
+.finish-button {
+  color: #fff;
+  cursor: pointer;
+  padding: 6px 20px;
+  border: 1px solid #502c6d;
+  padding: 6px 15px;
+  background: #502c6d;
+  border-radius: 5px;
+  font-size: 15px;
+  letter-spacing: 0.05em;
 }
 
 .content {
@@ -73,6 +100,7 @@ padding: 6px 15px;
      font-size: 17px;
      color: #000;
      font-weight: 600;
+     text-align: left;
  }
 .question-numbers {
   display: grid;
@@ -99,7 +127,7 @@ padding: 6px 15px;
 }
 
 .question-number.answered {
-  border: 2px solid #4ed964;
+  border: 2px solid #2b8000;
 } 
 .sections {
 display: flex;
@@ -166,7 +194,7 @@ border: 2px solid #fff; /* Clear border for active state */
 }
 
 .question-number.answered {
-border: 2px solid #4ed964; /* Green for answered */
+border: 2px solid #2b8000; /* Green for answered */
 }
 
 .question-number.review {
@@ -174,7 +202,7 @@ border: 2px dashed #ffa500; /* Orange for review */
 }
 
 .question-number.answered:hover {
-background-color: #4ed964; /* Green hover for answered */
+background-color: #2b8000; /* Green hover for answered */
 color: #ffffff;
 }
 
@@ -265,16 +293,6 @@ font-size: 22px;
 -moz-user-select: none;
 -ms-user-select: none;
 user-select: none;
-}
-.reviewcheckbox input:disabled ~ .checkmark {
-background-color: #e0e0e0; /* Light gray background for disabled state */
-border-color: #bdbdbd; /* Lighter border color */
-cursor: not-allowed; /* Show a not-allowed cursor */
-}
-
-.reviewcheckbox input:disabled ~ span {
-color: #a0a0a0; /* Light gray text for disabled state */
-cursor: not-allowed;
 }
 
 /* Hide the browser's default checkbox */
@@ -377,11 +395,6 @@ transform: rotate(45deg);
   color: #ffffff;
 }
 
-.timer {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
 
 .App-link {
   color: #61dafb;
@@ -411,7 +424,18 @@ align-items: center;
 .actions label span{
 margin-left: 4px;
 }
-
+.reviewTab{
+border: 2px solid #f39c12;
+}
+.answeredTab{
+border:2px solid #2b8000
+}
+.questionsTab{
+border: 2px solid #7c53a5;
+}
+.skipTab{
+border:2px solid #ddd
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

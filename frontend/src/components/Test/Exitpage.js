@@ -8,7 +8,7 @@ const ExitPage = () => {
     <div className="thank-you-page">
       <h1>Thank you for taking the test!</h1>
       <p>Your answers have been recorded.</p>
-      <button className="btn">Exit</button>
+      <button className="btn exitbtn">Exit</button>
     </div>
   );
 };
