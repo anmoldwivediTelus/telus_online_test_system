@@ -4,6 +4,7 @@ import "./Test.css";
 import ti_logo from "../../assets/img/telus_logo_digital.svg";
 import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
+import Timer from "./Timer";
 
 // Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
@@ -31,6 +32,7 @@ int main() {
 }));
 
 function Test() {
+  console.log('rendering')
   const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentSection, setCurrentSection] = useState(1);
@@ -39,28 +41,6 @@ function Test() {
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // Timer logic
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    } else {
-      // Redirect to exit page when time runs out
-      navigate("/exit");
-    }
-  }, [timeLeft, navigate]);
-
-  // Format time as mm:ss
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
-  };
 
   // Handle option selection for multiple options
   const handleOptionSelect = (option) => {
@@ -145,15 +125,9 @@ function Test() {
             {40 - Object.keys(selectedOptions).length - markedForReview.size}
           </div>
         </div>
-        <div className="rightbox timer">
-          <div className="timebox">
-            <IoMdTime />
-            {formatTime(timeLeft)}
-          </div>
-          <button className="finish-button" onClick={handleFinishClick}>
-            Finish Test
-          </button>
-        </div>
+
+        {/* timer */}
+        <Timer handleFinishClick={handleFinishClick} timeLeft={timeLeft}/>
       </header>
       <FinishDialog open={dialogOpen} handleClose={handleClose} />
       <div className="content">
