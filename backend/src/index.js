@@ -3,7 +3,8 @@ import app from "./app.js";
 import path from "path";
 import connectBD from "./dataBase/connectDB.js";
 import router from './routes/routes.js';
-
+import express from "express";
+import cors from 'cors';
 
 // // Define the path to your .env file
  const envPath = path.resolve("./src/.env");
@@ -23,7 +24,11 @@ import router from './routes/routes.js';
 // Access environment variables
 const PORT = process.env.PORT || 5000;
 console.log("PORT:", process.env.PORT);
+app.use(express.json());
+app.use(cors());
 
+// If using forms or URL-encoded payloads:
+app.use(express.urlencoded({ extended: true }));
 app.use('/api', router);
 connectBD()
   .then(() => {

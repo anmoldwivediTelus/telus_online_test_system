@@ -1,33 +1,47 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+import { DataTypes } from "sequelize";
+import sequelize from './../dataBase/sequelize.js';
 
 const User = sequelize.define(
-  'User',
+  "User",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    // Model attributes are defined here
-    firstName: {
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true, // Optional, can hold the path to the uploaded image
+    },
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    lastName: {
-      type: DataTypes.STRING,
-      // allowNull defaults to true
-    },
     email: {
       type: DataTypes.STRING,
-      // allowNull defaults to true
+      allowNull: false,
+      unique: true, // Ensures no duplicate emails
+      validate: {
+        isEmail: true, // Validates the format
+      },
     },
-    totalExp: {
-      type: DataTypes.NUMBER,
-      // allowNull defaults to true
+    testname: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    mobileNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isNumeric: true, // Validates the input contains only numbers
+        len: [10, 15], // Ensures the length of the mobile number
+      },
     },
   },
   {
-    // Other model options go here
-  },
+    tableName: "users", // Database table name
+    timestamps: true, // Automatically manages createdAt and updatedAt
+  }
 );
+
+export default User;
