@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import "./Test.css"
-import ti_logo from '../../assets/img/telus_logo_digital.svg';
-import FinishDialog from './FinishDialog';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Test.css";
+import ti_logo from "../../assets/img/telus_logo_digital.svg";
+import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
 
 // Generate sample questions with 40 items, divided into 4 sections
@@ -22,18 +22,22 @@ int main() {
   return 0;
 }
 `,
-  options: ['x and y are not equal', 'x and y are equal', 'Run time error', 'Syntax error'],
+  options: [
+    "x and y are not equal",
+    "x and y are equal",
+    "Run time error",
+    "Syntax error",
+  ],
 }));
 
 function Test() {
+  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentSection, setCurrentSection] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [markedForReview, setMarkedForReview] = useState(new Set());
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
-  const [testFinished, setTestFinished] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-
 
   // Timer logic
   useEffect(() => {
@@ -43,35 +47,39 @@ function Test() {
       }, 1000);
       return () => clearInterval(timer);
     } else {
-      setTestFinished(true);
+      // Redirect to exit page when time runs out
+      navigate("/exit");
     }
-  }, [timeLeft]);
-
-  const handleFinishClick = () => {
-    setDialogOpen(true); // Open the dialog
-  };
-  const handleClose = () => {
-    setDialogOpen(false); // Close the dialog without exiting
-  };
-  const handleExit = () => {
-    // Handle the exit logic, such as submitting the test or navigating away
-    setDialogOpen(false);
-    console.log("Test finished");
-  };
+  }, [timeLeft, navigate]);
 
   // Format time as mm:ss
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
-  // Handle option selection
+  // Handle option selection for multiple options
   const handleOptionSelect = (option) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [currentQuestion]: option,
-    }));
+    setSelectedOptions((prev) => {
+      const currentSelection = prev[currentQuestion] || [];
+      if (currentSelection.includes(option)) {
+        // If already selected, remove it
+        return {
+          ...prev,
+          [currentQuestion]: currentSelection.filter((opt) => opt !== option),
+        };
+      } else {
+        // Otherwise, add it
+        return {
+          ...prev,
+          [currentQuestion]: [...currentSelection, option],
+        };
+      }
+    });
   };
 
   // Handle Next and Previous buttons
@@ -89,11 +97,15 @@ function Test() {
 
   // Toggle Mark for Review
   const toggleMarkForReview = () => {
-    setMarkedForReview((prev) =>
-      prev.has(currentQuestion)
-        ? new Set([...prev].filter((q) => q !== currentQuestion))
-        : new Set(prev).add(currentQuestion)
-    );
+    setMarkedForReview((prev) => {
+      const updatedSet = new Set(prev);
+      if (updatedSet.has(currentQuestion)) {
+        updatedSet.delete(currentQuestion);
+      } else {
+        updatedSet.add(currentQuestion);
+      }
+      return updatedSet;
+    });
   };
 
   // Handle section change
@@ -102,40 +114,48 @@ function Test() {
     setCurrentQuestion((section - 1) * 10); // Set to the first question of the selected section
   };
 
-  // Finish test handler
-  // const handleFinish = () => {
-  //   setTestFinished(true);
-  // };
+  const handleFinishClick = () => {
+    setDialogOpen(true);
+  };
 
-  // if (testFinished) {
-  //   return (
-  //     <div className="thank-you-page">
-  //       <h1>Thank you for taking the test!</h1>
-  //       <p>Your answers have been recorded.</p>
-  //       <button className='btn'>Exit</button>
-  //     </div>
-  //   );
-  // }
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
 
   return (
     <div className="app">
       <header className="testheader">
         <img className="telus-logo" alt="Telus logo" src={ti_logo} />
-        {/* <div>Telus Digital Examination</div> */}
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
-         <div className='tab flex-sm-fill text-sm-center questionsTab'> Questions: 40 </div>
-         <div className='tab flex-sm-fill text-sm-center answeredTab'> Answered: {Object.keys(selectedOptions).length} </div>
-         <div className='tab flex-sm-fill text-sm-center reviewTab'>  Marked for Review: {markedForReview.size} </div>
-         <div className='tab flex-sm-fill text-sm-center skipTab'> Skipped: {40 - Object.keys(selectedOptions).length - markedForReview.size}</div>
-        
+          <div className="tab flex-sm-fill text-sm-center questionsTab">
+            {" "}
+            Questions: 40{" "}
+          </div>
+          <div className="tab flex-sm-fill text-sm-center answeredTab">
+            {" "}
+            Answered: {Object.keys(selectedOptions).length}{" "}
+          </div>
+          <div className="tab flex-sm-fill text-sm-center reviewTab">
+            {" "}
+            Marked for Review: {markedForReview.size}{" "}
+          </div>
+          <div className="tab flex-sm-fill text-sm-center skipTab">
+            {" "}
+            Skipped:{" "}
+            {40 - Object.keys(selectedOptions).length - markedForReview.size}
+          </div>
         </div>
-       <div className="rightbox timer">
-       <div className="timebox"><IoMdTime />{formatTime(timeLeft)}</div>
-        <button className="finish-button" onClick={handleFinishClick}>Finish Test</button>
-       </div>
-       
+        <div className="rightbox timer">
+          <div className="timebox">
+            <IoMdTime />
+            {formatTime(timeLeft)}
+          </div>
+          <button className="finish-button" onClick={handleFinishClick}>
+            Finish Test
+          </button>
+        </div>
       </header>
-      <FinishDialog open={dialogOpen} handleClose={handleClose} handleExit={handleExit} />
+      <FinishDialog open={dialogOpen} handleClose={handleClose} />
       <div className="content">
         <aside className="sidebar testSidebar">
           <h3>Sections:</h3>
@@ -143,24 +163,29 @@ function Test() {
             {[1, 2, 3, 4].map((section) => (
               <button
                 key={section}
-                className={`section-button ${currentSection === section ? 'active' : ''}`}
+                className={`section-button ${
+                  currentSection === section ? "active" : ""
+                }`}
                 onClick={() => handleSectionChange(section)}
               >
                 Section {section}
               </button>
             ))}
           </div>
-
           <h3>Questions:</h3>
           <div className="question-numbers">
             {questionsData
               .filter((q) => q.section === currentSection)
-              .map((q, index) => (
+              .map((q) => (
                 <div
                   key={q.number}
                   className={`question-number ${
-                    selectedOptions[q.number - 1] ? 'answered' : ''
-                  } ${markedForReview.has(q.number - 1) ? 'review' : ''} ${currentQuestion === q.number - 1 ? 'active' : ''}`}
+                    (selectedOptions[q.number - 1] || []).length > 0
+                      ? "answered"
+                      : ""
+                  } ${markedForReview.has(q.number - 1) ? "review" : ""} ${
+                    currentQuestion === q.number - 1 ? "active" : ""
+                  }`}
                   onClick={() => setCurrentQuestion(q.number - 1)}
                 >
                   {q.number}
@@ -168,16 +193,19 @@ function Test() {
               ))}
           </div>
         </aside>
-
         <main className="question-panel">
           <h2>{questionsData[currentQuestion].question}</h2>
-          <pre className="code-block">{questionsData[currentQuestion].code}</pre>
+          <pre className="code-block">
+            {questionsData[currentQuestion].code}
+          </pre>
           <div className="options">
             {questionsData[currentQuestion].options.map((option, idx) => (
               <button
                 key={idx}
                 className={`option-button ${
-                  selectedOptions[currentQuestion] === option ? 'selected' : ''
+                  (selectedOptions[currentQuestion] || []).includes(option)
+                    ? "selected"
+                    : ""
                 }`}
                 onClick={() => handleOptionSelect(option)}
               >
@@ -192,13 +220,29 @@ function Test() {
                 checked={markedForReview.has(currentQuestion)}
                 onChange={toggleMarkForReview}
               />
-                <span class="checkmark"></span>
-
+              <span className="checkmark"></span>
               <span>Mark for review</span>
+              <span>
+                {" "}
+                | Options selected:{" "}
+                {(selectedOptions[currentQuestion] || []).length}
+              </span>
             </label>
             <div>
-              <button className="button" onClick={handlePrevious} disabled={currentQuestion === 0}>&laquo; Previous</button>
-              <button className="button" onClick={handleNext} disabled={currentQuestion === questionsData.length - 1}>Next &raquo;</button>
+              <button
+                className="button"
+                onClick={handlePrevious}
+                disabled={currentQuestion === 0}
+              >
+                &laquo; Previous
+              </button>
+              <button
+                className="button"
+                onClick={handleNext}
+                disabled={currentQuestion === questionsData.length - 1}
+              >
+                Next &raquo;
+              </button>
             </div>
           </div>
         </main>
