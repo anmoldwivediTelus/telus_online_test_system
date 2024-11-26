@@ -27,39 +27,39 @@ export const getAllTests = async (req, res) => {
   }
 };
 
-// Get a single test by ID
-// export const getTestById = async (req, res) => {
-//   try {
-//     const test = await Test.findByPk(req.params.id);
-//     if (!test) {
-//       return res.status(404).json({ message: 'Test not found' });
-//     }
-//     res.status(200).json(test);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Failed to retrieve test' });
-//   }
-// };
-
+//Get a single test by ID
 export const getTestById = async (req, res) => {
   try {
-    const { id, email, expiresAt } = req.query; // Fetching 'id', 'email', and 'expiresAt' from query params
-    console.log(id, email, expiresAt, "get test by id");
-
-    // Find the test by the provided 'id'
-    const test = await Test.findOne({ where: { id } });
-
+    const test = await Test.findByPk(req.params.id);
     if (!test) {
       return res.status(404).json({ message: 'Test not found' });
     }
-
-    // Send the test data as the response
     res.status(200).json(test);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to retrieve test' });
   }
 };
+
+// export const getTestById = async (req, res) => {
+//   try {
+//     const { id, email, expiresAt } = req.query; // Fetching 'id', 'email', and 'expiresAt' from query params
+//     console.log(id, email, expiresAt, "get test by id");
+
+//     // Find the test by the provided 'id'
+//     const test = await Test.findOne({ where: { id } });
+
+//     if (!test) {
+//       return res.status(404).json({ message: 'Test not found' });
+//     }
+
+//     // Send the test data as the response
+//     res.status(200).json(test);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Failed to retrieve test' });
+//   }
+// };
 
 
 
