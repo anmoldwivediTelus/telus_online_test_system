@@ -4,8 +4,7 @@ import "./Test.css";
 import ti_logo from "../../assets/img/telus_logo_digital.svg";
 import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
-import TimerComp from "./TimerComp";
-
+import axios from 'axios';
 // Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
   section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
@@ -32,7 +31,6 @@ int main() {
 }));
 
 function Test() {
-  console.log("hello")
   const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [currentSection, setCurrentSection] = useState(1);
@@ -40,12 +38,46 @@ function Test() {
   const [markedForReview, setMarkedForReview] = useState(new Set());
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [questionsData, setQuestionsData] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  // // Timer logic
+  // useEffect(() => {
+  //   if (timeLeft > 0) {
+  //     const timer = setInterval(() => {
+  //       setTimeLeft((prevTime) => prevTime - 1);
+  //     }, 1000);
+  //     return () => clearInterval(timer);
+  //   } else {
+  //     // Redirect to exit page when time runs out
+  //     navigate("/exit");
+  //   }
+  // }, [timeLeft, navigate]);
+  useEffect(() => {
+    // Define the async function to fetch data
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/questions/test/1');
+        setQuestionsData(response.data);
+        console.log(response.data)
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
 
-  // Timer logic
-  
-
+    fetchData();
+  }, []);
   // Format time as mm:ss
-  
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
+  };
 
   // Handle option selection for multiple options
   const handleOptionSelect = (option) => {
@@ -130,12 +162,20 @@ function Test() {
             {40 - Object.keys(selectedOptions).length - markedForReview.size}
           </div>
         </div>
-        <TimerComp handleFinishClick={handleFinishClick}/>
+        <div className="rightbox timer">
+          <div className="timebox">
+            <IoMdTime />
+            {formatTime(timeLeft)}
+          </div>
+          <button className="finish-button" onClick={handleFinishClick}>
+            Finish Test
+          </button>
+        </div>
       </header>
       <FinishDialog open={dialogOpen} handleClose={handleClose} />
       <div className="content">
         <aside className="sidebar testSidebar">
-          <h3>Sections:</h3>
+          {/* <h3>Sections:</h3>
           <div className="sections">
             {[1, 2, 3, 4].map((section) => (
               <button
@@ -148,35 +188,40 @@ function Test() {
                 Section {section}
               </button>
             ))}
-          </div>
+          </div> */}
           <h3>Questions:</h3>
-          <div className="question-numbers">
+          {questionsData.length > 0 &&
+           <div className="question-numbers">
             {questionsData
-              .filter((q) => q.section === currentSection)
-              .map((q) => (
+              //.filter((q) => q.section === currentSection)
+              .map((q,index) => (
                 <div
-                  key={q.number}
+                  key={q.id}
                   className={`question-number ${
-                    (selectedOptions[q.number - 1] || []).length > 0
+                    (selectedOptions[index] || []).length > 0
                       ? "answered"
                       : ""
-                  } ${markedForReview.has(q.number - 1) ? "review" : ""} ${
-                    currentQuestion === q.number - 1 ? "active" : ""
+                  } ${markedForReview.has(index) ? "review" : ""} ${
+                    currentQuestion === index ? "active" : ""
                   }`}
-                  onClick={() => setCurrentQuestion(q.number - 1)}
+                  onClick={() => setCurrentQuestion(index)}
                 >
-                  {q.number}
+                  {index+1}
                 </div>
               ))}
           </div>
+          }
         </aside>
+        {questionsData.length > 0 &&
         <main className="question-panel">
-          <h2>{questionsData[currentQuestion].question}</h2>
+          {console.log(questionsData[currentQuestion])}
+          <h2>{questionsData[currentQuestion].questionText}</h2>
           <pre className="code-block">
             {questionsData[currentQuestion].code}
           </pre>
           <div className="options">
-            {questionsData[currentQuestion].options.map((option, idx) => (
+            {console.log(selectedOptions[currentQuestion])}
+            {Object.values(questionsData[currentQuestion].options).map((option, idx) => (
               <button
                 key={idx}
                 className={`option-button ${
@@ -223,6 +268,7 @@ function Test() {
             </div>
           </div>
         </main>
+        }
       </div>
     </div>
   );
