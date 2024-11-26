@@ -9,6 +9,8 @@ const result = config({ path: envPath });
 console.log(  process.env.DATABASE_NAME,"___",
   process.env.DATABASE_USER)
 
+
+
 const sequelize = new Sequelize(
   process.env.DATABASE_NAME, 
   process.env.DATABASE_USER, 
