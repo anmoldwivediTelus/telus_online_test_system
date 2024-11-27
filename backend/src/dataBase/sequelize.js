@@ -4,7 +4,7 @@ import { config } from "dotenv";
 import path from "path";
 
 const envPath = path.resolve("./src/.env");
-const result = config({ path: envPath });
+const result = config();
 
 console.log(  process.env.DATABASE_NAME,"___",
   process.env.DATABASE_USER)

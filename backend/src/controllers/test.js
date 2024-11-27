@@ -17,6 +17,7 @@ export const createTest = async (req, res) => {
 
 // Get all tests
 export const getAllTests = async (req, res) => {
+  console.log("getting all tests")
   try {
     const tests = await Test.findAll();
     res.status(200).json(tests);
@@ -26,7 +27,7 @@ export const getAllTests = async (req, res) => {
   }
 };
 
-// Get a single test by ID
+//Get a single test by ID
 export const getTestById = async (req, res) => {
   try {
     const test = await Test.findByPk(req.params.id);
@@ -39,6 +40,29 @@ export const getTestById = async (req, res) => {
     res.status(500).json({ message: 'Failed to retrieve test' });
   }
 };
+
+// export const getTestById = async (req, res) => {
+//   try {
+//     const { id, email, expiresAt } = req.query; // Fetching 'id', 'email', and 'expiresAt' from query params
+//     console.log(id, email, expiresAt, "get test by id");
+
+//     // Find the test by the provided 'id'
+//     const test = await Test.findOne({ where: { id } });
+
+//     if (!test) {
+//       return res.status(404).json({ message: 'Test not found' });
+//     }
+
+//     // Send the test data as the response
+//     res.status(200).json(test);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Failed to retrieve test' });
+//   }
+// };
+
+
+
 
 // Update a test by ID
 export const updateTest = async (req, res) => {
