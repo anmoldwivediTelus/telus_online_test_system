@@ -2,6 +2,7 @@ import sequelize from './../dataBase/sequelize.js';
 import Test from './test.js';
 import Question from './question.js';
 import Result from './Result.js';
+import User from './user.js'
 
 // Define relationships
 Test.hasMany(Question, { foreignKey: 'testId', onDelete: 'CASCADE' });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -21,6 +21,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
+import axios from 'axios'
 
 function UserList() {
   const [candidates, setCandidates] = useState([]);
@@ -29,8 +30,8 @@ function UserList() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    testName: "ReactJS",
-    mobile: "",
+    testName: "",
+    mobileNumber: "",
     image: null,
   });
   const [editingIndex, setEditingIndex] = useState(null);
@@ -49,6 +50,8 @@ function UserList() {
   };
 
 
+   useEffect(()=>{axios.get('http://localhost:5000/api/users').then((res)=>
+    setCandidates(res.data))},[])
 
   // Reset form data
   const resetForm = () => {
@@ -57,8 +60,27 @@ function UserList() {
   };
 
   const handleSaveCandidate = () => {
+    // Create the form data object without the image field
+    const dataToSend = {
+      name: formData.name,
+      email: formData.email,
+      mobileNumber: formData.mobile,
+      testName: formData.testName,
+      image:formData.image,
+    };
+  
+    axios.post('http://localhost:5000/api/users', dataToSend)
+      .then((res) => {
+        console.log(res.data);
+        // Update state as required
+      })
+      .catch((err) => {
+        console.error('Error adding candidate:', err);
+        alert('There was an error adding the candidate. Please try again.');
+      });
+  
     if (editingIndex !== null) {
-      // Reset "Send Invite" button by changing the status to "Pending"
+      // Update candidate in local state (if editing)
       const updatedCandidates = candidates.map((candidate, index) =>
         index === editingIndex
           ? { ...formData, status: "Pending" }
@@ -112,34 +134,21 @@ function UserList() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Candidate Image</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Test Name</TableCell>
               <TableCell>Mobile</TableCell>
-              <TableCell>Status</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {candidates.map((candidate, index) => (
               <TableRow key={index}>
-               <TableCell>
-          {candidate.image ? (
-            <img
-              src={URL.createObjectURL(candidate.image)}
-              alt="Candidate"
-              style={{ width: 50, height: 50, borderRadius: "50%" }}
-            />
-          ) : (
-            "No Image"
-          )}
-        </TableCell>
+      
                 <TableCell>{candidate.name}</TableCell>
                 <TableCell>{candidate.email}</TableCell>
                 <TableCell>{candidate.testName}</TableCell>
-                <TableCell>{candidate.mobile}</TableCell>
-                <TableCell>{candidate.status}</TableCell>
+                <TableCell>{candidate.mobileNumber}</TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
