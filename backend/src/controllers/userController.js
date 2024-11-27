@@ -5,6 +5,7 @@ import { Op } from "sequelize";
 export const createUser = async (req, res) => {
   try {
     const { name, email, testname, mobileNumber } = req.body;
+    console.log(name, email, testname, mobileNumber)
 
     // If file is uploaded, use the file's path in the 'uploads/' directory
     const uploadedImage = req.file ? `/uploads/${req.file.filename}` : null;
@@ -98,6 +99,7 @@ export const updateUser = async (req, res) => {
 // Controller for deleting a user by ID
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   
   try {
     const user = await User.findByPk(id);
