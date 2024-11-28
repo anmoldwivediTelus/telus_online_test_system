@@ -3,12 +3,13 @@ import  Question  from './../models/question.js';  // Import the Question model
 // Create a new Question
 export const createQuestion = async (req, res) => {
   try {
-    const { testId, questionText, options, correctOption } = req.body;
+    const { testId, questionText, options, correctAnswer,testName } = req.body;
     const newQuestion = await Question.create({
       testId,
       questionText,
       options,
-      correctOption
+      correctAnswer,
+      testName
     });
     res.status(201).json(newQuestion);
   } catch (error) {
@@ -58,10 +59,11 @@ export const updateQuestion = async (req, res) => {
       return res.status(404).json({ message: 'Question not found' });
     }
 
-    const { questionText, options, correctOption } = req.body;
+    const { questionText, options, correctAnswer,testName } = req.body;
     question.questionText = questionText;
     question.options = options;
-    question.correctOption = correctOption;
+    question.correctAnswer = correctAnswer;
+    question.testName = testName
 
     await question.save();
     res.status(200).json(question);
@@ -84,5 +86,17 @@ export const deleteQuestion = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to delete question' });
+  }
+};
+
+// Get all Questions
+export const getAllQuestions = async (req, res) => {
+  console.log("getting all Questions")
+  try {
+    const questions = await Question.findAll({});
+    res.status(200).json(questions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to retrieve questions' });
   }
 };

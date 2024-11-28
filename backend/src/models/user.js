@@ -9,10 +9,6 @@ const User = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: true, // Optional, can hold the path to the uploaded image
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -25,7 +21,7 @@ const User = sequelize.define(
         isEmail: true, // Validates the format
       },
     },
-    testname: {
+    technology: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -36,6 +32,16 @@ const User = sequelize.define(
         isNumeric: true, // Validates the input contains only numbers
         len: [10, 15], // Ensures the length of the mobile number
       },
+      
+    },
+    experience: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+    inviteStatus: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue:false
     },
   },
   {

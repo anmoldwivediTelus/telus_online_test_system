@@ -1,9 +1,10 @@
 import  Test  from './../models/test.js';  // Import the Test model
-
+import sequelize from "../dataBase/sequelize.js";
 // Create a new Test
 export const createTest = async (req, res) => {
   try {
     const { title, description } = req.body;
+    await sequelize.sync({ alter: true }); 
     const newTest = await Test.create({
       title,
       description

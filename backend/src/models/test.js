@@ -29,5 +29,8 @@ const Test = sequelize.define(
     timestamps: true,
   }
 );
-
+Test.associate = (models) => {
+  Test.hasMany(models.Question, { foreignKey: 'testId', onDelete: 'CASCADE' });
+  Test.hasMany(models.Result, { foreignKey: 'testId' });
+};
 export default Test;

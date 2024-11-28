@@ -1,18 +1,18 @@
 import User from "../models/user.js";
 import { Op } from "sequelize";
-
+import sequelize from "../dataBase/sequelize.js";
 // Controller for creating a new user with file upload
 export const createUser = async (req, res) => {
   try {
-    const { name, email, testname, mobileNumber } = req.body;
-    console.log(name, email, testname, mobileNumber)
+    const { name, email, technology, mobileNumber,experience } = req.body;
+    await sequelize.sync({ alter: true }); 
+    console.log(name, email, technology, mobileNumber,experience)
 
     // If file is uploaded, use the file's path in the 'uploads/' directory
-    const uploadedImage = req.file ? `/uploads/${req.file.filename}` : null;
-
+    //const uploadedImage = req.file ? `/uploads/${req.file.filename}` : null;
     // Validate if all required fields are present
-    if (!name || !email || !mobileNumber) {
-      return res.status(400).json({ message: "Name, Email, and Mobile Number are required." });
+    if (!name || !email || !mobileNumber || !technology || !experience) {
+      return res.status(400).json({ message: "Name, Email, Experience, Technology and Mobile Number are required." });
     }
 
     // Check if the user already exists based on email
@@ -23,12 +23,13 @@ export const createUser = async (req, res) => {
 
     // Create a new user, including the image URL if a file is uploaded
     const user = await User.create({
-      image: uploadedImage,
       name,
       email,
-      testname,
       mobileNumber,
+      technology, 
+      experience
     });
+    
 
     return res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
@@ -68,7 +69,7 @@ export const getUserById = async (req, res) => {
 // Controller for updating a user by ID (with file upload)
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, testname, mobileNumber } = req.body;
+  const { name, email, technology, mobileNumber,experience  } = req.body;
 
   try {
     const user = await User.findByPk(id);
@@ -78,16 +79,17 @@ export const updateUser = async (req, res) => {
     }
 
     // If a new image file is uploaded, update the image URL
-    const uploadedImage = req.file ? `/uploads/${req.file.filename}` : user.image;
+    //const uploadedImage = req.file ? `/uploads/${req.file.filename}` : user.image;
 
     // Update user details including the image path if uploaded
     await user.update({
       name,
       email,
-      testname,
+      technology,
       mobileNumber,
-      image: uploadedImage,  // Save the file URL to the image field
-    });
+      experience
+    }
+  );
 
     return res.status(200).json({ message: "User updated successfully", user });
   } catch (error) {

@@ -3,6 +3,7 @@ import './RecruiterHomepage.css';
 import UserList from './UserList';
 import AdminQuestion from './AdminQuestion';
 import CandidateResult from './CandidateResult';
+import AdminTest from './AdminTest';
 function RecruiterHomepage() {
   const [selectedOption, setSelectedOption] = useState('userlist');
   return (
@@ -15,6 +16,12 @@ function RecruiterHomepage() {
              onClick={() => setSelectedOption('userlist')}
           >
             Candidates
+          </li>
+          <li 
+            className={selectedOption === 'tests' ? 'active' : ''} 
+            onClick={() => setSelectedOption('tests')}
+          >
+            Tests
           </li>
           <li 
             className={selectedOption === 'questions' ? 'active' : ''} 
@@ -33,6 +40,7 @@ function RecruiterHomepage() {
       {/* Main content area */}
       <div className="main-content">
         {selectedOption === 'userlist' && <UserList />}
+        {selectedOption === 'tests' && <AdminTest/>}
         {selectedOption === 'questions' && <AdminQuestion />}
         {selectedOption === 'result' && <CandidateResult />}
       </div>

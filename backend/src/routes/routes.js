@@ -1,6 +1,6 @@
 import express from 'express';
 import { createTest, getAllTests, getTestById, updateTest, deleteTest } from './../controllers/test.js';
-import { createQuestion, getQuestionsByTestId, getQuestionById, updateQuestion, deleteQuestion } from './../controllers/question.js';
+import { createQuestion, getQuestionsByTestId, getQuestionById, updateQuestion, deleteQuestion, getAllQuestions } from './../controllers/question.js';
 import multer from 'multer';
 import { createUser, getAllUsers, getUserById, updateUser, deleteUser } from "../controllers/userController.js";
 import { createResult, getResultById, getResultsByTestId } from './../controllers/result.js';
@@ -97,6 +97,7 @@ router.delete('/tests/:id', deleteTest);
 
 // Question routes
 router.post('/questions', createQuestion);  
+router.get('/questions', getAllQuestions); 
 router.get('/questions/test/:testId', getQuestionsByTestId);  
 router.get('/questions/:id', getQuestionById);  
 router.put('/questions/:id', updateQuestion); 
@@ -132,7 +133,7 @@ const storage = multer.diskStorage({
   }).single('image'); // 'image' is the field name for the file upload
   
   // Route for creating a new user with file upload
-  router.post("/users", upload, createUser);
+  router.post("/users", createUser);
   
   // Route for fetching all users
   router.get("/users", getAllUsers);
@@ -141,7 +142,7 @@ const storage = multer.diskStorage({
   router.get("/users/:id", getUserById);
   
   // Route for updating a user by ID (with file upload)
-  router.put("/users/:id", upload, updateUser);
+  router.put("/users/:id", updateUser);
   
   // Route for deleting a user by ID
   router.delete("/users/:id", deleteUser);

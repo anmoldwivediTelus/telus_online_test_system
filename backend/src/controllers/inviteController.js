@@ -1,7 +1,7 @@
 import { sendEmail } from '../services/emailService.js';
 import { logTestInvite } from '../models/inviteModel.js';
 import { createTestInviteLink } from '../utils/testUtils.js'; 
-
+import User from "../models/user.js";
 export const sendTestInvite = async (req, res) => {
   const { email, testName, testId } = req.body;
   console.log(testId);
@@ -32,10 +32,16 @@ export const sendTestInvite = async (req, res) => {
   try {
     
     await sendEmail(email, subject, message);
-
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      await User.update({
+        inviteStatus:true
+      },
+      { where:{"email":email}}
+    );
+    }
     
-    await logTestInvite(email, testName, testLink, expirationTime);
-
+    
    
     res.status(200).json({ message: 'Test invite sent and logged successfully.' });
   } catch (error) {

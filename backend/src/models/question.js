@@ -12,6 +12,10 @@ import sequelize from './../dataBase/sequelize.js';
     type: DataTypes.INTEGER, 
     allowNull: false,
   },
+  testName: {
+    type: DataTypes.TEXT, 
+    allowNull: false,
+  },
   questionText: {
     type: DataTypes.TEXT,
     allowNull: false,
@@ -20,8 +24,8 @@ import sequelize from './../dataBase/sequelize.js';
     type: DataTypes.JSONB, 
     allowNull: false,
   },
-  correctOption: {
-    type: DataTypes.INTEGER, 
+  correctAnswer: {
+    type: DataTypes.TEXT, 
     allowNull: false,
   },
   createdAt: {
@@ -36,5 +40,7 @@ import sequelize from './../dataBase/sequelize.js';
   tableName: 'questions',
   timestamps: true,
 });
-
+Question.associate = (models) => {
+  Question.belongsTo(models.Test, { foreignKey: 'testId', as: 'test' });
+};
 export default Question;

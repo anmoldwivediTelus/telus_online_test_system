@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -10,6 +11,8 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Snackbar,
+  Alert,
   IconButton,
   Dialog,
   DialogTitle,
@@ -18,25 +21,43 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
-import { Delete, Edit, ForkRight } from "@mui/icons-material";
-import './AdminQuestion.css'
+import { Delete, Edit } from "@mui/icons-material";
+
 function AdminQuestions() {
   const [questions, setQuestions] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [tests, setTests] = useState([]);
   const [formData, setFormData] = useState({
-    courseName: "ReactJS",
-    question: "",
-    marks: "",
-    option1: "",
-    option2: "",
-    option3: "",
-    option4: "",
-    answer: "",
-
+      testName:"",
+      testId:"",
+      questionText: "",
+      option1: "",
+      option2: "",
+      option2: "",
+      option4: "",
+      correctAnswer:"",
+      id:""
+      
   });
   const [editingIndex, setEditingIndex] = useState(null);
 
-  const courses = ["ReactJS", "AngularJS", "JavaScript"];
+  
+  // Fetch questions from API
+  useEffect(() => {
+    axios.get("http://localhost:4000/api/questions")
+      .then((response) => {
+        console.log("Fetched Data:", response.data);
+        setQuestions(response.data);
+        axios.get("http://localhost:4000/api/tests")
+        .then((response) => {
+          console.log("Fetched Data:", response.data);
+          setTests(response.data);
+        })
+        .catch((error) => console.error("Error fetching questions:", error));
+      })
+      .catch((error) => console.error("Error fetching questions:", error));
+  }, []);
 
   // Handle input change
   const handleChange = (e) => {
@@ -44,100 +65,165 @@ function AdminQuestions() {
     setFormData({ ...formData, [name]: value });
   };
 
- 
+  // Handle image upload
+  
   // Reset form data
   const resetForm = () => {
-    setFormData({courseName: "ReactJS",  question: "", marks:"", option1: "",option2: "",option3: "",option4: "",  answer: "" });
+    setFormData({ 
+      testName: "",
+      testId:"",
+      questionText: "",
+      option1: "",
+      option2: "",
+      option2: "",
+      option4: "",
+      correctAnswer:""
+     });
     setEditingIndex(null);
   };
 
-  const handleSaveQuestions = () => {
-   
-      setQuestions([...questions, { ...formData, status: "Pending" }]);
+  // Save or update candidate
+  const handleSaveCandidate = async () => {
     
-    resetForm();
-    setDialogOpen(false);
+    try {
+      if (editingIndex !== null) {
+        console.log(editingIndex,"editingIndexeditingIndex",formData)
+        // Update candidate
+        // Changed from _id to id
+        let options = {
+          option1:formData['option1'],
+          option2:formData['option2'],
+          option3:formData['option3'],
+          option4:formData['option4'],
+        }
+        let updatedFormData = {
+          options,
+          questionText:formData.questionText,
+          correctAnswer:formData.correctAnswer,
+          testId:formData.testId,
+          testName:formData.testName,
+
+        }
+        await axios.put(`http://localhost:4000/api/questions/${editingIndex.id}`, updatedFormData);
+      } else {
+        // Add questions
+        let options = {
+          option1:formData['option1'],
+          option2:formData['option2'],
+          option3:formData['option3'],
+          option4:formData['option4'],
+        }
+        let updatedFormData = {
+          options,
+          questionText:formData.questionText,
+          correctAnswer:formData.correctAnswer,
+          testId:formData.testName.split(".")[0],
+          testName:formData.testName.split(".")[1],
+
+        }
+        console.log(updatedFormData,"updatedFormData")
+        
+        await axios.post("http://localhost:4000/api/questions", updatedFormData);
+      }
+      // Refresh questions list
+      const response = await axios.get("http://localhost:4000/api/questions");
+      setQuestions(response.data);
+      resetForm();
+      setDialogOpen(false);
+    } catch (error) {
+      console.error("Error saving candidate:", error);
+    }
   };
-  
-  // Edit Questions
-  const handleEditQuestions = (index) => {
-    setEditingIndex(index);
-    setFormData(questions[index]);
+
+  // Edit candidate
+  const handleEditCandidate = (question) => {
+   setEditingIndex(question);
+   let editFormData= {
+    testId:question.testId,
+    questionText: question.questionText,
+    option1: question.options.option1,
+    option2: question.options.option2,
+    option3: question.options.option3,
+    option4: question.options.option4,
+    correctAnswer:question.correctAnswer,
+    testName:question.testName
+   }
+    //console.log(editFormData,"sdfadadfsaf",question)
+    setFormData(editFormData);
     setDialogOpen(true);
   };
 
-  // Delete Questions
-  const handleDeleteQuestions = (index) => {
-    setQuestions(questions.filter((_, i) => i !== index));
-  };
-  const styles = {
-    baseButtonStyle: {
-      color: "#000",
-      backgroundColor: "#2B8000",
-      borderColor: "#2B8000",
-      float:"right",
+  // Delete candidate
+  const handleDeleteCandidate = async (index) => {
+    //const id = questions.id; // Changed from _id to id
+    try {
+      await axios.delete(`http://localhost:4000/api/questions/${index}`);
+      const response = await axios.get("http://localhost:4000/api/questions");
+      setQuestions(response.data);
+    } catch (error) {
+      console.error("Error deleting candidate:", error);
     }
   };
-  
- 
+
+  // Send invite
+  const handleSendInvite = async (index) => {
+    const id = questions[index].email; // Changed from _id to id
+    try {
+      await axios.post(`http://localhost:5000/api/invites/send-invite`, { email: id , testName: "ReactJS",testId: 2 });
+      const updatedquestions = questions.map((candidate, i) =>
+        i === index ? { ...candidate, status: "Invite Sent" } : candidate
+      );
+      setQuestions(updatedquestions);
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error("Error sending invite:", error);
+    }
+  };
 
   return (
     <Box sx={{ p: 4 }}>
       <Typography variant="h4" gutterBottom>
-        Recruiter Dashboard - Add Question
+        Recruiter Dashboard - Send Test Invites
       </Typography>
-      
-      <Button sx={[styles.baseButtonStyle]}
+
+      <Button
         variant="contained"
         color="success"
         onClick={() => setDialogOpen(true)}
-        sx={{ float:'right', marginBottom:'10px' }}
+        sx={{ float: "right", marginBottom: "10px" }}
       >
         Add Question
       </Button>
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} >
+        <Table>
           <TableHead>
             <TableRow>
-            <TableCell>Course</TableCell>
-             <TableCell>Question</TableCell>
-              <TableCell>Marks</TableCell>
+              <TableCell>Test</TableCell>
+              <TableCell>Question</TableCell>
               <TableCell>Option 1</TableCell>
               <TableCell>Option 2</TableCell>
               <TableCell>Option 3</TableCell>
               <TableCell>Option 4</TableCell>
-              <TableCell>Answer</TableCell>
+              <TableCell>Correct Answer</TableCell>
               <TableCell>Actions</TableCell>
-
             </TableRow>
           </TableHead>
           <TableBody>
-            {questions.map((ques, index) => (
-              <TableRow key={index}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-           >
-              <TableCell>{ques.courseName} </TableCell>
-               <TableCell>{ques.question} </TableCell>
-                <TableCell>{ques.marks}</TableCell>
-                <TableCell>{ques.option1}</TableCell>
-                <TableCell>{ques.option2}</TableCell>
-                <TableCell>{ques.option3}</TableCell>
-                <TableCell>{ques.option4}</TableCell>
-                <TableCell>{ques.answer}</TableCell>
-
+            {questions.map((question) => (
+              <TableRow key={question.id}> {/* Changed from index to candidate.id */}
+                <TableCell>{question.testName}</TableCell>
+                <TableCell>{question.questionText}</TableCell>
+                <TableCell>{question.options.option1}</TableCell>
+                <TableCell>{question.options.option2}</TableCell>
+                <TableCell>{question.options.option3}</TableCell>
+                <TableCell>{question.options.option4}</TableCell>
+                <TableCell>{question.correctAnswer}</TableCell>
                 <TableCell>
-                
-                  <IconButton
-                    color="primary"
-                    onClick={() => handleEditQuestions(index)}
-                  >
+                  <IconButton color="primary" onClick={() => handleEditCandidate(question)}>
                     <Edit />
                   </IconButton>
-                  <IconButton
-                    color="error"
-                    onClick={() => handleDeleteQuestions(index)}
-                  >
+                  <IconButton color="error" onClick={() => handleDeleteCandidate(question.id)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -147,7 +233,17 @@ function AdminQuestions() {
         </Table>
       </TableContainer>
 
-     
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
+          Invite sent successfully!
+        </Alert>
+      </Snackbar>
+
       {/* Add/Edit Dialog */}
       <Dialog
         open={dialogOpen}
@@ -156,44 +252,35 @@ function AdminQuestions() {
           resetForm();
         }}
         fullWidth
-        maxWidth="md"
+        maxWidth="sm"
       >
-        <DialogTitle>
-          {editingIndex !== null ? "Edit Question" : "Add Question"}
-        </DialogTitle>
+        <DialogTitle>{editingIndex !== null ? "Edit Question" : "Add Question"}</DialogTitle>
         <DialogContent>
         <TextField
+            fullWidth
             select
-            
-            label="Course"
-            name="courseName"
+            label="Test"
+            defaultValue="hello"
+            name="testName"
             variant="outlined"
             margin="dense"
-            value={formData.courseName}
+            value={formData.testName}
             onChange={handleChange}
           >
-            {courses.map((course) => (
-              <MenuItem key={course} value={course}>
-                {course}
+           
+            {tests.map((course) => (
+              <MenuItem key={course.id} value={course.title}>
+                {course.title}
               </MenuItem>
             ))}
           </TextField>
-        <TextField
-            fullWidth
-            label="Question"
-            name="question"
-            variant="outlined"
-            margin="dense"
-            value={formData.question}
-            onChange={handleChange}
-          />
           <TextField
             fullWidth
-            label="Marks"
-            name="marks"
+            label="Question Description"
+            name="questionText"
             variant="outlined"
             margin="dense"
-            value={formData.marks}
+            value={formData.questionText}
             onChange={handleChange}
           />
           <TextField
@@ -231,18 +318,17 @@ function AdminQuestions() {
             margin="dense"
             value={formData.option4}
             onChange={handleChange}
-          >
-          </TextField>
+          />
           <TextField
             fullWidth
-            label="Answer"
-            name="answer"
+            label="Correct Option"
+            name="correctAnswer"
             variant="outlined"
             margin="dense"
-            value={formData.answer}
+            max={20}
+            value={formData.correctAnswer}
             onChange={handleChange}
-          >
-          </TextField>
+          />
         </DialogContent>
         <DialogActions>
           <Button
@@ -254,7 +340,7 @@ function AdminQuestions() {
           >
             Cancel
           </Button>
-          <Button onClick={handleSaveQuestions} color="primary" variant="contained">
+          <Button onClick={handleSaveCandidate} color="primary" variant="contained">
             Save
           </Button>
         </DialogActions>

@@ -25,25 +25,32 @@ import { Delete, Edit } from "@mui/icons-material";
 
 function UserList() {
   const [candidates, setCandidates] = useState([]);
+  const [tests, setTests] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    testname: "ReactJS",
     mobileNumber: "",
-    image: null,
+    experience:0,
+    technology:"",
   });
   const [editingIndex, setEditingIndex] = useState(null);
 
-  const tests = ["ReactJS", "AngularJS", "JavaScript"];
-
+  
   // Fetch candidates from API
   useEffect(() => {
-    axios.get("http://localhost:5000/api/users")
+    axios.get("http://localhost:4000/api/users")
       .then((response) => {
         console.log("Fetched Data:", response.data);
         setCandidates(response.data);
+        axios.get("http://localhost:4000/api/tests")
+      .then((response) => {
+        console.log("Fetched Data:", response.data);
+        setTests(response.data);
+      })
+      .catch((error) => console.error("Error fetching candidates:", error));
       })
       .catch((error) => console.error("Error fetching candidates:", error));
   }, []);
@@ -55,36 +62,47 @@ function UserList() {
   };
 
   // Handle image upload
-  const handleImageUpload = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
-  };
-
+  
   // Reset form data
   const resetForm = () => {
-    setFormData({ image: null, name: "", email: "", testname: "ReactJS", mobileNumber: "" });
+    setFormData({ name: "",
+      email: "",
+      mobileNumber: "",
+      technology:"",
+      experience:0 });
     setEditingIndex(null);
   };
 
   // Save or update candidate
-  const handleSaveCandidate = async () => {
-    const formDataToSend = new FormData();
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("testname", formData.testname);
-    formDataToSend.append("mobileNumber", formData.mobileNumber);
-    if (formData.image) formDataToSend.append("image", formData.image);
+  const handleSaveInvite = async () => {
+    
+    try {
+       await axios.post("http://localhost:4000/api/users", formData);
+      // Refresh candidates list
+      const response = await axios.get("http://localhost:4000/api/users");
+      setCandidates(response.data);
+      resetForm();
+      setInviteDialogOpen(false);
+    } catch (error) {
+      console.error("Error sending invite candidate:", error);
+    }
+  };
 
+  // Save or update candidate
+  const handleSaveCandidate = async () => {
+    
     try {
       if (editingIndex !== null) {
         // Update candidate
-        const id = candidates[editingIndex].id; // Changed from _id to id
-        await axios.put(`http://localhost:5000/api/users/${id}`, formDataToSend);
+        const id = formData.id; // Changed from _id to id
+        
+        await axios.put(`http://localhost:4000/api/users/${id}`, formData);
       } else {
         // Add candidate
-        await axios.post("http://localhost:5000/api/users", formDataToSend);
+        await axios.post("http://localhost:4000/api/users", formData);
       }
       // Refresh candidates list
-      const response = await axios.get("http://localhost:5000/api/users");
+      const response = await axios.get("http://localhost:4000/api/users");
       setCandidates(response.data);
       resetForm();
       setDialogOpen(false);
@@ -94,18 +112,24 @@ function UserList() {
   };
 
   // Edit candidate
-  const handleEditCandidate = (index) => {
-    setEditingIndex(index);
-    setFormData(candidates[index]);
+  const handleEditCandidate = (candidate) => {
+   setEditingIndex(candidate);
+    console.log(candidate,"sdfadadfsaf")
+    setFormData(candidate);
     setDialogOpen(true);
   };
+  const handleInviteCandidate = (candidate) => {
+    setFormData(candidate);
+     setInviteDialogOpen(true);
+   };
 
   // Delete candidate
   const handleDeleteCandidate = async (index) => {
-    const id = candidates[index].id; // Changed from _id to id
+    //const id = candidates.id; // Changed from _id to id
     try {
-      await axios.delete(`http://localhost:5000/api/users/${id}`);
-      setCandidates(candidates.filter((_, i) => i !== index));
+      await axios.delete(`http://localhost:4000/api/users/${index}`);
+      const response = await axios.get("http://localhost:4000/api/users");
+      setCandidates(response.data);
     } catch (error) {
       console.error("Error deleting candidate:", error);
     }
@@ -113,13 +137,12 @@ function UserList() {
 
   // Send invite
   const handleSendInvite = async (index) => {
-    const id = candidates[index].email; // Changed from _id to id
+    const id = formData.email; // Changed from _id to id
     try {
-      await axios.post(`http://localhost:5000/api/invites/send-invite`, { email: id , testName: "ReactJS",testId: 2 });
-      const updatedCandidates = candidates.map((candidate, i) =>
-        i === index ? { ...candidate, status: "Invite Sent" } : candidate
-      );
-      setCandidates(updatedCandidates);
+      await axios.post(`http://localhost:4000/api/invites/send-invite`, { email: formData.email , testName: formData.testId.split(".")[1],testId: formData.testId.split(".")[0] });
+      const response = await axios.get("http://localhost:4000/api/users");
+      setCandidates(response.data);
+      setInviteDialogOpen(false);
       setSnackbarOpen(true);
     } catch (error) {
       console.error("Error sending invite:", error);
@@ -145,48 +168,40 @@ function UserList() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Candidate Image</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Test Name</TableCell>
               <TableCell>Mobile Number</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Total Experience</TableCell>
+              <TableCell>Technology</TableCell>
+              <TableCell>Test Invite Status</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {candidates.map((candidate, index) => (
+            {candidates.map((candidate) => (
               <TableRow key={candidate.id}> {/* Changed from index to candidate.id */}
-                <TableCell>
-                  {candidate.image ? (
-                    <img
-                      src={`http://localhost:5000/${candidate.image}`} // Adjust this path if needed
-                      alt="Candidate"
-                      style={{ width: 50, height: 50, borderRadius: "50%" }}
-                    />
-                  ) : (
-                    "No Image"
-                  )}
-                </TableCell>
                 <TableCell>{candidate.name}</TableCell>
                 <TableCell>{candidate.email}</TableCell>
-                <TableCell>{candidate.testname}</TableCell>
                 <TableCell>{candidate.mobileNumber}</TableCell>
-                <TableCell>{candidate.status}</TableCell>
+                <TableCell>{candidate.experience}</TableCell>
+                <TableCell>{candidate.technology}</TableCell>
+                {console.log(candidate.inviteStatus,"sdafd")}
+                <TableCell>{!candidate.inviteStatus ? "false" : "true"}</TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() => handleSendInvite(index)}
-                    disabled={candidate.status === "Invite Sent"}
+                    onClick={() => handleInviteCandidate(candidate)}
+                    disabled={candidate.inviteStatus === true}
                     sx={{ mr: 1 }}
+
                   >
                     Send Invite
                   </Button>
-                  <IconButton color="primary" onClick={() => handleEditCandidate(index)}>
+                  <IconButton color="primary" onClick={() => handleEditCandidate(candidate)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="error" onClick={() => handleDeleteCandidate(index)}>
+                  <IconButton color="error" onClick={() => handleDeleteCandidate(candidate.id)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -247,26 +262,25 @@ function UserList() {
             onChange={handleChange}
           />
           <TextField
-            select
             fullWidth
-            label="Test Name"
-            name="testname"
+            label="Experience"
+            name="experience"
             variant="outlined"
             margin="dense"
-            value={formData.testname}
+            type="number"
+            max={20}
+            value={formData.experience}
             onChange={handleChange}
-          >
-            {tests.map((test) => (
-              <MenuItem key={test} value={test}>
-                {test}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button variant="contained" component="label" sx={{ mt: 2 }}>
-            Upload Image
-            <input type="file" hidden accept="image/*" onChange={handleImageUpload} />
-          </Button>
-          {formData.image && <Typography sx={{ mt: 1 }}>Uploaded: {formData.image.name}</Typography>}
+          />
+          <TextField
+            fullWidth
+            label="Technology"
+            name="technology"
+            variant="outlined"
+            margin="dense"
+            value={formData.technology}
+            onChange={handleChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button
@@ -279,6 +293,51 @@ function UserList() {
             Cancel
           </Button>
           <Button onClick={handleSaveCandidate} color="primary" variant="contained">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={inviteDialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+          resetForm();
+        }}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Send Test Invite</DialogTitle>
+        <DialogContent>
+        <TextField
+            fullWidth
+            select
+            label="Test"
+            defaultValue="hello"
+            name="testId"
+            variant="outlined"
+            margin="dense"
+            value={formData.testId}
+            onChange={handleChange}
+          >
+           
+            {tests.map((course) => (
+              <MenuItem key={course.id} value={course.id+"."+course.title}>
+                {course.title}
+              </MenuItem>
+            ))}
+          </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setInviteDialogOpen(false);
+              //resetForm();
+            }}
+            color="secondary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleSendInvite} color="primary" variant="contained">
             Save
           </Button>
         </DialogActions>

@@ -12,6 +12,16 @@ import { Test, Question } from "../models/index.js";
     await sequelize.sync({ alter: true }); 
     console.log("Database synchronized.");
 
+    //  // Optionally create a test user
+    //  const user = await User.create({
+    //   name: "John Doe",
+    //   experience:2,
+    //   inviteStatus:false,
+    //   email: "johnaza.doe@example.com",
+    //   technology: "Samplze Test",
+    //   mobileNumber: "12314567890",
+      
+    // });
     // Create test and question as examples
     const test = await Test.create({
       title: "JavaScript Basics Test",
@@ -25,17 +35,7 @@ import { Test, Question } from "../models/index.js";
       correctOption: 1,
     });
 
-    console.log("Test created:", test.toJSON());
-    console.log("Question created:", question.toJSON());
-
-    // Optionally create a test user
-    const user = await User.create({
-      image: "https://example.com/image.jpg",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      testname: "Sample Test",
-      mobileNumber: "1234567890",
-    });
+   
 
 
     const result = await Result.create({

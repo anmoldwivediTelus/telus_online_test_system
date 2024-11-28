@@ -24,7 +24,7 @@ import cors from 'cors';
 // }
 
 // Access environment variables
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 console.log("PORT:", process.env.PORT)
 
 app.use(express.json());
