@@ -86,3 +86,20 @@ export const deleteQuestion = async (req, res) => {
     res.status(500).json({ message: 'Failed to delete question' });
   }
 };
+
+
+// Get all questions
+export const getAllQuestions = async (req, res) => {
+  try {
+    const questions = await Question.findAll();
+
+    if (questions.length === 0) {
+      return res.status(404).json({ message: 'No questions found' });
+    }
+
+    res.status(200).json(questions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to retrieve questions' });
+  }
+};
