@@ -204,3 +204,7 @@ font-size: large;
     margin-bottom: 10px;
     padding-left: 10px;
   }
+  .MuiTable-root tr th {
+    background: #dcdcdc;
+    font-size: 15px;
+}

@@ -135,8 +135,8 @@ function AdminTest() {
         Add Test
       </Button>
 
-      <TableContainer component={Paper}>
-        <Table>
+      <TableContainer component={Paper}  sx={{ maxHeight: 440 }}>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell>Title</TableCell>
@@ -146,7 +146,8 @@ function AdminTest() {
           </TableHead>
           <TableBody>
             {tests.map((test) => (
-              <TableRow key={test.id}> {/* Changed from index to candidate.id */}
+              /* Changed from index to candidate.id */
+              <TableRow key={test.id}> 
                 <TableCell>{test.title}</TableCell>
                 <TableCell>{test.description}</TableCell>
                 <TableCell>
