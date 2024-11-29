@@ -195,8 +195,8 @@ function AdminQuestions() {
         Add Question
       </Button>
 
-      <TableContainer component={Paper}>
-        <Table>
+      <TableContainer component={Paper}  sx={{ maxHeight: 440 }}>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell>Test</TableCell>

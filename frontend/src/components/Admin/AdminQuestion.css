@@ -50,3 +50,7 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-sizeMedium.css-1orzuox-MuiTa
 button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textSecondary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-colorSecondary.MuiButton-root.MuiButton-text.MuiButton-textSecondary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-colorSecondary.css-if69c8-MuiButtonBase-root-MuiButton-root {
 color:#000
 }
+th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-sizeMedium.css-1orzuox-MuiTableCell-root {
+    background: #dcdcdc;
+    font-size: 15px;
+}
