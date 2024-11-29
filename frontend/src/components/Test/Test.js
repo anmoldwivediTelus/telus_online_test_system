@@ -4,10 +4,10 @@ import "./Test.css";
 import ti_logo from "../../assets/img/telus_logo_digital.svg";
 import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
+import WebcamRecorder from "./WebcamVideo";
 
-// Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
-  section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
+  section: Math.floor(index / 10) + 1,
   number: index + 1,
   question: `Guess the output of the following program (Question ${index + 1})`,
   code: `
@@ -38,21 +38,54 @@ function Test() {
   const [markedForReview, setMarkedForReview] = useState(new Set());
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [fullscreenWarning, setFullscreenWarning] = useState(false);
 
-  // Timer logic
   useEffect(() => {
+    // Function to handle full-screen exit
+    const handleFullScreenChange = () => {
+      if (!document.fullscreenElement) {
+        // If full-screen is exited, show the warning
+        setFullscreenWarning(true);
+
+        // Redirect to exit after 5 seconds if still not in full-screen
+        const timer = setTimeout(() => {
+          if (!document.fullscreenElement) {
+            navigate("/exit");
+          }
+        }, 10000);
+
+        return () => clearTimeout(timer);
+      } else {
+        // If the user re-enters full-screen, hide the warning
+        setFullscreenWarning(false);
+      }
+    };
+
+    // Enter full-screen mode when the component mounts
+    const element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    }
+
+    // Add listener for full-screen changes
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+
+    return () => {
+      // Cleanup listener when component unmounts
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+    };
+  }, [navigate]);
+
+  useEffect(() => {
+    // Timer logic
     if (timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
+      const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
       return () => clearInterval(timer);
     } else {
-      // Redirect to exit page when time runs out
-      navigate("/exit");
+      navigate("/exit"); // Redirect to exit page when time runs out
     }
   }, [timeLeft, navigate]);
 
-  // Format time as mm:ss
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -62,18 +95,15 @@ function Test() {
     )}`;
   };
 
-  // Handle option selection for multiple options
   const handleOptionSelect = (option) => {
     setSelectedOptions((prev) => {
       const currentSelection = prev[currentQuestion] || [];
       if (currentSelection.includes(option)) {
-        // If already selected, remove it
         return {
           ...prev,
           [currentQuestion]: currentSelection.filter((opt) => opt !== option),
         };
       } else {
-        // Otherwise, add it
         return {
           ...prev,
           [currentQuestion]: [...currentSelection, option],
@@ -82,7 +112,6 @@ function Test() {
     });
   };
 
-  // Handle Next and Previous buttons
   const handleNext = () => {
     if (currentQuestion < questionsData.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
@@ -95,7 +124,6 @@ function Test() {
     }
   };
 
-  // Toggle Mark for Review
   const toggleMarkForReview = () => {
     setMarkedForReview((prev) => {
       const updatedSet = new Set(prev);
@@ -108,12 +136,6 @@ function Test() {
     });
   };
 
-  // Handle section change
-  const handleSectionChange = (section) => {
-    setCurrentSection(section);
-    setCurrentQuestion((section - 1) * 10); // Set to the first question of the selected section
-  };
-
   const handleFinishClick = () => {
     setDialogOpen(true);
   };
@@ -122,25 +144,44 @@ function Test() {
     setDialogOpen(false);
   };
 
+  const handleSectionChange = (section) => {
+    setCurrentSection(section);
+    setCurrentQuestion((section - 1) * 10);
+  };
+
+  const handleRecordingSave = (videoData) => {
+    console.log("Video saved to localStorage:", videoData);
+  };
+
+  // Function to re-enter full-screen mode
+  const reEnterFullScreen = () => {
+    const element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+  };
+
   return (
     <div className="app">
       <header className="testheader">
         <img className="telus-logo" alt="Telus logo" src={ti_logo} />
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
           <div className="tab flex-sm-fill text-sm-center questionsTab">
-            {" "}
-            Questions: 40{" "}
+            Questions: 40
           </div>
           <div className="tab flex-sm-fill text-sm-center answeredTab">
-            {" "}
-            Answered: {Object.keys(selectedOptions).length}{" "}
+            Answered: {Object.keys(selectedOptions).length}
           </div>
           <div className="tab flex-sm-fill text-sm-center reviewTab">
-            {" "}
-            Marked for Review: {markedForReview.size}{" "}
+            Marked for Review: {markedForReview.size}
           </div>
           <div className="tab flex-sm-fill text-sm-center skipTab">
-            {" "}
             Skipped:{" "}
             {40 - Object.keys(selectedOptions).length - markedForReview.size}
           </div>
@@ -153,8 +194,25 @@ function Test() {
           <button className="finish-button" onClick={handleFinishClick}>
             Finish Test
           </button>
+          <div className="test-page">
+            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
+          </div>
         </div>
       </header>
+      {fullscreenWarning && (
+        <div className="fullscreen-warning">
+          <p>
+            You have exited full-screen mode. Please re-enter full-screen mode
+            within 10 seconds or you will be redirected.
+          </p>
+          <button
+            className="fullscreen-reenter-button"
+            onClick={reEnterFullScreen}
+          >
+            Re-enter Full-Screen
+          </button>
+        </div>
+      )}
       <FinishDialog open={dialogOpen} handleClose={handleClose} />
       <div className="content">
         <aside className="sidebar testSidebar">

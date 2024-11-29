@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./CandidateResult.css";
@@ -35,69 +36,88 @@ const ResultPage = () => {
   });
 
   useEffect(() => {
-    // Simulated data fetching
-    setTimeout(() => {
-      setCandidateDetails({
-        name: "John Doe",
-        experience: "3 years",
-        skills: "React, Node.js, JavaScript, HTML, CSS",
-      });
+    const fetchData = async () => {
+      try {
+        // Simulating API call with Axios
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts/1"
+        );
 
-      const fetchedData = [
-        {
-          category: "Section-1",
-          attempted: "47 out of 100",
-          correct: 28,
-          mistakes: 19,
-          totalTime: "1 hr, 54 mins, 21 secs",
-          avgTime: "2 mins, 26 secs",
-          fasterPercent: "87.9% candidates were faster",
-        },
-        {
-          category: "Section-2",
-          attempted: "11 out of 15",
-          correct: 5,
-          mistakes: 6,
-          totalTime: "37 mins, 23 secs",
-          avgTime: "3 mins, 24 secs",
-          fasterPercent: "95.3% candidates were faster",
-        },
-        {
-          category: "Section-3",
-          attempted: "1 out of 15",
-          correct: 1,
-          mistakes: 0,
-          totalTime: "2 mins, 7 secs",
-          avgTime: "2 mins, 7 secs",
-          fasterPercent: "35.9% candidates were faster",
-        },
-        {
-          category: "Section-4",
-          attempted: "9 out of 15",
-          correct: 6,
-          mistakes: 3,
-          totalTime: "20 mins, 20 secs",
-          avgTime: "2 mins, 16 secs",
-          fasterPercent: "91.2% candidates were faster",
-        },
-      ];
+        // Mock data from server (you can replace it with actual response)
+        const fetchedCandidateDetails = {
+          name: "John Doe",
+          experience: "3 years",
+          skills: "React, Node.js, JavaScript, HTML, CSS",
+        };
 
-      setSectionsData(fetchedData);
+        const fetchedSectionsData = [
+          {
+            category: "Section-1",
+            attempted: "47 out of 100",
+            correct: 28,
+            mistakes: 19,
+            totalTime: "1 hr, 54 mins, 21 secs",
+            avgTime: "2 mins, 26 secs",
+            fasterPercent: "87.9% candidates were faster",
+          },
+          {
+            category: "Section-2",
+            attempted: "11 out of 15",
+            correct: 5,
+            mistakes: 6,
+            totalTime: "37 mins, 23 secs",
+            avgTime: "3 mins, 24 secs",
+            fasterPercent: "95.3% candidates were faster",
+          },
+          {
+            category: "Section-3",
+            attempted: "1 out of 15",
+            correct: 1,
+            mistakes: 0,
+            totalTime: "2 mins, 7 secs",
+            avgTime: "2 mins, 7 secs",
+            fasterPercent: "35.9% candidates were faster",
+          },
+          {
+            category: "Section-4",
+            attempted: "9 out of 15",
+            correct: 6,
+            mistakes: 3,
+            totalTime: "20 mins, 20 secs",
+            avgTime: "2 mins, 16 secs",
+            fasterPercent: "91.2% candidates were faster",
+          },
+        ];
 
-      const totalCorrect = fetchedData.reduce((sum, item) => sum + item.correct, 0);
-      const totalMistakes = fetchedData.reduce((sum, item) => sum + item.mistakes, 0);
-      const totalQuestions = fetchedData.reduce(
-        (sum, item) => sum + parseInt(item.attempted.split(" out of ")[1]),
-        0
-      );
+        // Updating state with fetched data
+        setCandidateDetails(fetchedCandidateDetails);
+        setSectionsData(fetchedSectionsData);
 
-      setChartData({
-        score: Math.round((totalCorrect / totalQuestions) * 100),
-        correct: totalCorrect,
-        mistakes: totalMistakes,
-        communityAverage: 74.2,
-      });
-    }, 2000); // Simulated delay
+        const totalCorrect = fetchedSectionsData.reduce(
+          (sum, item) => sum + item.correct,
+          0
+        );
+        const totalMistakes = fetchedSectionsData.reduce(
+          (sum, item) => sum + item.mistakes,
+          0
+        );
+        const totalQuestions = fetchedSectionsData.reduce(
+          (sum, item) => sum + parseInt(item.attempted.split(" out of ")[1]),
+          0
+        );
+
+        setChartData({
+          score: Math.round((totalCorrect / totalQuestions) * 100),
+          correct: totalCorrect,
+          mistakes: totalMistakes,
+          communityAverage: 74.2,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -105,9 +125,15 @@ const ResultPage = () => {
       {/* Header Section */}
       <div className="header">
         <h2>Candidate Details</h2>
-        <p><strong>Name:</strong> {candidateDetails.name}</p>
-        <p><strong>Experience:</strong> {candidateDetails.experience}</p>
-        <p><strong>Skills:</strong> {candidateDetails.skills}</p>
+        <p>
+          <strong>Name:</strong> {candidateDetails.name}
+        </p>
+        <p>
+          <strong>Experience:</strong> {candidateDetails.experience}
+        </p>
+        <p>
+          <strong>Skills:</strong> {candidateDetails.skills}
+        </p>
       </div>
 
       {/* Content Section */}
@@ -127,10 +153,14 @@ const ResultPage = () => {
             </thead>
             <tbody>
               {sectionsData.length > 0 ? (
-                sectionsData.map((row, index) => <TableRow key={index} data={row} />)
+                sectionsData.map((row, index) => (
+                  <TableRow key={index} data={row} />
+                ))
               ) : (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: "center" }}>Fetching Data...</td>
+                  <td colSpan="6" style={{ textAlign: "center" }}>
+                    Fetching Data...
+                  </td>
                 </tr>
               )}
             </tbody>
