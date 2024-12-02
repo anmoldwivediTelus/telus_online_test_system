@@ -100,7 +100,6 @@ function AdminQuestions() {
           options,
           questionText:formData.questionText,
           correctAnswer:formData.correctAnswer,
-          testId:formData.testId,
           testName:formData.testName,
 
         }
@@ -117,10 +116,10 @@ function AdminQuestions() {
           options,
           questionText:formData.questionText,
           correctAnswer:formData.correctAnswer,
-          testId:formData.testName.split(".")[0],
-          testName:formData.testName.split(".")[1],
+          testName:formData.testName,
 
         }
+        
         console.log(updatedFormData,"updatedFormData")
         
         await axios.post("http://localhost:4000/api/questions", updatedFormData);

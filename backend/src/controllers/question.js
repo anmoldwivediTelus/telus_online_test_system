@@ -1,15 +1,19 @@
+import Test from '../models/test.js';
 import  Question  from './../models/question.js';  // Import the Question model
 
 // Create a new Question
 export const createQuestion = async (req, res) => {
   try {
-    const { testId, questionText, options, correctAnswer,testName } = req.body;
+    const { questionText, options, correctAnswer,testName } = req.body;
+     const test = await Test.findOne({
+      where: { title:testName }
+    })
     const newQuestion = await Question.create({
-      testId,
+      testId:test.id,
       questionText,
       options,
       correctAnswer,
-      testName
+      testName:test.title
     });
     res.status(201).json(newQuestion);
   } catch (error) {
@@ -60,10 +64,14 @@ export const updateQuestion = async (req, res) => {
     }
 
     const { questionText, options, correctAnswer,testName } = req.body;
+    const test = await Test.findOne({
+      where: { title:testName }
+    })
     question.questionText = questionText;
     question.options = options;
     question.correctAnswer = correctAnswer;
-    question.testName = testName
+    question.testName = test.title
+    question.testId=test.id,
 
     await question.save();
     res.status(200).json(question);
