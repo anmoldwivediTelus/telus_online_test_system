@@ -113,7 +113,7 @@ function UserList() {
 
   // Edit candidate
   const handleEditCandidate = (candidate) => {
-   setEditingIndex(candidate);
+    setEditingIndex(candidate);
     console.log(candidate,"sdfadadfsaf")
     setFormData(candidate);
     setDialogOpen(true);
@@ -151,19 +151,40 @@ function UserList() {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Recruiter Dashboard - Send Test Invites
-      </Typography>
-
-      <Button
-        variant="contained"
-        color="success"
-        onClick={() => setDialogOpen(true)}
-        sx={{ float: "right", marginBottom: "10px" }}
+      {/* Header Section */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+          flexWrap: "wrap",
+        }}
       >
-        Add Candidate
-      </Button>
-      <TableContainer component={Paper}  sx={{ maxHeight: 440 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+          }}
+        >
+          Recruiter Dashboard - Send Test Invites
+        </Typography>
+        
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => setDialogOpen(true)}
+          sx={{
+            width: { xs: "100%", sm: "auto" },
+            marginTop: { xs: "10px", sm: "0" },
+          }}
+        >
+          Add Candidate
+        </Button>
+      </Box>
+
+      {/* Table Section */}
+      <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -267,7 +288,6 @@ function UserList() {
             variant="outlined"
             margin="dense"
             type="number"
-            max={20}
             value={formData.experience}
             onChange={handleChange}
           />

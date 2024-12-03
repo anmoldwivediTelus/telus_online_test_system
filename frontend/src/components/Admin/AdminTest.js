@@ -122,18 +122,36 @@ function AdminTest() {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Recruiter Dashboard - Send Test Invites
-      </Typography>
-
-      <Button
-        variant="contained"
-        color="success"
-        onClick={() => setDialogOpen(true)}
-        sx={{ float: "right", marginBottom: "10px" }}
-      >
-        Add Test
-      </Button>
+      <Box
+      sx={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "20px",
+      flexWrap: "wrap",
+    }}
+  >
+    <Typography
+      variant="h4"
+      sx={{
+        fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+      }}
+    >
+      Tests - Modify or Add Tests
+    </Typography>
+    
+    <Button
+      variant="contained"
+      color="success"
+      onClick={() => setDialogOpen(true)}
+      sx={{
+        width: { xs: "100%", sm: "auto" },
+        marginTop: { xs: "10px", sm: "0" },
+      }}
+    >
+      Add Test
+    </Button>
+  </Box>
 
       <TableContainer component={Paper}  sx={{ maxHeight: 440 }}>
         <Table stickyHeader>

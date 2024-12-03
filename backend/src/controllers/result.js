@@ -8,14 +8,19 @@ export const createResult = async (req, res) => {
 
     // Fetch questions for the test
     const questions = await Question.findAll({ where: { testId } });
+    //console.log(questions.correctAnswer)
 
     let correctAnswers = 0;
     let incorrectAnswers = 0;
 
     // Check the answers
     for (let question of questions) {
+       
       const userAnswer = answers[question.id];
-      if (userAnswer === question.correctOption) {
+      //console.log(userAnswer)
+      //console.log(question.correctOption)
+      if (userAnswer === question.correctAnswer) {
+        
         correctAnswers++;
       } else {
         incorrectAnswers++;

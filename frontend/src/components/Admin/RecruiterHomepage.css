@@ -1,39 +1,62 @@
-/* Container for the main layout */
+/* General styles for the main layout */
 .home-container {
-    display: flex;
-    height: 100vh;
-    background-color: #f9f9fc;
+  display: flex;
+  flex-direction: column; /* Default for smaller screens */
+  height: 100vh;
+  background-color: #f9f9fc;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 100%; /* Full width by default for small screens */
+  background-color: #502c6c;
+  color: #ffffff;
+  padding: 1rem;
+  border-right: none; /* Remove border for small screens */
+  border-bottom: 2px solid #3e2159; /* Add a bottom border for small screens */
+}
+
+/* Sidebar list styles */
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.sidebar li:hover,
+.sidebar li.active {
+  background-color: #3e2159;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  background-color: #ffffff;
+  color: #502c6c;
+}
+
+/* Remove unnecessary padding for a specific class */
+.MuiBox-root.css-1wcaknn {
+  padding: 0 !important;
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 768px) {
+  .home-container {
+      flex-direction: row; /* Switch to row layout for medium and larger screens */
   }
-  /* Sidebar styling */
+
   .sidebar {
-    width: 250px;
-    background-color: #502c6c;
-    color: #ffffff;
-    padding: 1rem;
-    border-right: 2px solid #3e2159;
+      width: 252px; /* Fixed width for larger screens */
+      border-right: 2px solid #3e2159;
+      border-bottom: none; /* Remove bottom border */
   }
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  .sidebar li {
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
-    transition: background-color 0.3s;
-  }
-  .sidebar li:hover,
-  .sidebar li.active {
-    background-color: #3e2159;
-  }
-  /* Main content area */
-  .main-content {
-    flex: 1;
-    padding: 1rem;
-    background-color: #ffffff;
-    color: #502c6c;
-  }
-  .MuiBox-root.css-1wcaknn{
-    padding: 0 !important;
-  }
+}
