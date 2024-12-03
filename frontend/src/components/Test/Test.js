@@ -61,7 +61,7 @@ function Test() {
     // Define the async function to fetch data
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/questions/test/2`);
+        const response = await axios.get(`http://localhost:4000/api/questions/test/${id}`);
 
         setQuestionsData(response.data);
         console.log(response.data);
