@@ -8,9 +8,9 @@ const Header = () => {
     <div className ="logo flex-item-left">
 		  <img className="telus-logo" alt="Telus logo" src= {ti_logo} />
     </div>
-    <div className ="page-headers flex-item-center">
+    {/* <div className ="page-headers flex-item-center">
       <div className ="app-title-header themetext">TELUS ONLINE TEST</div>
-    </div>
+    </div> */}
     <div className='flex-item-right'>
     <div className="flex-shrink-0 dropdown">
           <a className="link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
