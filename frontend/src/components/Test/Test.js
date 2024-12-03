@@ -235,7 +235,7 @@ function Test() {
               >
                  <input
                 type="checkbox" />
-                  <span class="answercheckmark"></span> {option}
+                  <span className="answercheckmark"></span> {option}
               </li>
             ))}
             </ul>

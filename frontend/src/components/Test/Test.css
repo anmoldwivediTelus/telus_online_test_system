@@ -224,7 +224,7 @@ color: #502c6c; /* Complementary text color */
   flex-direction: column;
   flex: 1;
   padding: 20px 20px;
-  display: flex;
+  /* display: flex; */
   overflow: auto;
 }
 main.question-panel h2 {
