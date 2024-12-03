@@ -61,7 +61,7 @@ function Test() {
     // Define the async function to fetch data
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/questions/test/${id}`);
+        const response = await axios.get(`http://localhost:4000/api/questions/test/2`);
 
         setQuestionsData(response.data);
         console.log(response.data);
@@ -248,27 +248,28 @@ function Test() {
         {questionsData.length > 0 && (
           <main className="question-panel">
             {console.log(questionsData[currentQuestion])}
+            <div className="wrapper">
             <h2>{questionsData[currentQuestion].questionText}</h2>
             <pre className="code-block">
               {questionsData[currentQuestion].code}
             </pre>
             <div className="options">
+            <ul>
+
               {console.log(selectedOptions[currentQuestion])}
               {Object.values(questionsData[currentQuestion].options).map(
                 (option, idx) => (
-                  <button
-                    key={idx}
-                    className={`option-button ${
-                      (selectedOptions[currentQuestion] || []).includes(option)
-                        ? "selected"
-                        : ""
-                    }`}
-                    onClick={() => handleOptionSelect(option)}
-                  >
-                    {String.fromCharCode(65 + idx)}. {option}
-                  </button>
-                )
-              )}
+              <li key={idx}
+                className={`option-button ${
+                  (selectedOptions[currentQuestion] || []).includes(option) }`}
+                  onClick={() => handleOptionSelect(option)}>
+              <input type="checkbox" />
+                  <span class="answercheckmark"></span> {option}
+              </li>
+            ))}
+            </ul>
+               
+            </div>
             </div>
             <div className="actions">
               <label className="reviewcheckbox">
