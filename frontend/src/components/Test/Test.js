@@ -61,6 +61,7 @@ function Test() {
     // Define the async function to fetch data
     const fetchData = async () => {
       try {
+
         const response = await axios.get(`http://localhost:4000/api/questions/test/${id}`);
 
         setQuestionsData(response.data);
@@ -245,30 +246,66 @@ function Test() {
             </div>
           )}
         </aside>
-        {questionsData.length > 0 && (
-          <main className="question-panel">
-            {console.log(questionsData[currentQuestion])}
-            <h2>{questionsData[currentQuestion].questionText}</h2>
-            <pre className="code-block">
-              {questionsData[currentQuestion].code}
-            </pre>
-            <div className="options">
-              {console.log(selectedOptions[currentQuestion])}
-              {Object.values(questionsData[currentQuestion].options).map(
-                (option, idx) => (
-                  <button
-                    key={idx}
-                    className={`option-button ${
-                      (selectedOptions[currentQuestion] || []).includes(option)
-                        ? "selected"
-                        : ""
-                    }`}
-                    onClick={() => handleOptionSelect(option)}
-                  >
-                    {String.fromCharCode(65 + idx)}. {option}
-                  </button>
-                )
-              )}
+        {questionsData.length > 0 &&
+        <main className="question-panel">
+          {console.log(questionsData[currentQuestion])}
+         <div className="wrapper">
+          <h2>{questionsData[currentQuestion].questionText}</h2>
+          <pre className="code-block">
+            {questionsData[currentQuestion].code}
+          </pre>
+          <div className="options">
+          <ul>
+            {console.log(selectedOptions[currentQuestion])}
+            {Object.values(questionsData[currentQuestion].options).map((option, idx) => (
+              <li
+                key={idx}
+                className={`option-button ${
+                  (selectedOptions[currentQuestion] || []).includes(option)
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleOptionSelect(option)}
+              >
+                 <input
+                type="checkbox" />
+                  <span className="answercheckmark"></span> {option}
+              </li>
+            ))}
+            </ul>
+          </div>
+          </div>
+          <div className="actions">
+            <label className="reviewcheckbox">
+              <input
+                type="checkbox"
+                checked={markedForReview.has(currentQuestion)}
+                onChange={toggleMarkForReview}
+              />
+              <span className="checkmark"></span>
+              <span>Mark for review</span>
+              <span>
+                {" "}
+                | Options selected:{" "}
+                {(selectedOptions[currentQuestion] || []).length}
+              </span>
+            </label>
+            <div>
+              <button
+                className="button"
+                onClick={handlePrevious}
+                disabled={currentQuestion === 0}
+              >
+                &laquo; Previous
+              </button>
+              <button
+                className="button"
+                onClick={handleNext}
+                disabled={currentQuestion === questionsData.length - 1}
+              >
+                Next &raquo;
+              </button>
+
             </div>
             <div className="actions">
               <label className="reviewcheckbox">
