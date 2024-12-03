@@ -4,9 +4,8 @@ import "./Test.css";
 import ti_logo from "../../assets/img/telus_logo_digital.svg";
 import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import WebcamRecorder from "./WebcamVideo";
+import axios from "axios";
 // Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
   section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
@@ -44,7 +43,6 @@ function Test() {
   const [questionsData, setQuestionsData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { id } = useParams(); 
   // // Timer logic
   // useEffect(() => {
   //   if (timeLeft > 0) {
@@ -61,9 +59,9 @@ function Test() {
     // Define the async function to fetch data
     const fetchData = async () => {
       try {
-
-        const response = await axios.get(`http://localhost:4000/api/questions/test/${id}`);
-
+        const response = await axios.get(
+          "http://localhost:4000/api/questions/test/2"
+        );
         setQuestionsData(response.data);
         console.log(response.data);
         setLoading(false);
@@ -246,15 +244,14 @@ function Test() {
             </div>
           )}
         </aside>
-        {questionsData.length > 0 &&
-        <main className="question-panel">
-          {console.log(questionsData[currentQuestion])}
-         <div className="wrapper">
+        {questionsData.length > 0 && (
+          <main className="question-panel">
+            {console.log(questionsData[currentQuestion])}
+            <div className="wrapper">
           <h2>{questionsData[currentQuestion].questionText}</h2>
           <pre className="code-block">
             {questionsData[currentQuestion].code}
-          </pre>
-          <div className="options">
+          </pre> <div className="options">
           <ul>
             {console.log(selectedOptions[currentQuestion])}
             {Object.values(questionsData[currentQuestion].options).map((option, idx) => (
@@ -272,41 +269,9 @@ function Test() {
                   <span className="answercheckmark"></span> {option}
               </li>
             ))}
-            </ul>
-          </div>
-          </div>
-          <div className="actions">
-            <label className="reviewcheckbox">
-              <input
-                type="checkbox"
-                checked={markedForReview.has(currentQuestion)}
-                onChange={toggleMarkForReview}
-              />
-              <span className="checkmark"></span>
-              <span>Mark for review</span>
-              <span>
-                {" "}
-                | Options selected:{" "}
-                {(selectedOptions[currentQuestion] || []).length}
-              </span>
-            </label>
-            <div>
-              <button
-                className="button"
-                onClick={handlePrevious}
-                disabled={currentQuestion === 0}
-              >
-                &laquo; Previous
-              </button>
-              <button
-                className="button"
-                onClick={handleNext}
-                disabled={currentQuestion === questionsData.length - 1}
-              >
-                Next &raquo;
-              </button>
-
+            </ul> 
             </div>
+          </div>
             <div className="actions">
               <label className="reviewcheckbox">
                 <input
