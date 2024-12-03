@@ -6,6 +6,7 @@ import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import WebcamRecorder from "./WebcamVideo";
 // Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
   section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
@@ -39,6 +40,7 @@ function Test() {
   const [markedForReview, setMarkedForReview] = useState(new Set());
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [fullscreenWarning, setFullscreenWarning] = useState(false);
   const [questionsData, setQuestionsData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -60,8 +62,9 @@ function Test() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/api/questions/test/${id}`);
+
         setQuestionsData(response.data);
-        console.log(response.data)
+        console.log(response.data);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -100,7 +103,6 @@ function Test() {
       }
     });
   };
-
   // Handle Next and Previous buttons
   const handleNext = () => {
     if (currentQuestion < questionsData.length - 1) {
@@ -114,7 +116,6 @@ function Test() {
     }
   };
 
-  // Toggle Mark for Review
   const toggleMarkForReview = () => {
     setMarkedForReview((prev) => {
       const updatedSet = new Set(prev);
@@ -127,12 +128,6 @@ function Test() {
     });
   };
 
-  // Handle section change
-  const handleSectionChange = (section) => {
-    setCurrentSection(section);
-    setCurrentQuestion((section - 1) * 10); // Set to the first question of the selected section
-  };
-
   const handleFinishClick = () => {
     setDialogOpen(true);
   };
@@ -141,25 +136,44 @@ function Test() {
     setDialogOpen(false);
   };
 
+  const handleSectionChange = (section) => {
+    setCurrentSection(section);
+    setCurrentQuestion((section - 1) * 10);
+  };
+
+  const handleRecordingSave = (videoData) => {
+    console.log("Video saved to localStorage:", videoData);
+  };
+
+  // Function to re-enter full-screen mode
+  const reEnterFullScreen = () => {
+    const element = document.documentElement;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+  };
+
   return (
     <div className="app">
       <header className="testheader">
         <img className="telus-logo" alt="Telus logo" src={ti_logo} />
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
           <div className="tab flex-sm-fill text-sm-center questionsTab">
-            {" "}
-            Questions: 40{" "}
+            Questions: 40
           </div>
           <div className="tab flex-sm-fill text-sm-center answeredTab">
-            {" "}
-            Answered: {Object.keys(selectedOptions).length}{" "}
+            Answered: {Object.keys(selectedOptions).length}
           </div>
           <div className="tab flex-sm-fill text-sm-center reviewTab">
-            {" "}
-            Marked for Review: {markedForReview.size}{" "}
+            Marked for Review: {markedForReview.size}
           </div>
           <div className="tab flex-sm-fill text-sm-center skipTab">
-            {" "}
             Skipped:{" "}
             {40 - Object.keys(selectedOptions).length - markedForReview.size}
           </div>
@@ -172,8 +186,25 @@ function Test() {
           <button className="finish-button" onClick={handleFinishClick}>
             Finish Test
           </button>
+          <div className="test-page">
+            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
+          </div>
         </div>
       </header>
+      {fullscreenWarning && (
+        <div className="fullscreen-warning">
+          <p>
+            You have exited full-screen mode. Please re-enter full-screen mode
+            within 10 seconds or you will be redirected.
+          </p>
+          <button
+            className="fullscreen-reenter-button"
+            onClick={reEnterFullScreen}
+          >
+            Re-enter Full-Screen
+          </button>
+        </div>
+      )}
       <FinishDialog open={dialogOpen} handleClose={handleClose} />
       <div className="content">
         <aside className="sidebar testSidebar">
@@ -192,85 +223,87 @@ function Test() {
             ))}
           </div> */}
           <h3>Questions:</h3>
-          {questionsData.length > 0 &&
-           <div className="question-numbers">
-            {questionsData
-              //.filter((q) => q.section === currentSection)
-              .map((q,index) => (
-                <div
-                  key={q.id}
-                  className={`question-number ${
-                    (selectedOptions[index] || []).length > 0
-                      ? "answered"
-                      : ""
-                  } ${markedForReview.has(index) ? "review" : ""} ${
-                    currentQuestion === index ? "active" : ""
-                  }`}
-                  onClick={() => setCurrentQuestion(index)}
-                >
-                  {index+1}
-                </div>
-              ))}
-          </div>
-          }
-        </aside>
-        {questionsData.length > 0 &&
-        <main className="question-panel">
-          {console.log(questionsData[currentQuestion])}
-          <h2>{questionsData[currentQuestion].questionText}</h2>
-          <pre className="code-block">
-            {questionsData[currentQuestion].code}
-          </pre>
-          <div className="options">
-            {console.log(selectedOptions[currentQuestion])}
-            {Object.values(questionsData[currentQuestion].options).map((option, idx) => (
-              <button
-                key={idx}
-                className={`option-button ${
-                  (selectedOptions[currentQuestion] || []).includes(option)
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() => handleOptionSelect(option)}
-              >
-                {String.fromCharCode(65 + idx)}. {option}
-              </button>
-            ))}
-          </div>
-          <div className="actions">
-            <label className="reviewcheckbox">
-              <input
-                type="checkbox"
-                checked={markedForReview.has(currentQuestion)}
-                onChange={toggleMarkForReview}
-              />
-              <span className="checkmark"></span>
-              <span>Mark for review</span>
-              <span>
-                {" "}
-                | Options selected:{" "}
-                {(selectedOptions[currentQuestion] || []).length}
-              </span>
-            </label>
-            <div>
-              <button
-                className="button"
-                onClick={handlePrevious}
-                disabled={currentQuestion === 0}
-              >
-                &laquo; Previous
-              </button>
-              <button
-                className="button"
-                onClick={handleNext}
-                disabled={currentQuestion === questionsData.length - 1}
-              >
-                Next &raquo;
-              </button>
+          {questionsData.length > 0 && (
+            <div className="question-numbers">
+              {questionsData
+                //.filter((q) => q.section === currentSection)
+                .map((q, index) => (
+                  <div
+                    key={q.id}
+                    className={`question-number ${
+                      (selectedOptions[index] || []).length > 0
+                        ? "answered"
+                        : ""
+                    } ${markedForReview.has(index) ? "review" : ""} ${
+                      currentQuestion === index ? "active" : ""
+                    }`}
+                    onClick={() => setCurrentQuestion(index)}
+                  >
+                    {index + 1}
+                  </div>
+                ))}
             </div>
-          </div>
-        </main>
-        }
+          )}
+        </aside>
+        {questionsData.length > 0 && (
+          <main className="question-panel">
+            {console.log(questionsData[currentQuestion])}
+            <h2>{questionsData[currentQuestion].questionText}</h2>
+            <pre className="code-block">
+              {questionsData[currentQuestion].code}
+            </pre>
+            <div className="options">
+              {console.log(selectedOptions[currentQuestion])}
+              {Object.values(questionsData[currentQuestion].options).map(
+                (option, idx) => (
+                  <button
+                    key={idx}
+                    className={`option-button ${
+                      (selectedOptions[currentQuestion] || []).includes(option)
+                        ? "selected"
+                        : ""
+                    }`}
+                    onClick={() => handleOptionSelect(option)}
+                  >
+                    {String.fromCharCode(65 + idx)}. {option}
+                  </button>
+                )
+              )}
+            </div>
+            <div className="actions">
+              <label className="reviewcheckbox">
+                <input
+                  type="checkbox"
+                  checked={markedForReview.has(currentQuestion)}
+                  onChange={toggleMarkForReview}
+                />
+                <span className="checkmark"></span>
+                <span>Mark for review</span>
+                <span>
+                  {" "}
+                  | Options selected:{" "}
+                  {(selectedOptions[currentQuestion] || []).length}
+                </span>
+              </label>
+              <div>
+                <button
+                  className="button"
+                  onClick={handlePrevious}
+                  disabled={currentQuestion === 0}
+                >
+                  &laquo; Previous
+                </button>
+                <button
+                  className="button"
+                  onClick={handleNext}
+                  disabled={currentQuestion === questionsData.length - 1}
+                >
+                  Next &raquo;
+                </button>
+              </div>
+            </div>
+          </main>
+        )}
       </div>
     </div>
   );
