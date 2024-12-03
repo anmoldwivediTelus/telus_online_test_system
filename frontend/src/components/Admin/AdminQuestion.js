@@ -213,10 +213,10 @@ function AdminQuestions() {
               <TableRow key={question.id}> {/* Changed from index to candidate.id */}
                 <TableCell>{question.testName}</TableCell>
                 <TableCell>{question.questionText}</TableCell>
-                <TableCell>{question.options.option1}</TableCell>
-                <TableCell>{question.options.option2}</TableCell>
-                <TableCell>{question.options.option3}</TableCell>
-                <TableCell>{question.options.option4}</TableCell>
+                <TableCell>{question.options?.a || question.options.option1}</TableCell>
+                <TableCell>{question.options?.b || question.options.option2}</TableCell>
+                <TableCell>{question.options?.c || question.options.option3}</TableCell>
+                <TableCell>{question.options?.d || question.options.option4}</TableCell>
                 <TableCell>{question.correctAnswer}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => handleEditCandidate(question)}>
