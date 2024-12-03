@@ -4,8 +4,9 @@ import "./Test.css";
 import ti_logo from "../../assets/img/telus_logo_digital.svg";
 import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import WebcamRecorder from "./WebcamVideo";
-import axios from "axios";
 // Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
   section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
@@ -43,6 +44,7 @@ function Test() {
   const [questionsData, setQuestionsData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { id } = useParams(); 
   // // Timer logic
   // useEffect(() => {
   //   if (timeLeft > 0) {
@@ -59,9 +61,8 @@ function Test() {
     // Define the async function to fetch data
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/api/questions/test/1"
-        );
+        const response = await axios.get(`http://localhost:4000/api/questions/test/${id}`);
+
         setQuestionsData(response.data);
         console.log(response.data);
         setLoading(false);

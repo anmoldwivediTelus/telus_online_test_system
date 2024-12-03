@@ -1,5 +1,5 @@
 import React from 'react'
-import {Outlet ,createBrowserRouter, RouterProvider} from 'react-router-dom'
+import {Outlet ,createBrowserRouter, RouterProvider, useNavigate, useParams } from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/Login'
 import Header from './Header'
@@ -30,6 +30,17 @@ const LayoutWithoutHeader = () => (
     <Outlet /> {/* Renders the current route */}
   </div>
 );
+// Component to handle redirection
+const RedirectToTest = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    navigate(`/test/${id}`); // Redirect to the test page
+  }, [id, navigate]);
+
+  return null;
+};
 
   const appRouter  = createBrowserRouter([
     {
@@ -62,6 +73,8 @@ const LayoutWithoutHeader = () => (
         path: '/test',
         element: <Test />,
       },
+      { path: '/test/:id', element: <Test /> },
+      { path: '/api/tests/:id', element: <RedirectToTest /> },
     ],
   },
 ]);
