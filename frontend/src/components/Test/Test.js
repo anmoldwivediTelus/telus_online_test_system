@@ -235,17 +235,20 @@ function Test() {
         </div>
       </header>
       {fullscreenWarning && (
-        <div className="fullscreen-warning">
-          <p>
-            You have exited full-screen mode. Please re-enter full-screen mode
-            within 10 seconds or you will be redirected.
-          </p>
-          <button
-            className="fullscreen-reenter-button"
-            onClick={reEnterFullScreen}
-          >
-            Re-enter Full-Screen
-          </button>
+        <div className="fullscreen-warning-overlay">
+          <div className="fullscreen-warning-box">
+            <h2>Warning!</h2>
+            <p>
+              You have exited full-screen mode. Please re-enter full-screen mode
+              within 10 seconds or you will be redirected.
+            </p>
+            <button
+              className="fullscreen-reenter-button"
+              onClick={reEnterFullScreen}
+            >
+              Re-enter Full-Screen
+            </button>
+          </div>
         </div>
       )}
       <FinishDialog open={dialogOpen} handleClose={handleClose} />
