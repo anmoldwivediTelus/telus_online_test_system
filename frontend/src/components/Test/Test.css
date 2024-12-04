@@ -606,7 +606,7 @@ display: flex;
 /* test header responsive */
 @media screen and (min-width: 1024px) {
   .telus-logo {
-    width: 2in !important;
+    width: 2in;
 }
 .test-page {
   position: absolute;
@@ -614,6 +614,17 @@ display: flex;
 }
 }
 @media screen and (max-width: 992px) {
+  .telus-logo {
+    vertical-align: middle;
+    width: 1.7in !important;
+    padding: 0;
+}
+  .actions button{
+    width: 100px;
+  }
+  .thank-you-page h1 {
+    text-align: center;
+}
   .test-page {
     width: 10%;
     position: absolute;
@@ -628,7 +639,7 @@ display: flex;
 .questionstabs {
   display: flex;
   position: absolute;
-  top: 59px;
+  top: 40px;
   background: #fff;
   width: 100%;
   padding: 10px;
@@ -645,7 +656,7 @@ display: flex;
 }
 
 aside.sidebar.testSidebar {
-  width: 250px;
+  width: 170px;
 }
 }
 
@@ -674,14 +685,15 @@ label.reviewcheckbox span {
 }
 
 @media screen and (max-width: 500px) {
-
+  .dialogActions {
+    flex-direction: row !important;
+    gap: 10px;
+}
 .content {
   margin-top: 30px;
   display: flex;
 }
-aside.sidebar.testSidebar {
-  width: 170px;
-}
+
 .questionstabs {
   display: flex;
   position: absolute;
@@ -711,10 +723,14 @@ aside.sidebar.testSidebar {
 }
 }
 @media screen and (max-width: 430px) {
-
+  .tab.flex-sm-fill.text-sm-center {
+    margin-left: 2px;
+    padding: 1px 4px;
+}
 .content {
   margin-top: 60px;
-  display: flex;
+  display: block;
+    width: 100%;
 }
 label.reviewcheckbox span {
   font-size: 12px;
@@ -724,7 +740,7 @@ label.reviewcheckbox span {
   width: 100px;
 }
 aside.sidebar.testSidebar {
-  width: 150px;
+  width: 100%;
 }
 .test-page {
   width: 16%;
@@ -739,8 +755,10 @@ aside.sidebar.testSidebar {
 }
 }
 
-@media screen and (max-width: 360px) {
-aside.sidebar.testSidebar {
-  width: 110px;
-  }
+@media screen and (max-width: 380px) {
+  .tab.flex-sm-fill.text-sm-center {
+    font-size: 10px;
+    margin-left: 1px;
+}
+
 }
