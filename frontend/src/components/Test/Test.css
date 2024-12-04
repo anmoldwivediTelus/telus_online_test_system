@@ -266,7 +266,7 @@ input[type="checkbox"] {
 .actions {
   justify-content: space-between;
   align-items: center;
-  padding-top: 30px;
+  padding-top: 40px;
   display: flex;
 
 }
@@ -425,7 +425,7 @@ font-size: 15px;
 align-items: center;
 }
 .actions label span{
-margin-left: 4px;
+margin-left: 0px;
 }
 .reviewTab{
 border: 2px solid #f39c12;
@@ -573,6 +573,11 @@ border:2px solid #ddd
   left: 6px;
   transform: rotate(45deg);
 }
+
+.test-page{
+position: absolute;
+top:75px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -580,4 +585,109 @@ border:2px solid #ddd
   to {
     transform: rotate(360deg);
   }
+}
+
+
+/* test header responsive */
+@media screen and (min-width: 1024px) {
+  .telus-logo {
+    width: 2in !important;
+}
+}
+@media screen and (max-width: 992px) {
+  .content {
+    color: #4b286d;
+    flex: 1;
+    display: flex;
+    margin-top: 45px;
+}
+.questionstabs {
+  display: flex;
+  position: absolute;
+  top: 59px;
+  background: #fff;
+  width: 100%;
+  padding: 10px;
+  justify-content: center;
+  z-index: 999999;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.actionbuttons{
+  display: flex;
+      justify-content: flex-end;
+      gap: 2px;
+      flex-wrap: wrap;
+}
+
+aside.sidebar.testSidebar {
+  width: 250px;
+}
+}
+
+@media screen and (max-width: 694px) {
+  .actionbuttons {
+    width: 100%;
+    margin-top: 20px;
+}
+.actions {
+ padding-top: 40px;
+  display: inline-block;
+  width: 100%;
+}
+.actions button{
+  margin-left: 0;
+}
+label.reviewcheckbox span {
+  font-size: 14px;
+}
+.test-page {
+  position: absolute;
+  top: 110px;
+  width: 100px;
+  right: 35px;
+  border: 1px solid;
+  height: 100px;
+}
+}
+
+@media screen and (max-width: 500px) {
+
+.content {
+  margin-top: 30px;
+  display: flex;
+}
+aside.sidebar.testSidebar {
+  width: 170px;
+}
+.questionstabs {
+  display: flex;
+  position: absolute;
+  top: 37px;
+}
+.tab.flex-sm-fill.text-sm-center {
+  margin-left: 5px;
+  padding: 1px 4px;
+  font-size: 13px;
+}
+.actionbuttons {
+  justify-content: flex-start;
+  display: flex;
+}
+.telus-logo {
+  vertical-align: middle;
+  width: 1.7in !important;
+  padding: 0;
+}
+.finish-button{
+  font-size: 12px;
+}
+.test-page {
+  position: absolute;
+  top: 110px;
+  width: 100px;
+  right: 35px;
+  border: 1px solid;
+  height: 100px;
+}
 }

@@ -161,7 +161,9 @@ function Test() {
   return (
     <div className="app">
       <header className="testheader">
+      <div className="leftitem">
         <img className="telus-logo" alt="Telus logo" src={ti_logo} />
+        </div>
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
           <div className="tab flex-sm-fill text-sm-center questionsTab">
             Questions: 40
@@ -287,7 +289,7 @@ function Test() {
                   {(selectedOptions[currentQuestion] || []).length}
                 </span>
               </label>
-              <div>
+              <div className="actionbuttons">
                 <button
                   className="button"
                   onClick={handlePrevious}
