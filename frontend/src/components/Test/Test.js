@@ -37,24 +37,26 @@ function Test() {
   const [currentSection, setCurrentSection] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [markedForReview, setMarkedForReview] = useState(new Set());
-  const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
   const [dialogOpen, setDialogOpen] = useState(false);
   const [fullscreenWarning, setFullscreenWarning] = useState(false);
   const [questionsData, setQuestionsData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  // // Timer logic
-  // useEffect(() => {
-  //   if (timeLeft > 0) {
-  //     const timer = setInterval(() => {
-  //       setTimeLeft((prevTime) => prevTime - 1);
-  //     }, 1000);
-  //     return () => clearInterval(timer);
-  //   } else {
-  //     // Redirect to exit page when time runs out
-  //     navigate("/exit");
-  //   }
-  // }, [timeLeft, navigate]);
+
+  // Timer logic
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      navigate("/exit"); // Redirect when time runs out
+    }
+  }, [timeLeft, navigate]);
+
+  // Fetch questions from API
   useEffect(() => {
     // Define the async function to fetch data
     const fetchData = async () => {
@@ -73,6 +75,58 @@ function Test() {
 
     fetchData();
   }, []);
+
+  // Full-screen logic
+  useEffect(() => {
+    const enterFullScreen = () => {
+      const element = document.documentElement;
+      if (element.requestFullscreen) {
+        element.requestFullscreen().catch((err) => {
+          console.error("Error enabling full-screen mode:", err.message);
+        });
+      }
+    };
+
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setFullscreenWarning(true);
+
+        // Start a 10-second timer for redirection
+        const timer = setTimeout(() => {
+          if (!document.fullscreenElement) {
+            navigate("/exit"); // Redirect if still not in full-screen
+          }
+        }, 10000);
+
+        return () => clearTimeout(timer); // Cleanup timer
+      } else {
+        setFullscreenWarning(false); // Reset warning
+      }
+    };
+
+    enterFullScreen();
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, [navigate]);
+
+  // Re-enter full-screen mode function
+  const reEnterFullScreen = () => {
+    const element = document.documentElement;
+    if (element.requestFullscreen) {
+      element
+        .requestFullscreen()
+        .then(() => {
+          setFullscreenWarning(false); // Reset the warning state
+        })
+        .catch((err) => {
+          console.error("Error re-entering full-screen mode:", err.message);
+        });
+    }
+  };
+
   // Format time as mm:ss
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -102,6 +156,7 @@ function Test() {
       }
     });
   };
+
   // Handle Next and Previous buttons
   const handleNext = () => {
     if (currentQuestion < questionsData.length - 1) {
@@ -115,6 +170,7 @@ function Test() {
     }
   };
 
+  // Mark for review toggle
   const toggleMarkForReview = () => {
     setMarkedForReview((prev) => {
       const updatedSet = new Set(prev);
@@ -127,6 +183,7 @@ function Test() {
     });
   };
 
+  // Finish test logic
   const handleFinishClick = () => {
     setDialogOpen(true);
   };
@@ -141,21 +198,8 @@ function Test() {
   };
 
   const handleRecordingSave = (videoData) => {
-    console.log("Video saved to localStorage:", videoData);
-  };
-
-  // Function to re-enter full-screen mode
-  const reEnterFullScreen = () => {
-    const element = document.documentElement;
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    }
+    console.log("Video saved:", videoData);
+    // Add additional logic for saving or processing the video data
   };
 
   return (
