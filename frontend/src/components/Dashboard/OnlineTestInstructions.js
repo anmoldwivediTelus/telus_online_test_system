@@ -1,13 +1,19 @@
 import React from 'react';
-import useHistory, { useNavigate } from 'react-router-dom'
+import useHistory, { useLocation,useNavigate } from 'react-router-dom'
 import './OnlineTestInstructions.css';
 
 function OnlineTestInstructions() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const testId = location.state?.testId; // Retrieve test ID from state
 
-  const navigate=useNavigate()
-function hello(){
-  navigate('/test')
-}
+  const handleStartTest = () => {
+    if (testId) {
+      navigate(`/test/${testId}`); // Redirect to test page with ID
+    } else {
+      alert('Test ID not found.');
+    }
+  };
 
   return (
     <div className='main'>
@@ -22,7 +28,7 @@ function hello(){
         </ol>
       </div>
       <div className='buttonGroup'>
-        <button className='buttons' onClick={hello}>Start the test</button>
+        <button className='buttons' onClick={handleStartTest}>Start the test</button>
       </div>
     </div>
   );

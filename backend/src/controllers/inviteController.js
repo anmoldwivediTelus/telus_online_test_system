@@ -3,17 +3,17 @@ import { logTestInvite } from '../models/inviteModel.js';
 import { createTestInviteLink } from '../utils/testUtils.js'; 
 import User from "../models/user.js";
 export const sendTestInvite = async (req, res) => {
-  const { email, testName, testId } = req.body;
-  console.log(testId);
+  const { email, testName, testId,userId } = req.body;
+  console.log(testId,userId);
 
   
-  if (!email || !testName || !testId) {
+  if (!email || !testName || !testId || !userId) {
     return res.status(400).json({ error: 'Email, test name, and test ID are required.' });
   }
 
  
   const expirationTime = Date.now() + 60 * 60 * 1000; 
-  const testLink = createTestInviteLink(testId, email, expirationTime);
+  const testLink = createTestInviteLink(testId,userId, email, expirationTime);
 
   const subject = `Invitation to take the "${testName}" test`;
   const message = `
