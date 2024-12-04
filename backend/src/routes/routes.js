@@ -4,6 +4,8 @@ import { createQuestion, getQuestionsByTestId, getQuestionById, updateQuestion, 
 import multer from 'multer';
 import { createUser, getAllUsers, getUserById, updateUser, deleteUser } from "../controllers/userController.js";
 import { createResult, getResultById, getResultsByTestId } from './../controllers/result.js';
+import { uploadImageController,uploadVideoController } from '../controllers/uloadController.js';
+
 import pkg from 'pg';
 const { Pool } = pkg;
 import jwt from 'jsonwebtoken';
@@ -151,6 +153,14 @@ const storage = multer.diskStorage({
 router.post('/results', createResult);  // Create a result
 router.get('/results/:id', getResultById);  // Get a specific result by ID
 router.get('/results/test/:testId', getResultsByTestId);  // Get all results for a specific test
+
+
+
+// Route for image uploads
+router.post('/uploadImage', uploadImageController);
+
+// Route for video uploads
+router.post('/uploadVideo', uploadVideoController);
 
   
 
