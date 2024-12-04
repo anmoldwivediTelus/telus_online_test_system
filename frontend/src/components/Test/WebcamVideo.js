@@ -52,7 +52,7 @@ const WebcamComponent = () => {
         {recording ? (
           <button onClick={stopRecording}>Stop Recording</button>
         ) : (
-          <button onClick={startRecording}>Start Recording</button>
+          <button onClick={startRecording}>&nbsp;Start Recording</button>
         )}
         <button onClick={saveRecording} disabled={recording}>
           Save Recording
