@@ -46,13 +46,13 @@ const WebcamComponent = () => {
 
   return (
     <div>
-      <video ref={videoRef} style={{ width: "200px", height: "150px" }}></video>
+      <video ref={videoRef}></video>
       <div>
         <button onClick={startWebcam}>Start Webcam</button>
         {recording ? (
           <button onClick={stopRecording}>Stop Recording</button>
         ) : (
-          <button onClick={startRecording}>Start Recording</button>
+          <button onClick={startRecording}>&nbsp;Start Recording</button>
         )}
         <button onClick={saveRecording} disabled={recording}>
           Save Recording

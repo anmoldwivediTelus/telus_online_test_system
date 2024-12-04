@@ -205,7 +205,9 @@ function Test() {
   return (
     <div className="app">
       <header className="testheader">
+      <div className="leftitem">
         <img className="telus-logo" alt="Telus logo" src={ti_logo} />
+        </div>
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
           <div className="tab flex-sm-fill text-sm-center questionsTab">
             Questions: 40
@@ -229,9 +231,7 @@ function Test() {
           <button className="finish-button" onClick={handleFinishClick}>
             Finish Test
           </button>
-          <div className="test-page">
-            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
-          </div>
+         
         </div>
       </header>
       {fullscreenWarning && (
@@ -292,10 +292,13 @@ function Test() {
           <main className="question-panel">
             {console.log(questionsData[currentQuestion])}
             <div className="wrapper">
+            <div className="col-questions">
+
           <h2>{questionsData[currentQuestion].questionText}</h2>
           <pre className="code-block">
             {questionsData[currentQuestion].code}
-          </pre> <div className="options">
+          </pre>
+           <div className="options">
           <ul>
             {console.log(selectedOptions[currentQuestion])}
             {Object.values(questionsData[currentQuestion].options).map((option, idx) => (
@@ -315,7 +318,16 @@ function Test() {
             ))}
             </ul> 
             </div>
+            </div>
+
+            <div className="col-video">
+            <div className="test-page1">
+            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
+            </div>
           </div>
+          </div>
+         
+         
             <div className="actions">
               <label className="reviewcheckbox">
                 <input
@@ -331,7 +343,7 @@ function Test() {
                   {(selectedOptions[currentQuestion] || []).length}
                 </span>
               </label>
-              <div>
+              <div className="actionbuttons">
                 <button
                   className="button"
                   onClick={handlePrevious}
@@ -348,7 +360,7 @@ function Test() {
                 </button>
               </div>
             </div>
-          </main>
+           </main>
         )}
       </div>
     </div>
