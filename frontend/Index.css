@@ -207,4 +207,5 @@ font-size: large;
   .MuiTable-root tr th {
     background: #dcdcdc;
     font-size: 15px;
+    padding: 10px;
 }

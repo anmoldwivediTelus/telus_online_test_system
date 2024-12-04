@@ -134,7 +134,8 @@ function AdminTest() {
     <Typography
       variant="h4"
       sx={{
-        fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+        fontSize: { xs: "1.5rem", sm: "1.5rem", md: "1.25rem" },
+        textTransform:"uppercase"
       }}
     >
       Tests - Modify or Add Tests
@@ -168,8 +169,8 @@ function AdminTest() {
               <TableRow key={test.id}> 
                 <TableCell>{test.title}</TableCell>
                 <TableCell>{test.description}</TableCell>
-                <TableCell>
-                  <IconButton color="primary" onClick={() => handleEditCandidate(test)}>
+                <TableCell sx={{paddingLeft:"1px"}}>
+                  <IconButton  color="primary" onClick={() => handleEditCandidate(test)}>
                     <Edit />
                   </IconButton>
                   <IconButton color="error" onClick={() => handleDeleteCandidate(test.id)}>
@@ -203,7 +204,7 @@ function AdminTest() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>{editingIndex !== null ? "Edit Tesr" : "Add Test"}</DialogTitle>
+        <DialogTitle sx={{color:"#000"}}>{editingIndex !== null ? "Edit Test" : "Add Test"}</DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
@@ -225,13 +226,12 @@ function AdminTest() {
           />
         </DialogContent>
         <DialogActions>
-          <Button
+          <Button 
             onClick={() => {
               setDialogOpen(false);
               resetForm();
             }}
-            color="secondary"
-          >
+            sx={{color:"#000"}}          >
             Cancel
           </Button>
           <Button onClick={handleSaveCandidate} color="primary" variant="contained">

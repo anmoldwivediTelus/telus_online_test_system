@@ -164,7 +164,8 @@ function UserList() {
         <Typography
           variant="h4"
           sx={{
-            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+    textTransform: "uppercase",
+            fontSize: { xs: "1.5rem", sm: "1rem", md: "1.25rem" },
           }}
         >
           Recruiter Dashboard - Send Test Invites
@@ -213,8 +214,9 @@ function UserList() {
                     color="secondary"
                     onClick={() => handleInviteCandidate(candidate)}
                     disabled={candidate.inviteStatus === true}
-                    sx={{ mr: 1 }}
-
+                    sx={{
+    fontSize: "12px",marginRight:"1px",    padding: "5px 10px"
+  }}
                   >
                     Send Invite
                   </Button>
@@ -252,7 +254,7 @@ function UserList() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>{editingIndex !== null ? "Edit Candidate" : "Add Candidate"}</DialogTitle>
+        <DialogTitle sx={{color:"#000"}}>{editingIndex !== null ? "Edit Candidate" : "Add Candidate" }</DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
@@ -307,8 +309,8 @@ function UserList() {
               setDialogOpen(false);
               resetForm();
             }}
-            color="secondary"
-          >
+            sx={{color:"#000"}}
+             >
             Cancel
           </Button>
           <Button onClick={handleSaveCandidate} color="primary" variant="contained">
@@ -325,7 +327,7 @@ function UserList() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>Send Test Invite</DialogTitle>
+        <DialogTitle sx={{color:"#000"}}>Send Test Invite</DialogTitle>
         <DialogContent>
         <TextField
             fullWidth
@@ -352,7 +354,7 @@ function UserList() {
               setInviteDialogOpen(false);
               //resetForm();
             }}
-            color="secondary"
+            sx={{color:"#000"}}
           >
             Cancel
           </Button>

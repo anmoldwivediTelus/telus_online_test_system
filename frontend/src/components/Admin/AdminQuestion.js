@@ -192,8 +192,8 @@ function AdminQuestions() {
   <Typography
     variant="h4"
     sx={{
-      fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
-    }}
+      fontSize: { xs: "1.5rem", sm: "1.5rem", md: "1.25rem" },
+    textTransform:"uppercase"}}
   >
     Questions - Modify or Add Questions
   </Typography>
@@ -202,6 +202,7 @@ function AdminQuestions() {
     color="success"
     onClick={() => setDialogOpen(true)}
     sx={{
+
       width: { xs: "100%", sm: "auto" },
       marginTop: { xs: "10px", sm: "0" },
     }}
@@ -268,7 +269,7 @@ function AdminQuestions() {
         fullWidth
         maxWidth="sm"
       >
-        <DialogTitle>{editingIndex !== null ? "Edit Question" : "Add Question"}</DialogTitle>
+        <DialogTitle sx={{color:"#000"}}>{editingIndex !== null ? "Edit Question" : "Add Question"}</DialogTitle>
         <DialogContent>
         <TextField
             fullWidth
@@ -345,13 +346,11 @@ function AdminQuestions() {
           />
         </DialogContent>
         <DialogActions>
-          <Button
+          <Button sx={{color:"#000"}}
             onClick={() => {
               setDialogOpen(false);
               resetForm();
-            }}
-            color="secondary"
-          >
+            }}   >
             Cancel
           </Button>
           <Button onClick={handleSaveCandidate} color="primary" variant="contained">
