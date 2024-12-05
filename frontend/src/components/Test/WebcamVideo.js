@@ -94,6 +94,7 @@ export default function WebcamRecorder({ onSaveToLocalStorage, testEnded }) {
   };
 
   return (
+   
     <div
       className="webcam-recorder"
       style={{
@@ -108,16 +109,14 @@ export default function WebcamRecorder({ onSaveToLocalStorage, testEnded }) {
         audio
         mirrored
         style={{
-          position: "fixed",
-          bottom: "10px",
-          left: "10px",
-          padding: "10px",
+         
+          padding: "5px",
           border: "1px solid #ccc",
           borderRadius: "8px",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
           zIndex: 1000,
           width: "150px",
-          height: "150px",
+          height: "120px",
         }}
       />
 
