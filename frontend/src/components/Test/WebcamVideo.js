@@ -96,27 +96,16 @@ export default function WebcamRecorder({ onSaveToLocalStorage, testEnded }) {
   return (
    
     <div
-      className="webcam-recorder"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+      className="webcam-recorder">
       {/* Webcam feed with reduced size */}
       <Webcam
         ref={webcamRef}
         audio
         mirrored
         style={{
-         
-          padding: "5px",
-          border: "1px solid #ccc",
-          borderRadius: "8px",
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
           zIndex: 1000,
-          width: "150px",
-          height: "120px",
+          // height: "120px",
         }}
       />
 

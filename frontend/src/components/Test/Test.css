@@ -134,7 +134,13 @@ border: 1px solid #623786;
   padding: 20px 5px;
   box-shadow: 0 px 10px rgba(0, 0, 0, 0.2); /* Softer shadow */
 }
-
+video{
+  max-width: 252px;
+  width: 252px;
+   left: 0;
+    position: absolute;
+    bottom: 0;
+}
 .sidebar h3 {
   margin-top: 0;
   font-weight: bold;
@@ -636,6 +642,7 @@ border:2px solid #ddd
   width: 20%;
 
 }
+
 .question-panel .wrapper{
 width:100%;
 display: flex;
@@ -707,6 +714,12 @@ display: flex;
 
 aside.sidebar.testSidebar {
   width: 170px;
+}
+.webcam-recorder video{
+  max-width: 170px;
+    left: 0;
+    position: absolute;
+    bottom: 0;
 }
 }
 
@@ -791,6 +804,10 @@ label.reviewcheckbox span {
 }
 aside.sidebar.testSidebar {
   width: 100%;
+}
+video{
+  max-width: 100%;
+   
 }
 .test-page {
   width: 16%;
