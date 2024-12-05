@@ -180,20 +180,35 @@ function AdminQuestions() {
   };
 
   return (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Recruiter Dashboard - Send Test Invites
-      </Typography>
-
-      <Button
-        variant="contained"
-        color="success"
-        onClick={() => setDialogOpen(true)}
-        sx={{ float: "right", marginBottom: "10px" }}
-      >
-        Add Question
-      </Button>
-
+    <Box sx={{ p: 4 }}> <Box
+    sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
+    flexWrap: "wrap",
+  }}
+>
+  <Typography
+    variant="h4"
+    sx={{
+      fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+    }}
+  >
+    Questions - Modify or Add Questions
+  </Typography>
+  <Button
+    variant="contained"
+    color="success"
+    onClick={() => setDialogOpen(true)}
+    sx={{
+      width: { xs: "100%", sm: "auto" },
+      marginTop: { xs: "10px", sm: "0" },
+    }}
+  >
+    Add Question
+  </Button>
+</Box>
       <TableContainer component={Paper}  sx={{ maxHeight: 440 }}>
         <Table stickyHeader>
           <TableHead>
@@ -213,10 +228,10 @@ function AdminQuestions() {
               <TableRow key={question.id}> {/* Changed from index to candidate.id */}
                 <TableCell>{question.testName}</TableCell>
                 <TableCell>{question.questionText}</TableCell>
-                <TableCell>{question.options.option1}</TableCell>
-                <TableCell>{question.options.option2}</TableCell>
-                <TableCell>{question.options.option3}</TableCell>
-                <TableCell>{question.options.option4}</TableCell>
+                <TableCell>{question.options?.a || question.options.option1}</TableCell>
+                <TableCell>{question.options?.b || question.options.option2}</TableCell>
+                <TableCell>{question.options?.c || question.options.option3}</TableCell>
+                <TableCell>{question.options?.d || question.options.option4}</TableCell>
                 <TableCell>{question.correctAnswer}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => handleEditCandidate(question)}>

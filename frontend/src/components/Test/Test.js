@@ -63,7 +63,7 @@ function Test() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/questions/test/1"
+          "http://localhost:4000/api/questions/test/2"
         );
         setQuestionsData(response.data);
         console.log(response.data);
@@ -243,7 +243,9 @@ function Test() {
   return (
     <div className="app">
       <header className="testheader">
+      <div className="leftitem">
         <img className="telus-logo" alt="Telus logo" src={ti_logo} />
+        </div>
         <div className="questionstabs nav nav-pills flex-column flex-sm-row">
           <div className="tab flex-sm-fill text-sm-center questionsTab">
             Questions: 40
@@ -267,23 +269,24 @@ function Test() {
           <button className="finish-button" onClick={handleFinishClick}>
             Finish Test
           </button>
-          <div className="test-page">
-            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
-          </div>
+         
         </div>
       </header>
       {fullscreenWarning && (
-        <div className="fullscreen-warning">
-          <p>
-            You have exited full-screen mode. Please re-enter full-screen mode
-            within 10 seconds or you will be redirected.
-          </p>
-          <button
-            className="fullscreen-reenter-button"
-            onClick={reEnterFullScreen}
-          >
-            Re-enter Full-Screen
-          </button>
+        <div className="fullscreen-warning-overlay">
+          <div className="fullscreen-warning-box">
+            <h2>Warning!</h2>
+            <p>
+              You have exited full-screen mode. Please re-enter full-screen mode
+              within 10 seconds or you will be redirected.
+            </p>
+            <button
+              className="fullscreen-reenter-button"
+              onClick={reEnterFullScreen}
+            >
+              Re-enter Full-Screen
+            </button>
+          </div>
         </div>
       )}
       <FinishDialog open={dialogOpen} handleClose={handleClose} />
@@ -329,28 +332,43 @@ function Test() {
         {questionsData.length > 0 && (
           <main className="question-panel">
             {console.log(questionsData[currentQuestion])}
-            <h2>{questionsData[currentQuestion].questionText}</h2>
-            <pre className="code-block">
-              {questionsData[currentQuestion].code}
-            </pre>
-            <div className="options">
-              {console.log(selectedOptions[currentQuestion])}
-              {Object.values(questionsData[currentQuestion].options).map(
-                (option, idx) => (
-                  <button
-                    key={idx}
-                    className={`option-button ${
-                      (selectedOptions[currentQuestion] || []).includes(option)
-                        ? "selected"
-                        : ""
-                    }`}
-                    onClick={() => handleOptionSelect(option)}
-                  >
-                    {String.fromCharCode(65 + idx)}. {option}
-                  </button>
-                )
-              )}
+            <div className="wrapper">
+            <div className="col-questions">
+
+          <h2>{questionsData[currentQuestion].questionText}</h2>
+          <pre className="code-block">
+            {questionsData[currentQuestion].code}
+          </pre>
+           <div className="options">
+          <ul>
+            {console.log(selectedOptions[currentQuestion])}
+            {Object.values(questionsData[currentQuestion].options).map((option, idx) => (
+              <li
+                key={idx}
+                className={`option-button ${
+                  (selectedOptions[currentQuestion] || []).includes(option)
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleOptionSelect(option)}
+              >
+                 <input
+                type="checkbox" />
+                  <span className="answercheckmark"></span> {option}
+              </li>
+            ))}
+            </ul> 
             </div>
+            </div>
+
+            <div className="col-video">
+            <div className="test-page1">
+            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
+            </div>
+          </div>
+          </div>
+         
+         
             <div className="actions">
               <label className="reviewcheckbox">
                 <input
@@ -366,7 +384,7 @@ function Test() {
                   {(selectedOptions[currentQuestion] || []).length}
                 </span>
               </label>
-              <div>
+              <div className="actionbuttons">
                 <button
                   className="button"
                   onClick={handlePrevious}
@@ -383,7 +401,7 @@ function Test() {
                 </button>
               </div>
             </div>
-          </main>
+           </main>
         )}
       </div>
     </div>

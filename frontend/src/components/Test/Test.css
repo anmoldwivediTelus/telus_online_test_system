@@ -12,15 +12,65 @@ body {
   height: 100vh;
 }
 
+.fullscreen-warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Slightly lighter dim background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it appears on top */
+}
+
+.fullscreen-warning-box {
+  background-color: #f9f9f9; /* Light gray background for the box */
+  padding: 20px 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Softer shadow */
+  text-align: center;
+  color: #333; /* Dark gray text */
+}
+
+.fullscreen-warning-box h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #444; /* Slightly darker gray for title */
+}
+
+.fullscreen-warning-box p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #555; /* Medium gray for paragraph text */
+}
+
+.fullscreen-reenter-button {
+  background-color: #555; /* Medium gray button background */
+  color: #fff; /* White text on button */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.fullscreen-reenter-button:hover {
+  background-color: #666; /* Slightly lighter gray on hover */
+}
+
 .testheader {
   color: #000;
   background: #fff;
   justify-content: space-between;
   align-items: center;
-  padding: 1px 20px;
+  /* padding: 1px 20px; */
   display: flex;
 }
-.questionstabs {
+.questionstabs{
   display: flex;
 }
 .timer {
@@ -29,7 +79,7 @@ body {
   display: flex;
   padding: 3px 14px;
 }
-.timebox {
+.timebox{
   margin-right: 10px;
   border: #502c6d;
   border-radius: 5px;
@@ -40,24 +90,25 @@ body {
   display: flex;
   color: #502c6d;
   white-space: nowrap;
-  letter-spacing: 0.03em;
+  letter-spacing: .03em;
 }
-.sidebar.testSidebar {
-  padding-top: 1.3rem;
+.sidebar.testSidebar{
+  padding-top:1.3rem;
 }
-.timer svg {
+.timer svg{
   margin-right: 2px;
 }
-.tab.flex-sm-fill.text-sm-center {
+.tab.flex-sm-fill.text-sm-center{
   color: #000;
   background: #fff;
   border-radius: 15px;
   margin-left: 10px;
   padding: 2px 8px;
-}
+} 
 button.finish-button:hover {
-  background: #623786;
-  border: 1px solid #623786;
+background: #623786;
+border: 1px solid #623786;
+
 }
 .finish-button {
   color: #fff;
@@ -74,7 +125,7 @@ button.finish-button:hover {
 .content {
   display: flex;
   flex: 1;
-  color: #4b286d;
+  color: #4b286d
 }
 
 .sidebar {
@@ -91,16 +142,16 @@ button.finish-button:hover {
   font-size: 1.2em;
   margin-bottom: 15px;
   text-align: center;
-}
-.question-panel pre {
-  margin: 0 10px 12px;
-}
-main.question-panel h2 {
-  font-size: 17px;
-  color: #000;
-  font-weight: 600;
-  text-align: left;
-}
+  }
+  .question-panel pre{
+    margin: 0 10px 12px;
+   }
+   main.question-panel h2 {
+     font-size: 17px;
+     color: #000;
+     font-weight: 600;
+     text-align: left;
+ }
 .question-numbers {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -127,88 +178,87 @@ main.question-panel h2 {
 
 .question-number.answered {
   border: 2px solid #2b8000;
-}
+} 
 .sections {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 20px;
 }
 
 .section-button {
-  background-color: #7c53a5; /* Muted background */
-  color: #fff; /* Light text */
-  padding: 10px;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease, color 0.3s ease,
-    border-color 0.3s ease;
+background-color: #7C53A5; /* Muted background */
+color: #fff; /* Light text */
+padding: 10px;
+border: 1px solid transparent;
+border-radius: 5px;
+cursor: pointer;
+text-align: center;
+transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .section-button.active {
-  background-color: #68588d; /* Highlighted active color */
-  color: #ffffff; /* Contrasting white text */
-  border-color: #ffffff; /* Subtle border */
+background-color: #68588d; /* Highlighted active color */
+color: #ffffff; /* Contrasting white text */
+border-color: #ffffff; /* Subtle border */
 }
 
 .section-button:hover {
-  background-color: #55477b; /* Slightly lighter hover effect */
-  border-color: #d0d0d0;
+background-color: #55477b; /* Slightly lighter hover effect */
+border-color: #d0d0d0;
 }
 
 .question-numbers {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
-  gap: 8px; /* Reduced gap for better spacing */
-  margin-top: 10px;
-  justify-items: center;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
+gap: 8px; /* Reduced gap for better spacing */
+margin-top: 10px;
+justify-items: center;
 }
 
 .question-number {
-  width: 35px;
-  height: 35px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: #7c53a5; /* Muted background */
-  color: #fff; /* white text */
-  font-size: 0.9em;
-  border: 1px solid transparent; /* Minimal border */
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+width: 35px;
+height: 35px;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+cursor: pointer;
+background-color: #7C53A5; /* Muted background */
+color: #fff; /* white text */
+font-size: 0.9em;
+border: 1px solid transparent; /* Minimal border */
+transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .question-number:hover {
-  background-color: #55477b; /* Subtle hover effect */
-  color: #ffffff;
-  transform: scale(1.05); /* Slight hover scale */
+background-color: #55477b; /* Subtle hover effect */
+color: #ffffff;
+transform: scale(1.05); /* Slight hover scale */
 }
 
 .question-number.active {
-  background-color: #68588d; /* Active background */
-  color: #ffffff;
-  border: 2px solid #fff; /* Clear border for active state */
+background-color: #68588d; /* Active background */
+color: #ffffff;
+border: 2px solid #fff; /* Clear border for active state */
 }
 
 .question-number.answered {
-  border: 2px solid #2b8000; /* Green for answered */
+border: 2px solid #2b8000; /* Green for answered */
 }
 
 .question-number.review {
-  border: 2px dashed #ffa500; /* Orange for review */
+border: 2px dashed #ffa500; /* Orange for review */
 }
 
 .question-number.answered:hover {
-  background-color: #2b8000; /* Green hover for answered */
-  color: #ffffff;
+background-color: #2b8000; /* Green hover for answered */
+color: #ffffff;
 }
 
 .question-number.review:hover {
-  background-color: #ffa500; /* Orange hover for review */
-  color: #502c6c; /* Complementary text color */
+background-color: #ffa500; /* Orange hover for review */
+color: #502c6c; /* Complementary text color */
 }
 
 .telus-logo {
@@ -224,7 +274,7 @@ main.question-panel h2 {
   flex-direction: column;
   flex: 1;
   padding: 20px 20px;
-  display: flex;
+  /* display: flex; */
   overflow: auto;
 }
 main.question-panel h2 {
@@ -232,10 +282,10 @@ main.question-panel h2 {
   color: #000;
   font-weight: 600;
 }
-.code-block {
+ .code-block {
   color: #414547;
   overflow: auto;
-}
+} 
 
 .options {
   display: flex;
@@ -244,27 +294,31 @@ main.question-panel h2 {
 }
 
 .option-button {
-  color: #fff;
+  color: #000;
   cursor: pointer;
-  background-color: #2c2c54;
-  border: 1px solid #3a3a66;
   border-radius: 5px;
-  padding: 5px 15px;
-  font-size: 14px;
-  margin-top: 15px;
+  padding: 4px 2px;
+  font-size: 15px;
 }
 
 .option-button.selected {
-  color: #fff;
-  background-color: #2b8000;
-  border: 1px solid #2b8000;
+  color: #000;
 }
-
+input[type="checkbox"] {
+  border: 1px ridge;
+  border-radius: 4px;
+  width: auto;
+  height: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 10px;
+}
 .actions {
   justify-content: space-between;
   align-items: center;
-  padding-top: 30px;
+  padding-top: 40px;
   display: flex;
+
 }
 
 .actions button {
@@ -278,74 +332,78 @@ main.question-panel h2 {
   margin: 0px 7px;
   padding: 5px 5px;
   font-size: 1rem;
-  transition: background-color 0.3s;
+  transition: background-color .3s;
 }
-/*checkbox css*/
+  /*checkbox css*/
 .reviewcheckbox {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+display: block;
+position: relative;
+padding-left: 35px;
+margin-bottom: 12px;
+cursor: pointer;
+font-size: 22px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
 }
 
 /* Hide the browser's default checkbox */
 .reviewcheckbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
 }
 
 /* Create a custom checkbox */
 .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-  border: 1px solid;
+position: absolute;
+top: 0;
+left: 0;
+height: 25px;
+width: 25px;
+background-color: #eee;
+border: 1px solid;
 }
 
 /* On mouse-over, add a grey background color */
 .reviewcheckbox:hover input ~ .checkmark {
-  background-color: #ccc;
+background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
 .reviewcheckbox input:checked ~ .checkmark {
-  background-color: #4b286d;
+background-color: #4b286d;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+content: "";
+position: absolute;
+display: none;
 }
 
 /* Show the checkmark when checked */
 .reviewcheckbox input:checked ~ .checkmark:after {
-  display: block;
+display: block;
 }
 
 /* Style the checkmark/indicator */
 .reviewcheckbox .checkmark:after {
-  border: 3px solid #fff;
-  border-width: 0 2px 2px 0;
-  width: 8px;
-  height: 15px;
-  top: 3px;
-  left: 9px;
-  transform: rotate(45deg);
+border: 3px solid #fff;
+border-width: 0 2px 2px 0;
+width: 8px;
+height: 15px;
+top: 3px;
+left: 9px;
+transform: rotate(45deg);
 }
+
+
+
+
 
 .App {
   text-align: center;
@@ -390,42 +448,201 @@ main.question-panel h2 {
   color: #ffffff;
 }
 
+
 .App-link {
   color: #61dafb;
 }
 
-.section {
+.section{
+  
   display: flax;
   align-items: center;
   justify-content: center;
   padding: 10px 20px;
   gap: 10px;
+  
 }
 .actions .button:hover {
   color: #fff;
   background-color: #3ba306;
+
 }
 .actions label {
+display: flex;
+white-space: nowrap;
+justify-content: left;
+font-size: 15px;
+align-items: center;
+}
+.actions label span{
+margin-left: 0px;
+}
+.reviewTab{
+border: 2px solid #f39c12;
+}
+.answeredTab{
+border:2px solid #2b8000
+}
+.questionsTab{
+border: 2px solid #7c53a5;
+}
+.skipTab{
+border:2px solid #ddd
+}
+/* The option-button */
+.option-button {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  margin-bottom: 5px;
+  padding-left: 28px;
+  font-size: 16px;
+  display: block;
+  position: relative;
+}
+
+/* Hide the browser's default checkbox */
+.option-button input {
+  opacity: 0;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  z-index: 9999;
+  margin-left: -30px;
+  margin-top: -4px;
+}
+
+/* Create a custom checkbox */
+.answercheckmark {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* On mouse-over, add a grey background color */
+.option-button:hover input ~ .answercheckmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.option-button input:checked ~ .answercheckmark {
+  background-color: #72787c;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.answercheckmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.option-button input:checked ~ .answercheckmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.option-button .answercheckmark:after {
+  border: 3px solid #fff;
+  border-width: 0 3px 3px 0;
+  width: 8px;
+  height: 15px;
+  top: 1px;
+  left: 6px;
+  transform: rotate(45deg);
+}
+/* The option-button */
+.option-button {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  margin-bottom: 5px;
+  padding-left: 28px;
+  font-size: 16px;
+  display: block;
+  position: relative;
+}
+
+/* Hide the browser's default checkbox */
+.option-button input {
+  opacity: 0;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  z-index: 9999;
+  margin-left: -30px;
+  margin-top: -4px;
+}
+
+/* Create a custom checkbox */
+.answercheckmark {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* On mouse-over, add a grey background color */
+.option-button:hover input ~ .answercheckmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.option-button input:checked ~ .answercheckmark {
+  background-color: #72787c;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.answercheckmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.option-button input:checked ~ .answercheckmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.option-button .answercheckmark:after {
+  border: 3px solid #fff;
+  border-width: 0 3px 3px 0;
+  width: 8px;
+  height: 15px;
+  top: 1px;
+  left: 6px;
+  transform: rotate(45deg);
+}
+
+.test-page{
+  position: absolute;
+  top: 16%;
+  width: 10%;
+
+}
+.col-video{
   display: flex;
-  white-space: nowrap;
-  justify-content: left;
-  font-size: 15px;
-  align-items: center;
+  justify-content: end;
+  width: 20%;
+
 }
-.actions label span {
-  margin-left: 4px;
+.question-panel .wrapper{
+width:100%;
+display: flex;
 }
-.reviewTab {
-  border: 2px solid #f39c12;
-}
-.answeredTab {
-  border: 2px solid #2b8000;
-}
-.questionsTab {
-  border: 2px solid #7c53a5;
-}
-.skipTab {
-  border: 2px solid #ddd;
+
+.col-questions {
+  width: 80%;
 }
 @keyframes App-logo-spin {
   from {
@@ -435,40 +652,163 @@ main.question-panel h2 {
     transform: rotate(360deg);
   }
 }
-.fullscreen-warning {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+
+/* test header responsive */
+@media screen and (min-width: 1024px) {
+  .telus-logo {
+    width: 2in;
+}
+.test-page {
+  position: absolute;
+  top: 8%;
+}
+}
+@media screen and (max-width: 992px) {
+  .telus-logo {
+    vertical-align: middle;
+    width: 1.7in !important;
+    padding: 0;
+}
+  .actions button{
+    width: 100px;
+  }
+  .thank-you-page h1 {
+    text-align: center;
+}
+  .test-page {
+    width: 10%;
+    position: absolute;
+    top: 34%;
+}
+  .content {
+    color: #4b286d;
+    flex: 1;
+    display: flex;
+    margin-top: 45px;
+}
+.questionstabs {
   display: flex;
-  flex-direction: column;
+  position: absolute;
+  top: 40px;
+  background: #fff;
+  width: 100%;
+  padding: 10px;
   justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Ensure it appears above everything else */
-  color: #fff; /* Text color */
-  font-family: Arial, sans-serif;
-  text-align: center;
+  z-index: 999999;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.actionbuttons{
+  display: flex;
+      justify-content: flex-end;
+      gap: 2px;
+      flex-wrap: wrap;
 }
 
-.fullscreen-warning p {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+aside.sidebar.testSidebar {
+  width: 170px;
+}
 }
 
-.fullscreen-warning button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #fff;
-  background-color: #ff5733; /* Warning color (e.g., red/orange) */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+@media screen and (max-width: 694px) {
+  .actionbuttons {
+    width: 100%;
+    margin-top: 20px;
+}
+.actions {
+ padding-top: 60px;
+  display: inline-block;
+  width: 100%;
+}
+.actions button{
+  margin-left: 0;
+}
+label.reviewcheckbox span {
+  font-size: 14px;
+}
+.test-page {
+  position: absolute;
+  top: 16%;
+  width: 20%;
+
+}
 }
 
-.fullscreen-warning button:hover {
-  background-color: #ff784e; /* Slightly lighter hover color */
+@media screen and (max-width: 500px) {
+  .dialogActions {
+    flex-direction: row !important;
+    gap: 10px;
+}
+.content {
+  margin-top: 30px;
+  display: flex;
+}
+
+.questionstabs {
+  display: flex;
+  position: absolute;
+  top: 37px;
+}
+.tab.flex-sm-fill.text-sm-center {
+  margin-left: 5px;
+  padding: 1px 4px;
+  font-size: 13px;
+}
+.actionbuttons {
+  justify-content: flex-start;
+  display: flex;
+}
+.telus-logo {
+  vertical-align: middle;
+  width: 1.7in !important;
+  padding: 0;
+}
+.finish-button{
+  font-size: 12px;
+}
+.test-page {
+  position: absolute;
+  top: 16%;
+  width: 20%;
+}
+}
+@media screen and (max-width: 430px) {
+  .tab.flex-sm-fill.text-sm-center {
+    margin-left: 2px;
+    padding: 1px 4px;
+}
+.content {
+  margin-top: 60px;
+  display: block;
+    width: 100%;
+}
+label.reviewcheckbox span {
+  font-size: 12px;
+}
+.actions button {
+  margin-left: 0;
+  width: 100px;
+}
+aside.sidebar.testSidebar {
+  width: 100%;
+}
+.test-page {
+  width: 16%;
+  position: absolute;
+  top: 11%;
+}
+.tab.flex-sm-fill.text-sm-center {
+  font-size: 12px;
+}
+.content {
+  margin-top: 40px;
+}
+}
+
+@media screen and (max-width: 380px) {
+  .tab.flex-sm-fill.text-sm-center {
+    font-size: 10px;
+    margin-left: 1px;
+}
+
 }
