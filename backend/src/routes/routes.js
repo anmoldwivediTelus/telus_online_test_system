@@ -2,7 +2,7 @@ import express from 'express';
 import { createTest, getAllTests, getTestById, updateTest, deleteTest } from './../controllers/test.js';
 import { createQuestion, getQuestionsByTestId, getQuestionById, updateQuestion, deleteQuestion, getAllQuestions } from './../controllers/question.js';
 import multer from 'multer';
-import { createUser, getAllUsers, getUserById, updateUser, deleteUser } from "../controllers/userController.js";
+import { createUser, getAllUsers, getUserById, updateUser, deleteUser,startTest } from "../controllers/userController.js";
 import { createResult, getResultById, getResultsByTestId } from './../controllers/result.js';
 import pkg from 'pg';
 const { Pool } = pkg;
@@ -146,6 +146,9 @@ const storage = multer.diskStorage({
   
   // Route for deleting a user by ID
   router.delete("/users/:id", deleteUser);
+
+router.put('/users/start-test/:id',startTest);
+
 
   // Result routes
 router.post('/results', createResult);  // Create a result

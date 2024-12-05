@@ -43,6 +43,10 @@ const User = sequelize.define(
       allowNull: true,
       defaultValue:false
     },
+    isTestDone: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false, // New field to track test status
+    },
   },
   {
     tableName: "users", // Database table name

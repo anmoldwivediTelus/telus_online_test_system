@@ -30,13 +30,13 @@ const LayoutWithoutHeader = () => (
     <Outlet /> {/* Renders the current route */}
   </div>
 );
-// Component to handle redirection
-const RedirectToTest = () => {
+// Redirect to Instructions and Pass Test ID
+const RedirectToInstructions = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    navigate(`/test/${id}`); // Redirect to the test page
+    navigate('/', { state: { testId: id } }); // Redirect to home (instructions) and pass test ID
   }, [id, navigate]);
 
   return null;
@@ -70,11 +70,13 @@ const RedirectToTest = () => {
     element: <LayoutWithoutHeader />, 
     children: [
       {
-        path: '/test',
+        path: '/test/:id',
         element: <Test />,
       },
-      { path: '/test/:id', element: <Test /> },
-      { path: '/api/tests/:id', element: <RedirectToTest /> },
+      {
+        path: '/api/tests/:id',
+        element: <RedirectToInstructions />, // New route for API redirect
+      },
     ],
   },
 ]);
