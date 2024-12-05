@@ -22,6 +22,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
+import ResultPage from "./CandidateResult";
 
 function UserList() {
   const [candidates, setCandidates] = useState([]);
@@ -29,6 +30,7 @@ function UserList() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [showResultPage, setShowResultPage]=useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -69,7 +71,8 @@ function UserList() {
       email: "",
       mobileNumber: "",
       technology:"",
-      experience:0 });
+      experience:0,
+    isTestDone: false });
     setEditingIndex(null);
   };
 
@@ -150,6 +153,10 @@ function UserList() {
     }
   };
 
+  const showResult=(candidate)=>{
+    setShowResultPage(true)
+  }
+
   return (
     <Box sx={{ p: 4 }}>
       {/* Header Section */}
@@ -196,6 +203,7 @@ function UserList() {
               <TableCell>Total Experience</TableCell>
               <TableCell>Technology</TableCell>
               <TableCell>Test Invite Status</TableCell>
+              <TableCell>Test Attempted</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -209,6 +217,7 @@ function UserList() {
                 <TableCell>{candidate.technology}</TableCell>
                 {console.log(candidate.inviteStatus,"sdafd")}
                 <TableCell>{!candidate.inviteStatus ? "false" : "true"}</TableCell>
+                <TableCell>{!candidate.isTestDone ? "false" : "true"}</TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
@@ -220,6 +229,17 @@ function UserList() {
   }}
                   >
                     Send Invite
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => showResult(candidate)}
+                    disabled={candidate.isTestDone === false}
+                    sx={{
+    fontSize: "12px",marginRight:"1px",    padding: "5px 10px"
+  }}
+                  >
+                    View Result
                   </Button>
                   <IconButton color="primary" onClick={() => handleEditCandidate(candidate)}>
                     <Edit />
