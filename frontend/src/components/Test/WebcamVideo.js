@@ -1,65 +1,143 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Webcam from "react-webcam";
+import RecordRTC from "recordrtc";
 
-const WebcamComponent = () => {
-  const videoRef = useRef(null);
+export default function WebcamRecorder({ onSaveToLocalStorage, testEnded }) {
+  const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
-  const [recording, setRecording] = useState(false);
-  const [chunks, setChunks] = useState([]);
+  const [isRecording, setIsRecording] = useState(false);
 
-  const startWebcam = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      videoRef.current.srcObject = stream;
-      videoRef.current.play();
+  useEffect(() => {
+    const startRecording = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
 
-      mediaRecorderRef.current = new MediaRecorder(stream);
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          setChunks((prev) => [...prev, event.data]);
+        if (webcamRef.current) {
+          webcamRef.current.srcObject = stream;
+          webcamRef.current.play();
         }
-      };
-    } catch (error) {
-      console.error("Webcam access denied or not supported:", error);
+
+        mediaRecorderRef.current = RecordRTC(stream, { type: "video" });
+        mediaRecorderRef.current.startRecording();
+        setIsRecording(true);
+      } catch (error) {
+        console.error("Error accessing webcam:", error);
+      }
+    };
+
+    startRecording();
+
+    return () => {
+      stopRecording(); // Ensure recording stops when component unmounts
+    };
+  }, []);
+
+  // Stop recording when the test ends
+  useEffect(() => {
+    if (testEnded) {
+      stopRecording();
+    }
+  }, [testEnded]);
+
+  // Stop recording and save the video
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stopRecording(() => {
+        const blob = mediaRecorderRef.current.getBlob();
+        saveVideoToLocalStorage(blob); // Save video to localStorage
+        sendDownloadableLinkToAdmin(blob); // Send to admin
+        const stream = mediaRecorderRef.current.stream;
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop()); // Stop webcam
+        }
+        setIsRecording(false);
+      });
     }
   };
 
-  const startRecording = () => {
-    setChunks([]);
-    setRecording(true);
-    mediaRecorderRef.current.start();
+  // Save video to localStorage as base64 string
+  const saveVideoToLocalStorage = (videoBlob) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      localStorage.setItem("webcamVideo", base64data);
+      if (onSaveToLocalStorage) onSaveToLocalStorage(base64data); // Notify parent
+    };
+    reader.readAsDataURL(videoBlob);
   };
 
-  const stopRecording = () => {
-    mediaRecorderRef.current.stop();
-    setRecording(false);
-  };
+  // Send video to admin as a downloadable link
+  const sendDownloadableLinkToAdmin = (videoBlob) => {
+    const videoURL = URL.createObjectURL(videoBlob);
 
-  const saveRecording = () => {
-    const blob = new Blob(chunks, { type: "video/webm" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "test-recording.webm";
-    a.click();
-    localStorage.setItem("recording", url); // Optional: save URL to local storage
+    // Send video link to admin via API or email service
+    fetch("/api/send-video", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        videoURL,
+        adminEmail: "admin@example.com", // Replace with admin email
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Admin notified successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error notifying admin:", error);
+      });
   };
 
   return (
-    <div>
-      <video ref={videoRef}></video>
-      <div>
-        <button onClick={startWebcam}>Start Webcam</button>
-        {recording ? (
-          <button onClick={stopRecording}>Stop Recording</button>
-        ) : (
-          <button onClick={startRecording}>&nbsp;Start Recording</button>
-        )}
-        <button onClick={saveRecording} disabled={recording}>
-          Save Recording
-        </button>
-      </div>
+    <div
+      className="webcam-recorder"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {/* Webcam feed with reduced size */}
+      <Webcam
+        ref={webcamRef}
+        audio
+        mirrored
+        style={{
+          position: "fixed",
+          bottom: "10px",
+          left: "10px",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          zIndex: 1000,
+          width: "150px",
+          height: "150px",
+        }}
+      />
+
+      {/* Recording indicator */}
+      {isRecording && (
+        <div
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "red",
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "5px",
+            fontSize: "12px",
+          }}
+        >
+          Recording...
+        </div>
+      )}
     </div>
   );
-};
-
-export default WebcamComponent;
+}

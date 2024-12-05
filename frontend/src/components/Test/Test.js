@@ -43,6 +43,7 @@ function Test() {
   const [questionsData, setQuestionsData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [testEnded, setTestEnded] = useState(false); // Added for WebcamRecorder
 
   // Timer logic
   useEffect(() => {
@@ -127,6 +128,34 @@ function Test() {
     }
   };
 
+  // Handle test finish and send data to the backend
+  const handleTestFinish = async () => {
+    const totalTimeTaken = 1800 - timeLeft; // Calculate total time taken
+    const submissionData = {
+      questions: questionsData.map((question, index) => ({
+        questionId: question.number, // Assuming each question has a unique number
+        userAnswer: selectedOptions[index] || [], // User's selected options
+      })),
+      totalTimeTaken,
+    };
+
+    console.log("Submitting test data:", submissionData);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/test/submit",
+        submissionData
+      );
+      console.log("Test submitted successfully:", response.data);
+
+      // Navigate to the results page or a success message
+      navigate("/test-results");
+    } catch (err) {
+      console.error("Error submitting test data:", err.message);
+      alert("Failed to submit the test. Please try again.");
+    }
+  };
+
   // Format time as mm:ss
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -199,7 +228,16 @@ function Test() {
 
   const handleRecordingSave = (videoData) => {
     console.log("Video saved:", videoData);
-    // Add additional logic for saving or processing the video data
+    // Add logic for saving or processing the video data (e.g., upload to server)
+    // Example:
+    axios
+      .post("http://localhost:4000/api/video/upload", { videoData })
+      .then((response) => {
+        console.log("Video uploaded successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error uploading video:", error);
+      });
   };
 
   return (
