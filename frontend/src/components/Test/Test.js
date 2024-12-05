@@ -306,6 +306,7 @@ function Test() {
               </button>
             ))}
           </div> */}
+          <div className="testpage">
           <h3>Questions:</h3>
           {questionsData.length > 0 && (
             <div className="question-numbers">
@@ -328,6 +329,10 @@ function Test() {
                 ))}
             </div>
           )}
+            </div>
+            <div className="col-video">
+            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
+</div>
         </aside>
         {questionsData.length > 0 && (
           <main className="question-panel">
