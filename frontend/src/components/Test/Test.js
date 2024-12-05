@@ -97,7 +97,7 @@ function Test() {
           if (!document.fullscreenElement) {
             navigate("/exit"); // Redirect if still not in full-screen
           }
-        }, 10000);
+        }, 90000);
 
         return () => clearTimeout(timer); // Cleanup timer
       } else {
