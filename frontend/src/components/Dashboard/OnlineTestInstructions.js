@@ -15,6 +15,8 @@ function OnlineTestInstructions() {
   
   console.log(params.userId)
 
+  localStorage.setItem("userId", params.userId)
+
   useEffect(() => {
     if (userId) {
       axios.get(`http://localhost:4000/api/users/${userId}`)
