@@ -15,6 +15,8 @@ function OnlineTestInstructions() {
   
   console.log(params.userId)
 
+  localStorage.setItem("userId", params.userId)
+
   useEffect(() => {
     if (userId) {
       axios.get(`http://localhost:4000/api/users/${userId}`)
@@ -28,11 +30,9 @@ function OnlineTestInstructions() {
   }, [userId]);
 
   const handleStartTest = () => {
-    if (testId) {
-      navigate(`/test/${testId}`); // Redirect to test page with ID
-    } else {
-      alert('Test ID not found.');
-    }
+    console.log(params.userId)
+      navigate(`/test/${params.id}`); // Redirect to test page with ID
+    
   };
 
   return (

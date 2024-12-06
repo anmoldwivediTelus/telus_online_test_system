@@ -3,14 +3,16 @@ import ti_logo from './assets/img/telus_logo_digital.svg';
 import user from './assets/img/user.png';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useParams} from 'react-router-dom';
 
 const Header = ({ userId }) => {
+  const params=useParams()
+  console.log(params)
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    console.log(userId)
     // Fetch user info from the API
-    axios.get(`http://localhost:4000/api/users/${userId}`)
+    axios.get(`http://localhost:4000/api/users/${params.userId}`)
       .then(response => {
         setUserName(response.data.name);
         console.log('Fetched userName:', response.data.name);  // Assuming the response contains 'name' field
