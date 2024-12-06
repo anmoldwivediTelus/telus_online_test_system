@@ -143,7 +143,7 @@ function UserList() {
     console.log(candidate.id)
     const id = formData.email; // Changed from _id to id
     try {
-      await axios.post(`http://localhost:4000/api/invites/send-invite`, { email: formData.email , testName: formData.testId.split(".")[1],testId: formData.testId.split(".")[0],userId: candidate.id });
+      await axios.post(`http://localhost:4000/api/invites/send-invite`, { email: formData.email , testName: formData.testId.split(".")[1],testId: formData.testId.split(".")[0],userId: formData.id });
       const response = await axios.get("http://localhost:4000/api/users");
       setCandidates(response.data);
       setInviteDialogOpen(false);

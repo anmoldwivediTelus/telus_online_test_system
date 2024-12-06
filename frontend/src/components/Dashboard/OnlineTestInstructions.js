@@ -1,11 +1,31 @@
-import React from 'react';
-import useHistory, { useLocation,useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './OnlineTestInstructions.css';
+import { useParams } from "react-router"
+
 
 function OnlineTestInstructions() {
   const navigate = useNavigate();
   const location = useLocation();
   const testId = location.state?.testId; // Retrieve test ID from state
+  const userId = new URLSearchParams(location.search).get('userId'); // Get userId from query params
+  const [userName, setUserName] = useState('');
+  let params = useParams()
+  
+  console.log(params.userId)
+
+  useEffect(() => {
+    if (userId) {
+      axios.get(`http://localhost:4000/api/users/${userId}`)
+        .then(response => {
+          setUserName(response.data.name);
+        })
+        .catch(error => {
+          console.error('Error fetching user info:', error);
+        });
+    }
+  }, [userId]);
 
   const handleStartTest = () => {
     if (testId) {
