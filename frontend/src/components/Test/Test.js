@@ -133,32 +133,32 @@ function Test() {
   };
 
   // Handle test finish and send data to the backend
-  const handleTestFinish = async () => {
-    const totalTimeTaken = 1800 - timeLeft; // Calculate total time taken
-    const submissionData = {
-      questions: questionsData.map((question, index) => ({
-        questionId: question.number, // Assuming each question has a unique number
-        userAnswer: selectedOptions[index] || [], // User's selected options
-      })),
-      totalTimeTaken,
-    };
+  // const handleTestFinish = async () => {
+  //   const totalTimeTaken = 1800 - timeLeft; // Calculate total time taken
+  //   const submissionData = {
+  //     questions: questionsData.map((question, index) => ({
+  //       questionId: question.number, // Assuming each question has a unique number
+  //       userAnswer: selectedOptions[index] || [], // User's selected options
+  //     })),
+  //     totalTimeTaken,
+  //   };
 
-    console.log("Submitting test data:", submissionData);
+  //   console.log("Submitting test data:", submissionData);
 
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/api/test/submit",
-        submissionData
-      );
-      console.log("Test submitted successfully:", response.data);
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:4000/api/test/submit",
+  //       submissionData
+  //     );
+  //     console.log("Test submitted successfully:", response.data);
 
-      // Navigate to the results page or a success message
-      navigate("/test-results");
-    } catch (err) {
-      console.error("Error submitting test data:", err.message);
-      alert("Failed to submit the test. Please try again.");
-    }
-  };
+  //     // Navigate to the results page or a success message
+  //     navigate("/test-results");
+  //   } catch (err) {
+  //     console.error("Error submitting test data:", err.message);
+  //     alert("Failed to submit the test. Please try again.");
+  //   }
+  // };
 
   // Format time as mm:ss
   const formatTime = (time) => {
@@ -219,7 +219,31 @@ function Test() {
   // Finish test logic
   const handleFinishClick = () => {
     setDialogOpen(true);
-  };
+  
+      // Calculate total time taken
+      const totalTimeTaken = 1800 - timeLeft; // Time left is the remaining time
+      const formattedTimeTaken = formatTime(totalTimeTaken); // Format the total time taken in hh:mm:ss format
+  
+      // Collect the data when the user finishes the test
+        const answers = Object.keys(selectedOptions).reduce((acc, key) => {
+        const questionNumber = parseInt(key) + 1; // Convert to question number (1-indexed)
+        const selectedAnswer = selectedOptions[key]; // Store the selected answer (single option)
+        acc[questionNumber] = selectedAnswer;
+        return acc;
+      }, {});
+  
+      const testData = {
+        userId: localStorage.getItem("id"),           // Assuming a hardcoded user ID for this example
+        testId: localStorage.getItem("userId"),           // Assuming a hardcoded test ID for this example
+        answers: answers,
+        totalTimeTaken: totalTimeTaken, // Store formatted time here
+      };
+      console.log(testData); // Print the result to the console
+      axios.post("http://localhost:4000/api/results", testData)
+      // Navigate to the exit page
+      navigate("/exit");
+    };
+
 
   const handleClose = () => {
     setDialogOpen(false);
@@ -394,21 +418,17 @@ function Test() {
                 </span>
               </label>
               <div className="actionbuttons">
-                <button
-                  className="button"
-                  onClick={handlePrevious}
-                  disabled={currentQuestion === 0}
-                >
+              {currentQuestion > 0 && (
+                <button className="button" onClick={handlePrevious}>
                   &laquo; Previous
                 </button>
-                <button
-                  className="button"
-                  onClick={handleNext}
-                  disabled={currentQuestion === questionsData.length - 1}
-                >
+              )}
+              {currentQuestion < questionsData.length - 1 && (
+                <button className="button" onClick={handleNext}>
                   Next &raquo;
                 </button>
-              </div>
+              )}
+            </div>
             </div>
            </main>
         )}
