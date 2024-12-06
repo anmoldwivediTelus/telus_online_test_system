@@ -218,14 +218,15 @@ function UserList() {
                 {console.log(candidate.inviteStatus,"sdafd")}
                 <TableCell>{!candidate.inviteStatus ? "false" : "true"}</TableCell>
                 <TableCell>{!candidate.isTestDone ? "false" : "true"}</TableCell>
-                <TableCell>
+                <TableCell sx={{
+    whiteSpace: "nowrap"}}>
                   <Button
                     variant="contained"
                     color="secondary"
                     onClick={() => handleInviteCandidate(candidate)}
                     disabled={candidate.inviteStatus === true}
                     sx={{
-    fontSize: "12px",marginRight:"1px",    padding: "5px 10px"
+    fontSize: "12px",marginRight:"2px",    padding: "4px"
   }}
                   >
                     Send Invite
@@ -236,16 +237,17 @@ function UserList() {
                     onClick={() => showResult(candidate)}
                     disabled={candidate.isTestDone === false}
                     sx={{
-    fontSize: "12px",marginRight:"1px",    padding: "5px 10px"
-  }}
+    fontSize: "12px",marginLeft:"3px",    padding: "4px"  }}
                   >
                     View Result
                   </Button>
                   <IconButton color="primary" onClick={() => handleEditCandidate(candidate)}>
-                    <Edit />
+                    <Edit   sx={{
+    width: "0.8em"}}/>
                   </IconButton>
                   <IconButton color="error" onClick={() => handleDeleteCandidate(candidate.id)}>
-                    <Delete />
+                    <Delete   sx={{
+    width: "0.8em"}}/>
                   </IconButton>
                 </TableCell>
               </TableRow>
