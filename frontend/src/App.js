@@ -47,7 +47,7 @@ const RedirectToInstructions = () => {
       element: <LayoutWithHeader />, // Default layout with Header
       children: [
         {
-          path: '/',
+          path: '/test/:id/:userId',
           element: <OnlineTestInstructions />,
         },
         {
