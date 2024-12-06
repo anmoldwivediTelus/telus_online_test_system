@@ -28,11 +28,9 @@ function OnlineTestInstructions() {
   }, [userId]);
 
   const handleStartTest = () => {
-    if (testId) {
-      navigate(`/test/${testId}`); // Redirect to test page with ID
-    } else {
-      alert('Test ID not found.');
-    }
+    console.log(params.userId)
+      navigate(`/test/${params.id}`); // Redirect to test page with ID
+    
   };
 
   return (

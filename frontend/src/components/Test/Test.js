@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Test.css";
 import ti_logo from "../../assets/img/telus_logo_digital.svg";
 import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
 import WebcamRecorder from "./WebcamVideo";
 import axios from "axios";
+import { useParams } from "react-router"
+
 // Generate sample questions with 40 items, divided into 4 sections
 const questionsData = Array.from({ length: 40 }, (_, index) => ({
   section: Math.floor(index / 10) + 1, // Calculate section (1 to 4)
@@ -45,6 +47,8 @@ function Test() {
   const [loading, setLoading] = useState(true);
   const [testEnded, setTestEnded] = useState(false); // Added for WebcamRecorder
 
+  const params=useParams()
+  console.log(params.id)
   // Timer logic
   useEffect(() => {
     if (timeLeft > 0) {
@@ -63,7 +67,7 @@ function Test() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/questions/test/2"
+          `http://localhost:4000/api/questions/test/${params.id}`
         );
         setQuestionsData(response.data);
         console.log(response.data);

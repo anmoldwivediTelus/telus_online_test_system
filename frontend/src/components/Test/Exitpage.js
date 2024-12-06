@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './ExitPage.css';
 import axios from 'axios';
+import { useParams } from 'react-router';
 
 const ExitPage = () => {
   const [data, setData] = useState(null);
