@@ -233,12 +233,13 @@ function Test() {
       }, {});
   
       const testData = {
-        userId: localStorage.getItem("id"),           // Assuming a hardcoded user ID for this example
-        testId: localStorage.getItem("userId"),           // Assuming a hardcoded test ID for this example
+        userId: localStorage.getItem("userId"),           // Assuming a hardcoded user ID for this example
+        //testId: localStorage.getItem("testId"),
+        testId: 1,           // Assuming a hardcoded test ID for this example
         answers: answers,
         totalTimeTaken: totalTimeTaken, // Store formatted time here
       };
-      console.log(testData); // Print the result to the console
+      console.log(testData,"testdata"); // Print the result to the console
       axios.post("http://localhost:4000/api/results", testData)
       // Navigate to the exit page
       navigate("/exit");
