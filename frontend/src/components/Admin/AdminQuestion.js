@@ -34,7 +34,7 @@ function AdminQuestions() {
       questionText: "",
       option1: "",
       option2: "",
-      option2: "",
+      option3: "",
       option4: "",
       correctAnswer:"",
       id:""
@@ -75,7 +75,7 @@ function AdminQuestions() {
       questionText: "",
       option1: "",
       option2: "",
-      option2: "",
+      option3: "",
       option4: "",
       correctAnswer:""
      });
@@ -84,44 +84,26 @@ function AdminQuestions() {
 
   // Save or update candidate
   const handleSaveCandidate = async () => {
-    
     try {
+      // Collect options only if they are not blank
+      let options = {};
+      if (formData.option1) options.option1 = formData.option1;
+      if (formData.option2) options.option2 = formData.option2;
+      if (formData.option3) options.option3 = formData.option3;
+      if (formData.option4) options.option4 = formData.option4;
+  
+      let updatedFormData = {
+        options,
+        questionText: formData.questionText,
+        correctAnswer: formData.correctAnswer,
+        testName: formData.testName,
+      };
+  
       if (editingIndex !== null) {
-        console.log(editingIndex,"editingIndexeditingIndex",formData)
-        // Update candidate
-        // Changed from _id to id
-        let options = {
-          option1:formData['option1'],
-          option2:formData['option2'],
-          option3:formData['option3'],
-          option4:formData['option4'],
-        }
-        let updatedFormData = {
-          options,
-          questionText:formData.questionText,
-          correctAnswer:formData.correctAnswer,
-          testName:formData.testName,
-
-        }
+        // Update question
         await axios.put(`http://localhost:4000/api/questions/${editingIndex.id}`, updatedFormData);
       } else {
-        // Add questions
-        let options = {
-          option1:formData['option1'],
-          option2:formData['option2'],
-          option3:formData['option3'],
-          option4:formData['option4'],
-        }
-        let updatedFormData = {
-          options,
-          questionText:formData.questionText,
-          correctAnswer:formData.correctAnswer,
-          testName:formData.testName,
-
-        }
-        
-        console.log(updatedFormData,"updatedFormData")
-        
+        // Add new question
         await axios.post("http://localhost:4000/api/questions", updatedFormData);
       }
       // Refresh questions list
@@ -133,7 +115,6 @@ function AdminQuestions() {
       console.error("Error saving candidate:", error);
     }
   };
-
   // Edit candidate
   const handleEditCandidate = (question) => {
    setEditingIndex(question);

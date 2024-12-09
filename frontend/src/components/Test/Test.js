@@ -170,25 +170,32 @@ function Test() {
     )}`;
   };
 
-  // Handle option selection for multiple options
   const handleOptionSelect = (option) => {
-    setSelectedOptions((prev) => {
-      const currentSelection = prev[currentQuestion] || [];
-      if (currentSelection.includes(option)) {
-        // If already selected, remove it
-        return {
-          ...prev,
-          [currentQuestion]: currentSelection.filter((opt) => opt !== option),
-        };
-      } else {
-        // Otherwise, add it
-        return {
-          ...prev,
-          [currentQuestion]: [...currentSelection, option],
-        };
-      }
-    });
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [currentQuestion]: option, // Update with the selected option
+    }));
   };
+
+  // // Handle option selection for multiple options
+  // const handleOptionSelect = (option) => {
+  //   setSelectedOptions((prev) => {
+  //     const currentSelection = prev[currentQuestion] || [];
+  //     if (currentSelection.includes(option)) {
+  //       // If already selected, remove it
+  //       return {
+  //         ...prev,
+  //         [currentQuestion]: currentSelection.filter((opt) => opt !== option),
+  //       };
+  //     } else {
+  //       // Otherwise, add it
+  //       return {
+  //         ...prev,
+  //         [currentQuestion]: [...currentSelection, option],
+  //       };
+  //     }
+  //   });
+  // };
 
   // Handle Next and Previous buttons
   const handleNext = () => {
@@ -363,75 +370,65 @@ function Test() {
 </div>
         </aside>
         {questionsData.length > 0 && (
-          <main className="question-panel">
-            {console.log(questionsData[currentQuestion])}
-            <div className="wrapper">
-            <div className="col-questions">
-
-          <h2>{questionsData[currentQuestion].questionText}</h2>
-          <pre className="code-block">
-            {questionsData[currentQuestion].code}
-          </pre>
-           <div className="options">
+  <main className="question-panel">
+    <div className="wrapper">
+      <div className="col-questions">
+        <h2>{questionsData[currentQuestion].questionText}</h2>
+        <pre className="code-block">
+          {questionsData[currentQuestion].code}
+        </pre>
+        <div className="options">
           <ul>
-            {console.log(selectedOptions[currentQuestion])}
             {Object.values(questionsData[currentQuestion].options).map((option, idx) => (
-              <li
-                key={idx}
-                className={`option-button ${
-                  (selectedOptions[currentQuestion] || []).includes(option)
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() => handleOptionSelect(option)}
-              >
-                 <input
-                type="radio" />
-                  <span className="answercheckmark"></span> {option}
+              <li key={idx} className="option-button">
+                <label>
+                  <input
+                    type="radio"
+                    name={`question-${currentQuestion}`}
+                    checked={selectedOptions[currentQuestion] === option}
+                    onChange={() => handleOptionSelect(option)}
+                  />
+                  <span className="answercheckmark"></span>
+                  {option} {/* Fallback for empty options */}
+                </label>
               </li>
             ))}
-            </ul> 
-            </div>
-            </div>
-
-            <div className="col-video">
-            <div className="test-page1">
-            <WebcamRecorder onSaveToLocalStorage={handleRecordingSave} />
-            </div>
-          </div>
-          </div>
-         
-         
-            <div className="actions">
-              <label className="reviewcheckbox">
-                <input
-                  type="checkbox"
-                  checked={markedForReview.has(currentQuestion)}
-                  onChange={toggleMarkForReview}
-                />
-                <span className="checkmark"></span>
-                <span>Mark for review</span>
-                <span>
-                  {" "}
-                  | Options selected:{" "}
-                  {(selectedOptions[currentQuestion] || []).length}
-                </span>
-              </label>
-              <div className="actionbuttons">
-              {currentQuestion > 0 && (
-                <button className="button" onClick={handlePrevious}>
-                  &laquo; Previous
-                </button>
-              )}
-              {currentQuestion < questionsData.length - 1 && (
-                <button className="button" onClick={handleNext}>
-                  Next &raquo;
-                </button>
-              )}
-            </div>
-            </div>
-           </main>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div className="actions">
+      <label className="reviewcheckbox">
+        <input
+          type="checkbox"
+          checked={markedForReview.has(currentQuestion)}
+          onChange={toggleMarkForReview}
+        />
+        <span className="checkmark"></span>
+        <span>Mark for review</span>
+        <span>
+          {" "}
+          | Option selected:{" "}
+          {selectedOptions[currentQuestion] || "None"}
+        </span>
+      </label>
+      <div className="actionbuttons">
+        {currentQuestion > 0 && (
+          <button className="button" onClick={handlePrevious}>
+            &laquo; Previous
+          </button>
         )}
+        {currentQuestion < questionsData.length - 1 && (
+          <button className="button" onClick={handleNext}>
+            Next &raquo;
+          </button>
+        )}
+      </div>
+    </div>
+  </main>
+)}
+
+
       </div>
     </div>
   );
