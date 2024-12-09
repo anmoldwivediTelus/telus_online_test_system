@@ -391,11 +391,11 @@ function UserList() {
           setShowResultDialogOpen(false);
         }}
         fullWidth
-        maxWidth="sm"
+        maxWidth="lg"
       >
         <DialogTitle sx={{color:"#000"}}>View Result</DialogTitle>
         <DialogContent>
-      result is here
+         <ResultPage />
         
         </DialogContent>
         <DialogActions>

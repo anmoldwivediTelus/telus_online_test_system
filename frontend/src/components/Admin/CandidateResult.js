@@ -138,7 +138,7 @@ const ResultPage = () => {
         </div>
 
         {/* Pictorial Representation */}
-        <div className="chart-container">
+        {/* <div className="chart-container">
           <CircularProgressbar
             value={chartData.score}
             text={`${chartData.score}%`}
@@ -171,6 +171,7 @@ const ResultPage = () => {
             </div>
           </div>
         </div>
+      */}
       </div>
     </div>
   );
