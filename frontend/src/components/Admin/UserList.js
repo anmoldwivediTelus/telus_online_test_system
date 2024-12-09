@@ -153,10 +153,33 @@ function UserList() {
     }
   };
 
-  const showResult=(candidate)=>{
-    setShowResultPage(true)
-  }
-
+  const showResult = async (candidate) => {
+    try {
+     
+      const candidateId = candidate.id;
+      console.log(candidateId); 
+  
+      
+      const response = await fetch(`http://localhost:4000/api/results/${candidateId}`);
+      console.log(response,"response by result by id");
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+  
+      const resultData = await response.json();
+  
+     
+      console.log(resultData,"result data"); 
+  
+      
+      setShowResultPage(true);
+    } catch (error) {
+      console.error("Failed to fetch candidate result:", error);
+    }
+  };
+  
+  
   return (
     <Box sx={{ p: 4 }}>
       {/* Header Section */}

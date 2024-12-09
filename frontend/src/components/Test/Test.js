@@ -216,33 +216,72 @@ function Test() {
     });
   };
 
-  // Finish test logic
+  // // Finish test logic
+  // const handleFinishClick = () => {
+  //   setDialogOpen(true);
+  
+  //     // Calculate total time taken
+  //     const totalTimeTaken = 1800 - timeLeft; // Time left is the remaining time
+  //     const formattedTimeTaken = formatTime(totalTimeTaken); // Format the total time taken in hh:mm:ss format
+  
+  //     // Collect the data when the user finishes the test
+  //       const answers = Object.keys(selectedOptions).reduce((acc, key) => {
+  //       const questionNumber = parseInt(key) + 1; // Convert to question number (1-indexed)
+  //       const selectedAnswer = selectedOptions[key]; // Store the selected answer (single option)
+  //       acc[questionNumber] = selectedAnswer;
+  //       return acc;
+  //     }, {});
+  
+  //     const testData = {
+  //       userId: localStorage.getItem("userId"),           // Assuming a hardcoded user ID for this example
+  //       testId: localStorage.getItem("userId"),           // Assuming a hardcoded test ID for this example
+  //       answers: answers,
+  //       totalTimeTaken: totalTimeTaken, // Store formatted time here
+  //     };
+  //     console.log(testData,"prt"); // Print the result to the console
+  //     axios.post("http://localhost:4000/api/results", testData)
+  //     // Navigate to the exit page
+  //     navigate("/exit");
+  //   };
+
+
   const handleFinishClick = () => {
     setDialogOpen(true);
   
-      // Calculate total time taken
-      const totalTimeTaken = 1800 - timeLeft; // Time left is the remaining time
-      const formattedTimeTaken = formatTime(totalTimeTaken); // Format the total time taken in hh:mm:ss format
+    // Calculate total time taken
+    const totalTimeTaken = 1800 - timeLeft; // Remaining time is subtracted from total time
   
-      // Collect the data when the user finishes the test
-        const answers = Object.keys(selectedOptions).reduce((acc, key) => {
-        const questionNumber = parseInt(key) + 1; // Convert to question number (1-indexed)
-        const selectedAnswer = selectedOptions[key]; // Store the selected answer (single option)
-        acc[questionNumber] = selectedAnswer;
-        return acc;
-      }, {});
+    // Dynamically collect the answers from selectedOptions
+    const answers = Object.keys(selectedOptions).reduce((acc, key) => {
+      const questionNumber = parseInt(key) + 1; // Convert to 1-indexed question number
+      const selectedAnswer = selectedOptions[key]; // Get the selected answer
+      acc[questionNumber] = selectedAnswer; // Add it to the answers object
+      return acc;
+    }, {});
   
-      const testData = {
-        userId: localStorage.getItem("id"),           // Assuming a hardcoded user ID for this example
-        testId: localStorage.getItem("userId"),           // Assuming a hardcoded test ID for this example
-        answers: answers,
-        totalTimeTaken: totalTimeTaken, // Store formatted time here
-      };
-      console.log(testData); // Print the result to the console
-      axios.post("http://localhost:4000/api/results", testData)
-      // Navigate to the exit page
-      navigate("/exit");
+    // Create the payload dynamically based on user input
+    const testData = {
+      userId: parseInt(localStorage.getItem("userId")), // Convert userId to a number
+      testId: 1, // Assuming test ID is static or retrieved dynamically
+      answers: answers, // Include only the dynamically collected answers
+      totalTimeTaken: totalTimeTaken, // Store total time in seconds
     };
+  
+    // Debugging log to verify the dynamic payload
+    console.log("Payload to send:", testData);
+  
+    // Send the payload using axios
+    axios
+      .post("http://localhost:4000/api/results", testData)
+      .then((response) => {
+        console.log("Result successfully submitted:", response.data);
+        navigate("/exit"); // Navigate to the exit page
+      })
+      .catch((error) => {
+        console.error("Error submitting result:", error);
+      });
+  };
+  
 
 
   const handleClose = () => {
