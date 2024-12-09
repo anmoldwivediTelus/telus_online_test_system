@@ -400,9 +400,9 @@ display: block;
 .reviewcheckbox .checkmark:after {
 border: 3px solid #fff;
 border-width: 0 2px 2px 0;
-width: 8px;
+width: 7px;
 height: 15px;
-top: 3px;
+top: 2px;
 left: 9px;
 transform: rotate(45deg);
 }
@@ -507,22 +507,12 @@ border:2px solid #ddd
   position: relative;
 }
 
-/* Hide the browser's default checkbox */
-.option-button input {
-  opacity: 0;
-  cursor: pointer;
-  width: 22px;
-  height: 22px;
-  position: absolute;
-  z-index: 9999;
-  margin-left: -30px;
-  margin-top: -4px;
-}
 
 /* Create a custom checkbox */
 .answercheckmark {
   background-color: #eee;
-  border: 1px solid #ccc;
+  border: 1px solid #a0a0a0;
+  border-radius: 50%;
   width: 22px;
   height: 22px;
   position: absolute;
@@ -530,14 +520,10 @@ border:2px solid #ddd
   left: 0;
 }
 
-/* On mouse-over, add a grey background color */
-.option-button:hover input ~ .answercheckmark {
-  background-color: #ccc;
-}
 
 /* When the checkbox is checked, add a blue background */
 .option-button input:checked ~ .answercheckmark {
-  background-color: #72787c;
+  background-color: #ffffff;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -554,25 +540,14 @@ border:2px solid #ddd
 
 /* Style the checkmark/indicator */
 .option-button .answercheckmark:after {
-  border: 3px solid #fff;
-  border-width: 0 3px 3px 0;
-  width: 8px;
-  height: 15px;
-  top: 1px;
-  left: 6px;
-  transform: rotate(45deg);
+  background: #502c6d;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  top: 4px;
+  left: 4px;
 }
-/* The option-button */
-.option-button {
-  cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
-  margin-bottom: 5px;
-  padding-left: 28px;
-  font-size: 16px;
-  display: block;
-  position: relative;
-}
+
 
 /* Hide the browser's default checkbox */
 .option-button input {
@@ -586,49 +561,11 @@ border:2px solid #ddd
   margin-top: -4px;
 }
 
-/* Create a custom checkbox */
-.answercheckmark {
-  background-color: #eee;
-  border: 1px solid #ccc;
-  width: 22px;
-  height: 22px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 /* On mouse-over, add a grey background color */
 .option-button:hover input ~ .answercheckmark {
-  background-color: #ccc;
+  background-color: #fff;
 }
 
-/* When the checkbox is checked, add a blue background */
-.option-button input:checked ~ .answercheckmark {
-  background-color: #72787c;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.answercheckmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the checkmark when checked */
-.option-button input:checked ~ .answercheckmark:after {
-  display: block;
-}
-
-/* Style the checkmark/indicator */
-.option-button .answercheckmark:after {
-  border: 3px solid #fff;
-  border-width: 0 3px 3px 0;
-  width: 8px;
-  height: 15px;
-  top: 1px;
-  left: 6px;
-  transform: rotate(45deg);
-}
 
 .test-page{
   position: absolute;
