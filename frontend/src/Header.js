@@ -10,17 +10,17 @@ const Header = ({ userId }) => {
   console.log(params)
   const [userName, setUserName] = useState('');
 
-  useEffect(() => {
-    // Fetch user info from the API
-    axios.get(`http://localhost:4000/api/users/${params.userId}`)
-      .then(response => {
-        setUserName(response.data.name);
-        console.log('Fetched userName:', response.data.name);  // Assuming the response contains 'name' field
-      })
-      .catch(error => {
-        console.error('Error fetching user info:', error);
-      });
-  }, [userId]);
+  // useEffect(() => {
+  //   // Fetch user info from the API
+  //   axios.get(`http://localhost:4000/api/users/${params.userId}`)
+  //     .then(response => {
+  //       setUserName(response.data.name);
+  //       console.log('Fetched userName:', response.data.name);  // Assuming the response contains 'name' field
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching user info:', error);
+  //     });
+  // }, [userId]);
 
   return (
 <div className ="flex-container">
