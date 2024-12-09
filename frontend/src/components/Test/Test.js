@@ -386,7 +386,7 @@ function Test() {
                 onClick={() => handleOptionSelect(option)}
               >
                  <input
-                type="checkbox" />
+                type="radio" />
                   <span className="answercheckmark"></span> {option}
               </li>
             ))}
