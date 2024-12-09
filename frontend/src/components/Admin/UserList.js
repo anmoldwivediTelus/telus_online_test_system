@@ -224,13 +224,13 @@ function UserList() {
                 {console.log(candidate.inviteStatus,"sdafd")}
                 <TableCell>{!candidate.inviteStatus ? "false" : "true"}</TableCell>
                 <TableCell>{!candidate.isTestDone ? "false" : "true"}</TableCell>
-                <TableCell sx={{whiteSpace: "nowrap"}}>
+                <TableCell sx={{whiteSpace: "nowrap",padding:"10px 5px"}} >
                   <Button
                     variant="contained"
                     color="secondary"
                     onClick={() => handleInviteCandidate(candidate)}
                     disabled={candidate.inviteStatus === true}
-                    sx={{fontSize: "12px",marginRight:"2px",padding: "4px" }}>
+                    sx={{fontSize: "12px",marginRight:"2px",padding: "7px" }}>
                     Send Invite
                   </Button>
                   <Button
@@ -238,7 +238,7 @@ function UserList() {
                     color="secondary"
                     onClick={() => showResult(candidate)}
                     disabled={candidate.isTestDone === false}
-                    sx={{fontSize: "12px",marginLeft:"3px",    padding: "4px"  }}>
+                    sx={{fontSize: "12px",marginLeft:"3px",    padding: "7px"  }}>
                     View Result
                   </Button>
                   <IconButton color="primary" onClick={() => handleEditCandidate(candidate)}>
