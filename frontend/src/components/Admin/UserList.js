@@ -30,7 +30,7 @@ function UserList() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [showResultPage, setShowResultPage]=useState(false);
+  const [showResultDialogOpen, setShowResultDialogOpen]=useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -77,19 +77,19 @@ function UserList() {
   };
 
   // Save or update candidate
-  const handleSaveInvite = async () => {
+  // const handleSaveInvite = async () => {
     
-    try {
-       await axios.post("http://localhost:4000/api/users", formData);
-      // Refresh candidates list
-      const response = await axios.get("http://localhost:4000/api/users");
-      setCandidates(response.data);
-      resetForm();
-      setInviteDialogOpen(false);
-    } catch (error) {
-      console.error("Error sending invite candidate:", error);
-    }
-  };
+  //   try {
+  //      await axios.post("http://localhost:4000/api/users", formData);
+  //     // Refresh candidates list
+  //     const response = await axios.get("http://localhost:4000/api/users");
+  //     setCandidates(response.data);
+  //     resetForm();
+  //     setInviteDialogOpen(false);
+  //   } catch (error) {
+  //     console.error("Error sending invite candidate:", error);
+  //   }
+  // };
 
   // Save or update candidate
   const handleSaveCandidate = async () => {
@@ -153,9 +153,15 @@ function UserList() {
     }
   };
 
-  const showResult=(candidate)=>{
-    setShowResultPage(true)
-  }
+  //view result
+  const showResult = (candidate) => {
+     setShowResultDialogOpen(true);
+   };
+
+   const handleClose = () => {
+    setShowResultDialogOpen(false);
+  };
+
 
   return (
     <Box sx={{ p: 4 }}>
@@ -218,17 +224,13 @@ function UserList() {
                 {console.log(candidate.inviteStatus,"sdafd")}
                 <TableCell>{!candidate.inviteStatus ? "false" : "true"}</TableCell>
                 <TableCell>{!candidate.isTestDone ? "false" : "true"}</TableCell>
-                <TableCell sx={{
-    whiteSpace: "nowrap"}}>
+                <TableCell sx={{whiteSpace: "nowrap"}}>
                   <Button
                     variant="contained"
                     color="secondary"
                     onClick={() => handleInviteCandidate(candidate)}
                     disabled={candidate.inviteStatus === true}
-                    sx={{
-    fontSize: "12px",marginRight:"2px",    padding: "4px"
-  }}
-                  >
+                    sx={{fontSize: "12px",marginRight:"2px",padding: "4px" }}>
                     Send Invite
                   </Button>
                   <Button
@@ -236,18 +238,14 @@ function UserList() {
                     color="secondary"
                     onClick={() => showResult(candidate)}
                     disabled={candidate.isTestDone === false}
-                    sx={{
-    fontSize: "12px",marginLeft:"3px",    padding: "4px"  }}
-                  >
+                    sx={{fontSize: "12px",marginLeft:"3px",    padding: "4px"  }}>
                     View Result
                   </Button>
                   <IconButton color="primary" onClick={() => handleEditCandidate(candidate)}>
-                    <Edit   sx={{
-    width: "0.8em"}}/>
+                    <Edit   sx={{width: "0.8em"}}/>
                   </IconButton>
                   <IconButton color="error" onClick={() => handleDeleteCandidate(candidate.id)}>
-                    <Delete   sx={{
-    width: "0.8em"}}/>
+                    <Delete   sx={{width: "0.8em"}}/>
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -386,6 +384,28 @@ function UserList() {
           </Button>
         </DialogActions>
       </Dialog>
+   
+      <Dialog
+        open={showResultDialogOpen}
+        onClose={() => {
+          setShowResultDialogOpen(false);
+        }}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle sx={{color:"#000"}}>View Result</DialogTitle>
+        <DialogContent>
+         <ResultPage />
+        
+        </DialogContent>
+        <DialogActions>
+       
+          <Button autoFocus onClick={handleClose} color="primary" variant="contained">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+  
     </Box>
   );
 }
