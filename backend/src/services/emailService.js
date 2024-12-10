@@ -5,7 +5,7 @@ dotenv.config();
 console.log(process.env.EMAIL_PASS,)
 console.log(process.env.EMAIL_PASS,)
 
-export const sendEmail = async (to, subject, message) => {
+export const sendEmail = async (to, subject, messageHtml) => {
   try {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -19,7 +19,7 @@ export const sendEmail = async (to, subject, message) => {
       from: process.env.EMAIL_USER,
       to,
       subject,
-      text: message,
+      html: messageHtml, // Use HTML for formatting
     };
 
     await transporter.sendMail(mailOptions);
