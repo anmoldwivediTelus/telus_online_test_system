@@ -422,8 +422,8 @@ function UserList() {
         fullWidth
         maxWidth="lg"
       >
-        <DialogTitle sx={{color:"#000"}}>View Result</DialogTitle>
-        <DialogContent>
+        <DialogTitle>View Result</DialogTitle>
+        <DialogContent sx={{backgroundColor:"rgb(247, 249, 250)"}}>
          <ResultPage />
         
         </DialogContent>

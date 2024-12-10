@@ -109,17 +109,45 @@ const ResultPage = () => {
     <div className="result-page">
       {/* Header Section */}
       <div className="header">
-        <h2>Candidate Details</h2>
+        {/* <h2>Candidate Details</h2> */}
         <p><strong>Name:</strong> {candidateDetails.name}</p>
         <p><strong>Experience:</strong> {candidateDetails.experience}</p>
         <p><strong>Skills:</strong> {candidateDetails.technology}</p>
       </div>
 
-      {/* Content Section */}
-      <div className="layout">
-        {/* Table */}
-        <div className="table-container">
-          <table className="result-table">
+  {sectionsData.length > 0 ? (
+                sectionsData.map((row, index) => <TableRow key={index} data={row} />)
+              ) : (
+                <div className="card-row">
+  <div className="cardbox">
+    <h4 className="card-title">Attempted  </h4>
+      <p className="card-text">{sectionsData.attempted}</p>
+   </div>
+
+
+  <div className="cardbox">
+    <h4 className="card-title">Correct</h4>
+      <p className="card-text">{sectionsData.correct}</p>
+  </div>
+
+  <div className="cardbox">
+  <h4 className="card-title">Incorrect</h4>
+      <p className="card-text">{sectionsData.incorrect}</p>
+</div>
+
+  <div className="cardbox">
+   <h4 className="card-title">Average Time / Ques</h4>
+      <p className="card-text">{sectionsData.averageTimePerQuestion}</p>
+  </div>
+ </div>
+              )}
+
+  
+
+
+
+
+          {/* <table className="result-table">
             <thead>
               <tr>
                 <th>Attempted</th>
@@ -141,8 +169,8 @@ const ResultPage = () => {
                 </tr>
               )}
             </tbody>
-          </table>
-        </div>
+          </table> */}
+        
 
         {/* Pictorial Representation */}
         {/* <div className="chart-container">
@@ -178,7 +206,7 @@ const ResultPage = () => {
             </div>
           </div>
         </div> */}
-      </div>
+      
     </div>
   );
 };
