@@ -26,6 +26,8 @@ import ResultPage from "./CandidateResult";
 
 function UserList() {
   const [candidates, setCandidates] = useState([]);
+  const [filteredCandidates, setFilteredCandidates] = useState([]); // For filtering candidates
+  const [searchTerm, setSearchTerm] = useState(""); // For search input
   const [tests, setTests] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
@@ -47,6 +49,7 @@ function UserList() {
       .then((response) => {
         console.log("Fetched Data:", response.data);
         setCandidates(response.data);
+        setFilteredCandidates(response.data); // Set initial filtered candidates
         axios.get("http://localhost:4000/api/tests")
       .then((response) => {
         console.log("Fetched Data:", response.data);
@@ -56,6 +59,23 @@ function UserList() {
       })
       .catch((error) => console.error("Error fetching candidates:", error));
   }, []);
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredCandidates(candidates);
+    }
+  }, [candidates]);
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
+    const filtered = candidates.filter(
+      (candidate) =>
+        candidate.name.toLowerCase().includes(value) ||
+        candidate.email.toLowerCase().includes(value)
+    );
+    setFilteredCandidates(filtered);
+  };  
 
   // Handle input change
   const handleChange = (e) => {
@@ -178,24 +198,33 @@ function UserList() {
         <Typography
           variant="h4"
           sx={{
-    textTransform: "uppercase",
+            textTransform: "uppercase",
             fontSize: { xs: "1.5rem", sm: "1rem", md: "1.25rem" },
           }}
         >
           Recruiter Dashboard - Send Test Invites
         </Typography>
-        
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => setDialogOpen(true)}
-          sx={{
-            width: { xs: "100%", sm: "auto" },
-            marginTop: { xs: "10px", sm: "0" },
-          }}
-        >
-          Add Candidate
-        </Button>
+
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <TextField
+            variant="outlined"
+            placeholder="Search by name or email"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            size="small"
+          />
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => setDialogOpen(true)}
+            sx={{
+              width: { xs: "100%", sm: "auto" },
+              marginTop: { xs: "10px", sm: "0" },
+            }}
+          >
+            Add Candidate
+          </Button>
+        </Box>
       </Box>
 
       {/* Table Section */}
@@ -214,7 +243,7 @@ function UserList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {candidates.map((candidate) => (
+            {filteredCandidates.map((candidate) => (
               <TableRow key={candidate.id}> {/* Changed from index to candidate.id */}
                 <TableCell>{candidate.name}</TableCell>
                 <TableCell>{candidate.email}</TableCell>
