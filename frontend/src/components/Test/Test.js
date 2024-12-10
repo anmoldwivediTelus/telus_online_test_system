@@ -240,8 +240,8 @@ function Test() {
       }, {});
   
       const testData = {
-        userId: localStorage.getItem("id"),           // Assuming a hardcoded user ID for this example
-        testId: localStorage.getItem("userId"),           // Assuming a hardcoded test ID for this example
+        userId: localStorage.getItem("userId"),           // Assuming a hardcoded user ID for this example
+        testId: localStorage.getItem("testId"),           // Assuming a hardcoded test ID for this example
         answers: answers,
         totalTimeTaken: totalTimeTaken, // Store formatted time here
       };
@@ -251,6 +251,7 @@ function Test() {
       navigate("/exit");
     };
 
+    console.log(localStorage.getItem("testId"))
 
   const handleClose = () => {
     setDialogOpen(false);

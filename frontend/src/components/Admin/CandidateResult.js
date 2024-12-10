@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./CandidateResult.css";
+import axios from "axios";
 
 // Reusable Table Row Component
 const TableRow = ({ data }) => (
@@ -35,70 +36,74 @@ const ResultPage = () => {
   });
 
   useEffect(() => {
+    axios.get(`http://localhost:4000/api/users/${localStorage.getItem("userId")}`).then((response)=>setCandidateDetails(response.data))
+    axios.get(`http://localhost:4000/api/results/${localStorage.getItem("userId")}`).then((response)=>setSectionsData(response.data))
     // Simulated data fetching
-    setTimeout(() => {
-      setCandidateDetails({
-        name: "John Doe",
-        experience: "3 years",
-        skills: "React, Node.js, JavaScript, HTML, CSS",
-      });
+    // setTimeout(() => {
+    //   setCandidateDetails({
+    //     name: "John Doe",
+    //     experience: "3 years",
+    //     skills: "React, Node.js, JavaScript, HTML, CSS",
+    //   });
 
-      const fetchedData = [
-        {
-          category: "Section-1",
-          attempted: "47 out of 100",
-          correct: 28,
-          mistakes: 19,
-          totalTime: "1 hr, 54 mins, 21 secs",
-          avgTime: "2 mins, 26 secs",
-          fasterPercent: "87.9% candidates were faster",
-        },
-        {
-          category: "Section-2",
-          attempted: "11 out of 15",
-          correct: 5,
-          mistakes: 6,
-          totalTime: "37 mins, 23 secs",
-          avgTime: "3 mins, 24 secs",
-          fasterPercent: "95.3% candidates were faster",
-        },
-        {
-          category: "Section-3",
-          attempted: "1 out of 15",
-          correct: 1,
-          mistakes: 0,
-          totalTime: "2 mins, 7 secs",
-          avgTime: "2 mins, 7 secs",
-          fasterPercent: "35.9% candidates were faster",
-        },
-        {
-          category: "Section-4",
-          attempted: "9 out of 15",
-          correct: 6,
-          mistakes: 3,
-          totalTime: "20 mins, 20 secs",
-          avgTime: "2 mins, 16 secs",
-          fasterPercent: "91.2% candidates were faster",
-        },
-      ];
+    //   // const fetchedData = [
+    //   //   {
+    //   //     category: "Section-1",
+    //   //     attempted: "47 out of 100",
+    //   //     correct: 28,
+    //   //     mistakes: 19,
+    //   //     totalTime: "1 hr, 54 mins, 21 secs",
+    //   //     avgTime: "2 mins, 26 secs",
+    //   //     fasterPercent: "87.9% candidates were faster",
+    //   //   },
+    //   //   {
+    //   //     category: "Section-2",
+    //   //     attempted: "11 out of 15",
+    //   //     correct: 5,
+    //   //     mistakes: 6,
+    //   //     totalTime: "37 mins, 23 secs",
+    //   //     avgTime: "3 mins, 24 secs",
+    //   //     fasterPercent: "95.3% candidates were faster",
+    //   //   },
+    //   //   {
+    //   //     category: "Section-3",
+    //   //     attempted: "1 out of 15",
+    //   //     correct: 1,
+    //   //     mistakes: 0,
+    //   //     totalTime: "2 mins, 7 secs",
+    //   //     avgTime: "2 mins, 7 secs",
+    //   //     fasterPercent: "35.9% candidates were faster",
+    //   //   },
+    //   //   {
+    //   //     category: "Section-4",
+    //   //     attempted: "9 out of 15",
+    //   //     correct: 6,
+    //   //     mistakes: 3,
+    //   //     totalTime: "20 mins, 20 secs",
+    //   //     avgTime: "2 mins, 16 secs",
+    //   //     fasterPercent: "91.2% candidates were faster",
+    //   //   },
+    //   // ];
 
-      setSectionsData(fetchedData);
+    //   // setSectionsData(fetchedData);
 
-      const totalCorrect = fetchedData.reduce((sum, item) => sum + item.correct, 0);
-      const totalMistakes = fetchedData.reduce((sum, item) => sum + item.mistakes, 0);
-      const totalQuestions = fetchedData.reduce(
-        (sum, item) => sum + parseInt(item.attempted.split(" out of ")[1]),
-        0
-      );
+    //   // const totalCorrect = fetchedData.reduce((sum, item) => sum + item.correct, 0);
+    //   // const totalMistakes = fetchedData.reduce((sum, item) => sum + item.mistakes, 0);
+    //   // const totalQuestions = fetchedData.reduce(
+    //   //   (sum, item) => sum + parseInt(item.attempted.split(" out of ")[1]),
+    //   //   0
+    //   // );
 
-      setChartData({
-        score: Math.round((totalCorrect / totalQuestions) * 100),
-        correct: totalCorrect,
-        mistakes: totalMistakes,
-        communityAverage: 74.2,
-      });
-    }, 2000); // Simulated delay
+    //   // setChartData({
+    //   //   score: Math.round((totalCorrect / totalQuestions) * 100),
+    //   //   correct: totalCorrect,
+    //   //   mistakes: totalMistakes,
+    //   //   communityAverage: 74.2,
+    //   // });
+    // }, 2000); // Simulated delay
   }, []);
+
+  console.log(sectionsData)
 
   return (
     <div className="result-page">
@@ -107,7 +112,7 @@ const ResultPage = () => {
         <h2>Candidate Details</h2>
         <p><strong>Name:</strong> {candidateDetails.name}</p>
         <p><strong>Experience:</strong> {candidateDetails.experience}</p>
-        <p><strong>Skills:</strong> {candidateDetails.skills}</p>
+        <p><strong>Skills:</strong> {candidateDetails.technology}</p>
       </div>
 
       {/* Content Section */}
@@ -117,11 +122,9 @@ const ResultPage = () => {
           <table className="result-table">
             <thead>
               <tr>
-                <th>Category</th>
                 <th>Attempted</th>
                 <th>Correct</th>
                 <th>Incorrect</th>
-                <th>Total Time Taken</th>
                 <th>Average Time / Ques</th>
               </tr>
             </thead>
@@ -130,7 +133,11 @@ const ResultPage = () => {
                 sectionsData.map((row, index) => <TableRow key={index} data={row} />)
               ) : (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: "center" }}>Fetching Data...</td>
+                  <td colSpan="1" style={{ textAlign: "center" }}>{sectionsData.attempted}</td>
+                  <td colSpan="1" style={{ textAlign: "center" }}>{sectionsData.correct}</td>
+                  <td colSpan="1" style={{ textAlign: "center" }}>{sectionsData.incorrect}</td>
+                  <td colSpan="1" style={{ textAlign: "center" }}>{sectionsData.averageTimePerQuestion
+                  }</td>
                 </tr>
               )}
             </tbody>
@@ -170,8 +177,7 @@ const ResultPage = () => {
               ></div>
             </div>
           </div>
-        </div>
-      */}
+        </div> */}
       </div>
     </div>
   );

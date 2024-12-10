@@ -107,9 +107,23 @@ export const createResult = async (req, res) => {
 
 
 
-export const getResultById = async (req, res) => {
+// export const getResultById = async (req, res) => {
+//   try {
+//     const result = await Result.findByPk(req.params.id);
+//     if (!result) {
+//       return res.status(404).json({ message: 'Result not found' });
+//     }
+//     res.status(200).json(result);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Failed to retrieve result' });
+//   }
+// };
+export const getResultByUserId = async (req, res) => {
   try {
-    const result = await Result.findByPk(req.params.id);
+    const { userId } = req.params;
+    const result = await Result.findOne({ where: { userId } }); 
+
     if (!result) {
       return res.status(404).json({ message: 'Result not found' });
     }
@@ -119,6 +133,7 @@ export const getResultById = async (req, res) => {
     res.status(500).json({ message: 'Failed to retrieve result' });
   }
 };
+
 
 export const getResultsByTestId = async (req, res) => {
   try {
