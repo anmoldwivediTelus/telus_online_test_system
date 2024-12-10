@@ -16,6 +16,9 @@ function OnlineTestInstructions() {
   console.log(params.userId)
 
   localStorage.setItem("userId", params.userId)
+  localStorage.setItem("testId", params.id)
+
+  
 
   useEffect(() => {
     if (userId) {
