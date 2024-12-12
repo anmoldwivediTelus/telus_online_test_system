@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 import {
+
   Box,
   Button,
   Typography,
@@ -180,10 +182,9 @@ function AdminQuestions() {
   </Typography>
   <Button
     variant="contained"
-    color="success"
     onClick={() => setDialogOpen(true)}
     sx={{
-
+color:"#000",backgroundColor:"#fff",border:"1px solid #000",
       width: { xs: "100%", sm: "auto" },
       marginTop: { xs: "10px", sm: "0" },
     }}
@@ -191,10 +192,12 @@ function AdminQuestions() {
     Add Question
   </Button>
 </Box>
-      <TableContainer component={Paper}  sx={{ maxHeight: 440 }}>
+      <TableContainer component={Paper}  sx={{ maxHeight: 550 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
+            <TableCell sx={{borderRight:"1px solid #b1b1b1"}}>S.no.</TableCell> {/* Row Number */}
+
               <TableCell>Test</TableCell>
               <TableCell>Question</TableCell>
               <TableCell>Option 1</TableCell>
@@ -206,8 +209,11 @@ function AdminQuestions() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {questions.map((question) => (
+
+            {questions.map((question,index) => (
               <TableRow key={question.id}> {/* Changed from index to candidate.id */}
+              <TableCell sx={{borderRight:"1px solid #e0e0e0"}}>{index + 1}</TableCell> {/* Row Number */}
+
                 <TableCell>{question.testName}</TableCell>
                 <TableCell>{question.questionText}</TableCell>
                 <TableCell>{question.options?.a || question.options.option1}</TableCell>
@@ -215,7 +221,7 @@ function AdminQuestions() {
                 <TableCell>{question.options?.c || question.options.option3}</TableCell>
                 <TableCell>{question.options?.d || question.options.option4}</TableCell>
                 <TableCell>{question.correctAnswer}</TableCell>
-                <TableCell>
+                <TableCell sx={{whiteSpace:"nowrap"}}>
                   <IconButton color="primary" onClick={() => handleEditCandidate(question)}>
                     <Edit />
                   </IconButton>

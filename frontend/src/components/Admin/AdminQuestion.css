@@ -27,13 +27,15 @@ form.addquestion label{
     display: flex;
     align-items: center;
     justify-content: center;
-    border-color: #388e3c !important;
+    border-color: #000 !important;
+    color: #000;
 
 }
 button.quesbtn:hover{
-box-shadow:0 1px 10px #0000003d;
-background-color: #388e3c;
-border-color: #388e3c !important;
+box-shadow:0 1px 10px #c2c2c2ba;
+background-color: #fff;
+border-color: #000 !important;
+color: #000;
 }
 form.addquestion  select{
     color: #a2a2a2;
