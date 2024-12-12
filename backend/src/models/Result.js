@@ -20,6 +20,10 @@ const Result = sequelize.define('Result', {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  unattemptedQuestions:{
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
   correct: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
