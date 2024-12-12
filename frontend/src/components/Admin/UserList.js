@@ -71,8 +71,9 @@ function UserList() {
     setSearchTerm(value);
     const filtered = candidates.filter(
       (candidate) =>
-        candidate.name.toLowerCase().includes(value) ||
-        candidate.email.toLowerCase().includes(value)
+        candidate.name.toLowerCase().includes(value.toLowerCase()) ||
+        candidate.email.toLowerCase().includes(value.toLowerCase())
+
     );
     setFilteredCandidates(filtered);
   };  
@@ -215,9 +216,9 @@ function UserList() {
           />
           <Button
             variant="contained"
-            color="success"
             onClick={() => setDialogOpen(true)}
             sx={{
+              color:"#000",backgroundColor:"#fff",border:"1px solid #000",
               width: { xs: "100%", sm: "auto" },
               marginTop: { xs: "10px", sm: "0" },
             }}

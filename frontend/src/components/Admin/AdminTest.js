@@ -143,9 +143,9 @@ function AdminTest() {
     
     <Button
       variant="contained"
-      color="success"
       onClick={() => setDialogOpen(true)}
       sx={{
+        color:"#000",backgroundColor:"#fff",border:"1px solid #000",
         width: { xs: "100%", sm: "auto" },
         marginTop: { xs: "10px", sm: "0" },
       }}
