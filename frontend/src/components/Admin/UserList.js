@@ -235,10 +235,10 @@ function UserList() {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Mobile Number</TableCell>
-              <TableCell>Total Experience</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell>Total Exp</TableCell>
               <TableCell>Technology</TableCell>
-              <TableCell>Test Invite Status</TableCell>
+              <TableCell>Invite Status</TableCell>
               <TableCell>Test Attempted</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -247,7 +247,7 @@ function UserList() {
             {filteredCandidates.map((candidate) => (
               <TableRow key={candidate.id}> {/* Changed from index to candidate.id */}
                 <TableCell>{candidate.name}</TableCell>
-                <TableCell>{candidate.email}</TableCell>
+                <TableCell sx={{wordBreak:"break-word"}}>{candidate.email}</TableCell>
                 <TableCell>{candidate.mobileNumber}</TableCell>
                 <TableCell>{candidate.experience}</TableCell>
                 <TableCell>{candidate.technology}</TableCell>

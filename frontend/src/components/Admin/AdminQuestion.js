@@ -212,7 +212,7 @@ color:"#000",backgroundColor:"#fff",border:"1px solid #000",
 
             {questions.map((question,index) => (
               <TableRow key={question.id}> {/* Changed from index to candidate.id */}
-              <TableCell sx={{borderRight:"1px solid #e0e0e0"}}>{index + 1}</TableCell> {/* Row Number */}
+              <TableCell>{index + 1}</TableCell> {/* Row Number */}
 
                 <TableCell>{question.testName}</TableCell>
                 <TableCell>{question.questionText}</TableCell>
