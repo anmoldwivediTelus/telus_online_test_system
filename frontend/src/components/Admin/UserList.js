@@ -9,6 +9,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  CircularProgress,
   TableRow,
   Paper,
   Snackbar,
@@ -33,6 +34,7 @@ function UserList() {
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("")
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for the dialog
   const [showResultDialogOpen, setShowResultDialogOpen]=useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -181,6 +183,7 @@ function UserList() {
   const handleSendInvite = async (candidate) => {
     console.log(candidate.id)
     const id = formData.email; // Changed from _id to id
+    setLoading(true); // Show loading dialog
     try {
       await axios.post(`http://localhost:4000/api/invites/send-invite`, { email: formData.email , testName: formData.testId.split(".")[1],testId: formData.testId.split(".")[0],userId: formData.id });
       const response = await axios.get("http://localhost:4000/api/users");
@@ -190,6 +193,10 @@ function UserList() {
       setSnackbarOpen(true);
     } catch (error) {
       console.error("Error sending invite:", error);
+    }
+    finally {
+      setLoading(false); // Hide the loading dialog
+      setInviteDialogOpen(false); // Keep the invite dialog open
     }
   };
 
@@ -453,6 +460,12 @@ function UserList() {
             Close
           </Button>
         </DialogActions>
+      </Dialog>
+      <Dialog open={loading}>
+         <DialogContent sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+           <CircularProgress />
+           <Typography>`Please wait! While we are sending an invite to the mail Id.`</Typography>
+         </DialogContent>
       </Dialog>
   
     </Box>
