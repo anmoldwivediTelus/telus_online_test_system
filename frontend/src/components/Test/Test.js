@@ -31,6 +31,7 @@ function Test() {
       }, 1000);
       return () => clearInterval(timer);
     } else {
+      handleFinishClick()
       navigate("/exit"); // Redirect when time runs out
     }
   }, [timeLeft, navigate]);
@@ -68,6 +69,7 @@ function Test() {
         setFullscreenWarning(true);
         const timer = setTimeout(() => {
           if (!document.fullscreenElement) {
+            handleFinishClick()
             navigate("/exit");
           }
         }, 90000);

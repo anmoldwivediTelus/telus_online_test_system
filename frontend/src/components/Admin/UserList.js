@@ -31,6 +31,7 @@ function UserList() {
   const [tests, setTests] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("")
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [showResultDialogOpen, setShowResultDialogOpen]=useState(false);
   const [formData, setFormData] = useState({
@@ -114,7 +115,24 @@ function UserList() {
 
   // Save or update candidate
   const handleSaveCandidate = async () => {
-    
+    const isEmailExists = candidates.some(
+            (candidate) => candidate.email === formData.email
+          );
+          const isMobileExists = candidates.some(
+            (candidate) => candidate.mobileNumber === formData.mobileNumber
+          );
+      
+          if (isEmailExists) {
+            setSnackbarMessage("Email address already exists.");
+            setSnackbarOpen(true);
+            return;
+          }
+      
+          if (isMobileExists) {
+            setSnackbarMessage("Mobile number already exists.");
+            setSnackbarOpen(true);
+            return;
+          }
     try {
       if (editingIndex !== null) {
         // Update candidate
@@ -168,6 +186,7 @@ function UserList() {
       const response = await axios.get("http://localhost:4000/api/users");
       setCandidates(response.data);
       setInviteDialogOpen(false);
+      setSnackbarMessage("Invite sent successfully!");
       setSnackbarOpen(true);
     } catch (error) {
       console.error("Error sending invite:", error);
@@ -291,7 +310,7 @@ function UserList() {
         onClose={() => setSnackbarOpen(false)}
       >
         <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
-          Invite sent successfully!
+{snackbarMessage}
         </Alert>
       </Snackbar>
 

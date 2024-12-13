@@ -36,71 +36,27 @@ const ResultPage = () => {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/users/${localStorage.getItem("userId")}`).then((response)=>setCandidateDetails(response.data))
-    axios.get(`http://localhost:4000/api/results/${localStorage.getItem("userId")}`).then((response)=>setSectionsData(response.data))
-    // Simulated data fetching
-    // setTimeout(() => {
-    //   setCandidateDetails({
-    //     name: "John Doe",
-    //     experience: "3 years",
-    //     skills: "React, Node.js, JavaScript, HTML, CSS",
-    //   });
-
-    //   // const fetchedData = [
-    //   //   {
-    //   //     category: "Section-1",
-    //   //     attempted: "47 out of 100",
-    //   //     correct: 28,
-    //   //     mistakes: 19,
-    //   //     totalTime: "1 hr, 54 mins, 21 secs",
-    //   //     avgTime: "2 mins, 26 secs",
-    //   //     fasterPercent: "87.9% candidates were faster",
-    //   //   },
-    //   //   {
-    //   //     category: "Section-2",
-    //   //     attempted: "11 out of 15",
-    //   //     correct: 5,
-    //   //     mistakes: 6,
-    //   //     totalTime: "37 mins, 23 secs",
-    //   //     avgTime: "3 mins, 24 secs",
-    //   //     fasterPercent: "95.3% candidates were faster",
-    //   //   },
-    //   //   {
-    //   //     category: "Section-3",
-    //   //     attempted: "1 out of 15",
-    //   //     correct: 1,
-    //   //     mistakes: 0,
-    //   //     totalTime: "2 mins, 7 secs",
-    //   //     avgTime: "2 mins, 7 secs",
-    //   //     fasterPercent: "35.9% candidates were faster",
-    //   //   },
-    //   //   {
-    //   //     category: "Section-4",
-    //   //     attempted: "9 out of 15",
-    //   //     correct: 6,
-    //   //     mistakes: 3,
-    //   //     totalTime: "20 mins, 20 secs",
-    //   //     avgTime: "2 mins, 16 secs",
-    //   //     fasterPercent: "91.2% candidates were faster",
-    //   //   },
-    //   // ];
-
-    //   // setSectionsData(fetchedData);
-
-    //   // const totalCorrect = fetchedData.reduce((sum, item) => sum + item.correct, 0);
-    //   // const totalMistakes = fetchedData.reduce((sum, item) => sum + item.mistakes, 0);
-    //   // const totalQuestions = fetchedData.reduce(
-    //   //   (sum, item) => sum + parseInt(item.attempted.split(" out of ")[1]),
-    //   //   0
-    //   // );
-
-    //   // setChartData({
-    //   //   score: Math.round((totalCorrect / totalQuestions) * 100),
-    //   //   correct: totalCorrect,
-    //   //   mistakes: totalMistakes,
-    //   //   communityAverage: 74.2,
-    //   // });
-    // }, 2000); // Simulated delay
+    const userId = localStorage.getItem("userId");
+  
+    if (userId) {
+      // Run both API calls concurrently using Promise.all
+      Promise.all([
+        axios.get(`http://localhost:4000/api/users/${userId}`),
+        axios.get(`http://localhost:4000/api/results/${userId}`)
+      ])
+      .then(([userResponse, resultsResponse]) => {
+        // Set the responses for user details and results
+        setCandidateDetails(userResponse.data);
+        setSectionsData(resultsResponse.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        // You can handle the error here, for example:
+        // setError(true); // set an error state if needed
+      });
+    } else {
+      console.error('No user ID found in localStorage');
+    }
   }, []);
 
   console.log(sectionsData)
@@ -136,8 +92,8 @@ const ResultPage = () => {
 </div>
 
   <div className="cardbox">
-   <h4 className="card-title">Average Time / Ques</h4>
-      <p className="card-text">{sectionsData.averageTimePerQuestion}</p>
+   <h4 className="card-title">Total Time Taken</h4>
+      <p className="card-text">{Math.floor(sectionsData.totalTimeTaken/60)} mins {sectionsData.totalTimeTaken%60} seconds </p>
   </div>
  </div>
               )}
