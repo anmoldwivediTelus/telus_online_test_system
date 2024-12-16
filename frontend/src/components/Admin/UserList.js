@@ -32,8 +32,12 @@ function UserList() {
   const [tests, setTests] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("")
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarMessage1, setSnackbarMessage1] = useState("")
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarOpen1, setSnackbarOpen1] = useState(false);
+
   const [loading, setLoading] = useState(false); // Loading state for the dialog
   const [showResultDialogOpen, setShowResultDialogOpen]=useState(false);
   const [formData, setFormData] = useState({
@@ -115,6 +119,18 @@ function UserList() {
   //   }
   // };
 
+  const handlePhoneNumber = (e) => {
+    const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+    setFormData({ ...formData, mobileNumber: onlyNums }); 
+  
+    if (onlyNums.length > 10) {
+      setSnackbarMessage("Phone number must have 10 digits.");
+      setSnackbarOpen(true);
+    }
+  };
+
+ 
+
   // Save or update candidate
   const handleSaveCandidate = async () => {
     const isEmailExists = candidates.some(
@@ -135,6 +151,12 @@ function UserList() {
             setSnackbarOpen(true);
             return;
           }
+
+        if (formData.mobileNumber.length !== 10) {
+          setSnackbarMessage("Phone number must have 10 digits.");
+          setSnackbarOpen(true);
+          return;
+        }
     try {
       if (editingIndex !== null) {
         // Update candidate
@@ -150,8 +172,10 @@ function UserList() {
       setCandidates(response.data);
       resetForm();
       setDialogOpen(false);
+
     } catch (error) {
       console.error("Error saving candidate:", error);
+
     }
   };
 
@@ -189,8 +213,9 @@ function UserList() {
       const response = await axios.get("http://localhost:4000/api/users");
       setCandidates(response.data);
       setInviteDialogOpen(false);
-      setSnackbarMessage("Invite sent successfully!");
-      setSnackbarOpen(true);
+      setSnackbarMessage1("Invite sent successfully!");
+      setSnackbarOpen1(true);
+
     } catch (error) {
       console.error("Error sending invite:", error);
     }
@@ -208,6 +233,7 @@ function UserList() {
    const handleClose = () => {
     setShowResultDialogOpen(false);
   };
+
 
 
   return (
@@ -273,7 +299,7 @@ function UserList() {
             {filteredCandidates.map((candidate) => (
               <TableRow key={candidate.id}> {/* Changed from index to candidate.id */}
                 <TableCell>{candidate.name}</TableCell>
-                <TableCell sx={{wordBreak:"break-word"}}>{candidate.email}</TableCell>
+                <TableCell>{candidate.email}</TableCell>
                 <TableCell>{candidate.mobileNumber}</TableCell>
                 <TableCell>{candidate.experience}</TableCell>
                 <TableCell>{candidate.technology}</TableCell>
@@ -313,14 +339,25 @@ function UserList() {
       {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={3000}
+        autoHideDuration={1000}
         onClose={() => setSnackbarOpen(false)}
       >
-        <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
+        <Alert severity="warning" onClose={() => setSnackbarOpen(false)}>
 {snackbarMessage}
         </Alert>
+        
       </Snackbar>
 
+      <Snackbar
+        open={snackbarOpen1}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen1(false)}
+      >
+      
+        <Alert severity="success" onClose={() => setSnackbarOpen1(false)}>
+{snackbarMessage1}
+        </Alert>
+      </Snackbar>
       {/* Add/Edit Dialog */}
       <Dialog
         open={dialogOpen}
@@ -358,17 +395,20 @@ function UserList() {
             variant="outlined"
             margin="dense"
             value={formData.mobileNumber}
-            onChange={handleChange}
+            onChange={handlePhoneNumber}
           />
           <TextField
             fullWidth
+
             label="Experience"
             name="experience"
             variant="outlined"
             margin="dense"
             type="number"
+        
             value={formData.experience}
             onChange={handleChange}
+
           />
           <TextField
             fullWidth
