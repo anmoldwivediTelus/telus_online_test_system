@@ -199,6 +199,7 @@ function UserList() {
      setInviteDialogOpen(true);
    };
 
+
   // Delete candidate
   const handleDeleteCandidate = async (index) => {
     //const id = candidates.id; // Changed from _id to id
@@ -395,6 +396,22 @@ function UserList() {
             margin="dense"
             value={formData.email}
             onChange={handleChange}
+            // Changed Monday
+            InputProps={{
+              readOnly: editingIndex !== null && formData.isTestDone, // Disable email editing if the test is done
+            }}
+            helperText={
+              editingIndex !== null && formData.isTestDone
+                ? (
+                  <span>
+                    Email ID cannot be edited after the test has been conducted{" "}
+                    <span style={{ color: "red" }}>*</span>
+                  </span>
+                )
+                : ""
+            }
+            
+            // ...........//
           />
           <TextField
             fullWidth
