@@ -32,8 +32,12 @@ function UserList() {
   const [tests, setTests] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("")
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarMessage1, setSnackbarMessage1] = useState("")
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarOpen1, setSnackbarOpen1] = useState(false);
+
   const [loading, setLoading] = useState(false); // Loading state for the dialog
   const [showResultDialogOpen, setShowResultDialogOpen]=useState(false);
   const [formData, setFormData] = useState({
@@ -115,36 +119,64 @@ function UserList() {
   //   }
   // };
 
+  const handlePhoneNumber = (e) => {
+    const onlyNums = e.target.value.replace(/[^0-9]/g, '');
+    setFormData({ ...formData, mobileNumber: onlyNums }); 
+  
+    if (onlyNums.length > 10) {
+      setSnackbarMessage("Phone number must have 10 digits.");
+      setSnackbarOpen(true);
+    }
+  };
+
+ 
+
   // Save or update candidate
   const handleSaveCandidate = async () => {
+    const isEditing = editingIndex !== null;
+    const currentCandidateId = formData.id;
+  
+    // Check for existing email and mobile only if they are being changed
     const isEmailExists = candidates.some(
-            (candidate) => candidate.email === formData.email
-          );
-          const isMobileExists = candidates.some(
-            (candidate) => candidate.mobileNumber === formData.mobileNumber
-          );
-      
-          if (isEmailExists) {
-            setSnackbarMessage("Email address already exists.");
-            setSnackbarOpen(true);
-            return;
-          }
-      
-          if (isMobileExists) {
-            setSnackbarMessage("Mobile number already exists.");
-            setSnackbarOpen(true);
-            return;
-          }
+      (candidate) =>
+        candidate.email === formData.email && candidate.id !== currentCandidateId
+    );
+    const isMobileExists = candidates.some(
+      (candidate) =>
+        candidate.mobileNumber === formData.mobileNumber && candidate.id !== currentCandidateId
+    );
+  
+    // Validate email
+    if (isEmailExists) {
+      setSnackbarMessage("Email address already exists.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    // Validate mobile
+    if (isMobileExists) {
+      setSnackbarMessage("Mobile number already exists.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    // Validate mobile number length
+    if (formData.mobileNumber.length !== 10) {
+      setSnackbarMessage("Phone number must have 10 digits.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
     try {
-      if (editingIndex !== null) {
+      if (isEditing) {
         // Update candidate
-        const id = formData.id; // Changed from _id to id
-        
+        const id = formData.id;
         await axios.put(`http://localhost:4000/api/users/${id}`, formData);
       } else {
         // Add candidate
         await axios.post("http://localhost:4000/api/users", formData);
       }
+  
       // Refresh candidates list
       const response = await axios.get("http://localhost:4000/api/users");
       setCandidates(response.data);
@@ -154,7 +186,7 @@ function UserList() {
       console.error("Error saving candidate:", error);
     }
   };
-
+  
   // Edit candidate
   const handleEditCandidate = (candidate) => {
     setEditingIndex(candidate);
@@ -189,8 +221,9 @@ function UserList() {
       const response = await axios.get("http://localhost:4000/api/users");
       setCandidates(response.data);
       setInviteDialogOpen(false);
-      setSnackbarMessage("Invite sent successfully!");
-      setSnackbarOpen(true);
+      setSnackbarMessage1("Invite sent successfully!");
+      setSnackbarOpen1(true);
+
     } catch (error) {
       console.error("Error sending invite:", error);
     }
@@ -208,6 +241,7 @@ function UserList() {
    const handleClose = () => {
     setShowResultDialogOpen(false);
   };
+
 
 
   return (
@@ -273,7 +307,7 @@ function UserList() {
             {filteredCandidates.map((candidate) => (
               <TableRow key={candidate.id}> {/* Changed from index to candidate.id */}
                 <TableCell>{candidate.name}</TableCell>
-                <TableCell sx={{wordBreak:"break-word"}}>{candidate.email}</TableCell>
+                <TableCell>{candidate.email}</TableCell>
                 <TableCell>{candidate.mobileNumber}</TableCell>
                 <TableCell>{candidate.experience}</TableCell>
                 <TableCell>{candidate.technology}</TableCell>
@@ -313,14 +347,25 @@ function UserList() {
       {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={3000}
+        autoHideDuration={1000}
         onClose={() => setSnackbarOpen(false)}
       >
-        <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
+        <Alert severity="warning" onClose={() => setSnackbarOpen(false)}>
 {snackbarMessage}
         </Alert>
+        
       </Snackbar>
 
+      <Snackbar
+        open={snackbarOpen1}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen1(false)}
+      >
+      
+        <Alert severity="success" onClose={() => setSnackbarOpen1(false)}>
+{snackbarMessage1}
+        </Alert>
+      </Snackbar>
       {/* Add/Edit Dialog */}
       <Dialog
         open={dialogOpen}
@@ -358,17 +403,20 @@ function UserList() {
             variant="outlined"
             margin="dense"
             value={formData.mobileNumber}
-            onChange={handleChange}
+            onChange={handlePhoneNumber}
           />
           <TextField
             fullWidth
+
             label="Experience"
             name="experience"
             variant="outlined"
             margin="dense"
             type="number"
+        
             value={formData.experience}
             onChange={handleChange}
+
           />
           <TextField
             fullWidth
