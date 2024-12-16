@@ -133,52 +133,60 @@ function UserList() {
 
   // Save or update candidate
   const handleSaveCandidate = async () => {
+    const isEditing = editingIndex !== null;
+    const currentCandidateId = formData.id;
+  
+    // Check for existing email and mobile only if they are being changed
     const isEmailExists = candidates.some(
-            (candidate) => candidate.email === formData.email
-          );
-          const isMobileExists = candidates.some(
-            (candidate) => candidate.mobileNumber === formData.mobileNumber
-          );
-      
-          if (isEmailExists) {
-            setSnackbarMessage("Email address already exists.");
-            setSnackbarOpen(true);
-            return;
-          }
-      
-          if (isMobileExists) {
-            setSnackbarMessage("Mobile number already exists.");
-            setSnackbarOpen(true);
-            return;
-          }
-
-        if (formData.mobileNumber.length !== 10) {
-          setSnackbarMessage("Phone number must have 10 digits.");
-          setSnackbarOpen(true);
-          return;
-        }
+      (candidate) =>
+        candidate.email === formData.email && candidate.id !== currentCandidateId
+    );
+    const isMobileExists = candidates.some(
+      (candidate) =>
+        candidate.mobileNumber === formData.mobileNumber && candidate.id !== currentCandidateId
+    );
+  
+    // Validate email
+    if (isEmailExists) {
+      setSnackbarMessage("Email address already exists.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    // Validate mobile
+    if (isMobileExists) {
+      setSnackbarMessage("Mobile number already exists.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    // Validate mobile number length
+    if (formData.mobileNumber.length !== 10) {
+      setSnackbarMessage("Phone number must have 10 digits.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
     try {
-      if (editingIndex !== null) {
+      if (isEditing) {
         // Update candidate
-        const id = formData.id; // Changed from _id to id
-        
+        const id = formData.id;
         await axios.put(`http://localhost:4000/api/users/${id}`, formData);
       } else {
         // Add candidate
         await axios.post("http://localhost:4000/api/users", formData);
       }
+  
       // Refresh candidates list
       const response = await axios.get("http://localhost:4000/api/users");
       setCandidates(response.data);
       resetForm();
       setDialogOpen(false);
-
     } catch (error) {
       console.error("Error saving candidate:", error);
-
     }
   };
-
+  
   // Edit candidate
   const handleEditCandidate = (candidate) => {
     setEditingIndex(candidate);
