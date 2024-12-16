@@ -88,6 +88,13 @@ function UserList() {
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "experience") {
+      if (value < 0 || value > 45) {
+        setSnackbarMessage("Experience should be between 0 and 45.");
+        setSnackbarOpen(true);
+        return; // Prevent setting the value if it's out of range
+      }
+    }
     setFormData({ ...formData, [name]: value });
   };
 
@@ -103,22 +110,6 @@ function UserList() {
     isTestDone: false });
     setEditingIndex(null);
   };
-
-  // Save or update candidate
-  // const handleSaveInvite = async () => {
-    
-  //   try {
-  //      await axios.post("http://localhost:4000/api/users", formData);
-  //     // Refresh candidates list
-  //     const response = await axios.get("http://localhost:4000/api/users");
-  //     setCandidates(response.data);
-  //     resetForm();
-  //     setInviteDialogOpen(false);
-  //   } catch (error) {
-  //     console.error("Error sending invite candidate:", error);
-  //   }
-  // };
-
   const handlePhoneNumber = (e) => {
     const onlyNums = e.target.value.replace(/[^0-9]/g, '');
     setFormData({ ...formData, mobileNumber: onlyNums }); 
@@ -128,9 +119,6 @@ function UserList() {
       setSnackbarOpen(true);
     }
   };
-
- 
-
   // Save or update candidate
   const handleSaveCandidate = async () => {
     const isEditing = editingIndex !== null;
@@ -168,20 +156,28 @@ function UserList() {
     }
   
     try {
-      if (isEditing) {
+      if (editingIndex !== null) {
         // Update candidate
         const id = formData.id;
         await axios.put(`http://localhost:4000/api/users/${id}`, formData);
+
+        // Update candidate locally
+        const updatedCandidates = candidates.map((candidate) =>
+          candidate.id === id ? formData : candidate
+        );
+        setCandidates(updatedCandidates);
+        setFilteredCandidates(updatedCandidates);
       } else {
         // Add candidate
-        await axios.post("http://localhost:4000/api/users", formData);
+        const response = await axios.post("http://localhost:4000/api/users", formData);
+        setCandidates([...candidates, response.data]);
+        setFilteredCandidates([...filteredCandidates, response.data]);
       }
-  
-      // Refresh candidates list
-      const response = await axios.get("http://localhost:4000/api/users");
-      setCandidates(response.data);
+
       resetForm();
       setDialogOpen(false);
+      setSnackbarMessage("Candidate saved successfully!");
+      setSnackbarOpen(true);
     } catch (error) {
       console.error("Error saving candidate:", error);
     }
