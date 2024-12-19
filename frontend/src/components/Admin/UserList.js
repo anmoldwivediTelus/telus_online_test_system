@@ -207,8 +207,8 @@ const response = await axios.get("http://localhost:4000/api/users");
 //........................//
       resetForm();
       setDialogOpen(false);
-      setSnackbarMessage("Candidate saved successfully!");
-      setSnackbarOpen(true);
+      setSnackbarMessage1("Candidate saved successfully!");
+      setSnackbarOpen1(true);
     } catch (error) {
       console.error("Error saving candidate:", error);
     }
