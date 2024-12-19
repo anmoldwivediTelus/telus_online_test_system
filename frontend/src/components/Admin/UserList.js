@@ -119,8 +119,36 @@ function UserList() {
       setSnackbarOpen(true);
     }
   };
+
+  // Tuesday_Changes
+// Validation Function
+const validateFields = (fields) => {
+  for (const [key, value] of Object.entries(fields)) {
+    if (!value) {
+      setSnackbarMessage(`The field "${key}" must be filled.`);
+      setSnackbarOpen(true);
+      return false;
+    }
+  }
+  return true;
+};
   // Save or update candidate
   const handleSaveCandidate = async () => {
+//Tuesday_Changes
+      // Validate required fields
+      const requiredFields = {
+        name: formData.name,
+        email: formData.email,
+        mobileNumber: formData.mobileNumber,
+        technology: formData.technology,
+        experience: formData.experience,
+      };
+    
+      if (!validateFields(requiredFields)) {
+        return; // Stop execution if validation fails
+      }
+        //..//
+
     const isEditing = editingIndex !== null;
     const currentCandidateId = formData.id;
   
@@ -173,7 +201,10 @@ function UserList() {
         setCandidates([...candidates, response.data]);
         setFilteredCandidates([...filteredCandidates, response.data]);
       }
-
+// Praveen_Changes_19
+const response = await axios.get("http://localhost:4000/api/users");
+      setCandidates(response.data);
+//........................//
       resetForm();
       setDialogOpen(false);
       setSnackbarMessage("Candidate saved successfully!");
@@ -211,6 +242,16 @@ function UserList() {
   // Send invite
   const handleSendInvite = async (candidate) => {
     console.log(candidate.id)
+  // Validate required fields.................................//
+  const requiredFields = {
+    email: formData.email,
+    testId: formData.testId,
+  };
+
+  if (!validateFields(requiredFields)) {
+    return; // Stop execution if validation fails
+  }
+
     const id = formData.email; // Changed from _id to id
     setLoading(true); // Show loading dialog
     try {
