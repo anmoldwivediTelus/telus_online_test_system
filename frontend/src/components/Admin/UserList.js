@@ -364,7 +364,7 @@ const response = await axios.get("http://localhost:4000/api/users");
                     : candidate.isTestDone === false 
                       ? "Test Pending": "Link Expired": "N/A"}
                   </TableCell>
-                <TableCell sx={{whiteSpace: "nowrap",padding:"10px 5px"}} >
+                <TableCell sx={{whiteSpace: "nowrap",padding:"10px"}} >
                   <Button
                     variant="contained"
                     color="secondary"
