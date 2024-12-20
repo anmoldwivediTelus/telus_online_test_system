@@ -7,15 +7,32 @@
 }
 
 /* Sidebar styling */
-.sidebar {
-  width: 100%; /* Full width by default for small screens */
+/* .sidebar {
+  width: 100%; 
   background-color: #502c6c;
   color: #ffffff;
   padding: 1rem;
-  border-right: none; /* Remove border for small screens */
-  border-bottom: 2px solid #3e2159; /* Add a bottom border for small screens */
+  border-right: none; 
+  border-bottom: 2px solid #3e2159; 
+} */
+.sidebar{
+  color: #fff;
+    background-color: #502c6c;
+    border-bottom: 2px solid #3e2159;
+    border-right: none;
+    padding: 1rem;
+    /* background-color: var(--white-color); */
+    width: 260px;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    height: 100%;
+    /* padding: 80px 20px; */
+    z-index: 100;
+    overflow-y: scroll;
+    box-shadow: 0 0 1px var(--grey-color-light);
+    transition: all 0.5s ease;
 }
-
 /* Sidebar list styles */
 .sidebar ul {
   list-style-type: none;
@@ -37,10 +54,12 @@
 
 /* Main content area */
 .main-content {
-  flex: 1;
-  padding: 1rem;
-  background-color: #ffffff;
   color: #502c6c;
+  background-color: #fff;
+  flex-grow: 1;
+  padding: 1rem;
+  margin-left: 260px;
+  margin-top: 70px;
 }
 
 /* Remove unnecessary padding for a specific class */

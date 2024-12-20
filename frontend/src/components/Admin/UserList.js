@@ -283,7 +283,9 @@ const response = await axios.get("http://localhost:4000/api/users");
 
 
   return (
+   
     <Box sx={{ p: 4 }}>
+       <div className="subheader">
       {/* Header Section */}
       <Box
         sx={{
@@ -325,9 +327,9 @@ const response = await axios.get("http://localhost:4000/api/users");
           </Button>
         </Box>
       </Box>
-
+      </div>
       {/* Table Section */}
-      <TableContainer component={Paper} sx={{ maxHeight: 540 }}>
+      <TableContainer component={Paper}  sx={{ maxHeight: 'calc(100vh - 200px)' }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -335,7 +337,7 @@ const response = await axios.get("http://localhost:4000/api/users");
               <TableCell>Email</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Total Exp</TableCell>
-              <TableCell>Technology</TableCell>
+              <TableCell>Skill</TableCell>
               <TableCell>Status</TableCell>
               {/* <TableCell>Test Attempted</TableCell> */}
               <TableCell>Actions</TableCell>
@@ -583,6 +585,7 @@ const response = await axios.get("http://localhost:4000/api/users");
       </Dialog>
   
     </Box>
+
   );
 }
 

@@ -58,9 +58,9 @@
 
 /* Main content area */
 .main-content {
-  flex: 1;
+  flex-grow: 1;
   padding: 30px 0.5rem;
-  height: 100vh;
+  /* height: 100vh; */
   background-color: #fff;
   color: #502c6c;
 }
@@ -89,5 +89,6 @@
 
   .main-content {
     padding: 1rem; /* Reduce padding on mobile for better spacing */
+    width:100%;
   }
 }
