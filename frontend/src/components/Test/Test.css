@@ -133,7 +133,7 @@ border: 1px solid #623786;
   width: 250px;
   padding: 20px 5px;
   box-shadow: 0 px 10px rgba(0, 0, 0, 0.2); /* Softer shadow */
-  position: static !important;
+  position: static;
 }
 video{
   max-width: 252px;

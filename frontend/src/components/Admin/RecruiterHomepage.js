@@ -9,7 +9,7 @@ function RecruiterHomepage() {
   return (
     <div className="home-container">
       {/* Sidebar with options */}
-      <div className="sidebar">
+      <div className="sidebarRecruiter">
         <ul>
         <li 
             className={selectedOption === 'userlist' ? 'active' : ''} 
