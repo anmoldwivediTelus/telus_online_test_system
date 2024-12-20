@@ -6,8 +6,8 @@
   background-color: #f9f9fc;
 }
 
-/* Sidebar styling */
-/* .sidebar {
+/* sidebarRecruiter styling */
+/* .sidebarRecruiter {
   width: 100%; 
   background-color: #502c6c;
   color: #ffffff;
@@ -15,30 +15,28 @@
   border-right: none; 
   border-bottom: 2px solid #3e2159; 
 } */
-.sidebar{
+.sidebarRecruiter{
   color: #fff;
     background-color: #502c6c;
     border-bottom: 2px solid #3e2159;
     border-right: none;
     padding: 1rem;
-    /* background-color: var(--white-color); */
     width: 260px;
     position: fixed;
     top: 70px;
     left: 0;
     height: 100%;
-    /* padding: 80px 20px; */
     z-index: 100;
     box-shadow: 0 0 1px var(--grey-color-light);
     transition: all 0.5s ease;
 }
-/* Sidebar list styles */
-.sidebar ul {
+/* sidebarRecruiter list styles */
+.sidebarRecruiter ul {
   list-style-type: none;
   padding: 0;
 }
 
-.sidebar li {
+.sidebarRecruiter li {
   padding: 0.5rem 1rem;
   cursor: pointer;
   border-radius: 5px;
@@ -46,8 +44,8 @@
   transition: background-color 0.3s;
 }
 
-.sidebar li:hover,
-.sidebar li.active {
+.sidebarRecruiter li:hover,
+.sidebarRecruiter li.active {
   background-color: #3e2159;
 }
 
@@ -72,7 +70,7 @@
       flex-direction: row; /* Switch to row layout for medium and larger screens */
   }
 
-  .sidebar {
+  .sidebarRecruiter {
       width: 252px; /* Fixed width for larger screens */
       border-right: 2px solid #3e2159;
       border-bottom: none; /* Remove bottom border */
