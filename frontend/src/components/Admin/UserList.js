@@ -207,8 +207,8 @@ const response = await axios.get("http://localhost:4000/api/users");
 //........................//
       resetForm();
       setDialogOpen(false);
-      setSnackbarMessage("Candidate saved successfully!");
-      setSnackbarOpen(true);
+      setSnackbarMessage1("Candidate saved successfully!");
+      setSnackbarOpen1(true);
     } catch (error) {
       console.error("Error saving candidate:", error);
     }
@@ -327,7 +327,7 @@ const response = await axios.get("http://localhost:4000/api/users");
       </Box>
 
       {/* Table Section */}
-      <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+      <TableContainer component={Paper} sx={{ maxHeight: 540 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -336,8 +336,8 @@ const response = await axios.get("http://localhost:4000/api/users");
               <TableCell>Phone</TableCell>
               <TableCell>Total Exp</TableCell>
               <TableCell>Technology</TableCell>
-              <TableCell>Invite Status</TableCell>
-              <TableCell>Test Attempted</TableCell>
+              <TableCell>Status</TableCell>
+              {/* <TableCell>Test Attempted</TableCell> */}
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -350,9 +350,21 @@ const response = await axios.get("http://localhost:4000/api/users");
                 <TableCell>{candidate.experience}</TableCell>
                 <TableCell>{candidate.technology}</TableCell>
                 {console.log(candidate.inviteStatus,"sdafd")}
-                <TableCell>{!candidate.inviteStatus ? "false" : "true"}</TableCell>
-                <TableCell>{!candidate.isTestDone ? "false" : "true"}</TableCell>
-                <TableCell sx={{whiteSpace: "nowrap",padding:"10px 5px"}} >
+                {/* <TableCell>{!candidate.inviteStatus ? "false" : "true"}</TableCell>
+                <TableCell>{!candidate.isTestDone ? "false" : "true"}</TableCell> */}
+                  <TableCell> 
+                  
+                  {candidate.inviteStatus ? candidate.isTestDone ? <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => showResult(candidate)}
+                    sx={{fontSize: "12px",marginLeft:"3px",    padding: "7px"  }}>
+                    See Result
+                  </Button> 
+                    : candidate.isTestDone === false 
+                      ? "Test Pending": "Link Expired": "N/A"}
+                  </TableCell>
+                <TableCell sx={{whiteSpace: "nowrap",padding:"10px"}} >
                   <Button
                     variant="contained"
                     color="secondary"
@@ -361,14 +373,14 @@ const response = await axios.get("http://localhost:4000/api/users");
                     sx={{fontSize: "12px",marginRight:"2px",padding: "7px" }}>
                     Send Invite
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="contained"
                     color="secondary"
                     onClick={() => showResult(candidate)}
                     disabled={candidate.isTestDone === false}
                     sx={{fontSize: "12px",marginLeft:"3px",    padding: "7px"  }}>
                     View Result
-                  </Button>
+                  </Button> */}
                   <IconButton color="primary" onClick={() => handleEditCandidate(candidate)}>
                     <Edit   sx={{width: "0.8em"}}/>
                   </IconButton>

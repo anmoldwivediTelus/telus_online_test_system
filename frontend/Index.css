@@ -205,11 +205,12 @@ font-size: large;
     padding-left: 10px;
   }
   .MuiTable-root tr th {
-    background: #dcdcdc;
+    white-space: nowrap;
+    background: #502c6c;
+    border-left: 1px solid #663c86;
     padding: 10px 15px;
     font-size: 14px;
-    white-space: nowrap;
-    border-left: 1px solid #eee;
+    color: #fff !important;
 }
 table tbody tr td{
     /* word-break: break-word; */
