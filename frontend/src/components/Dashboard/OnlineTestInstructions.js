@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './OnlineTestInstructions.css';
 import { useParams } from "react-router"
+import flowerImage from '../../flowerImage.png';
 
 
 function OnlineTestInstructions() {
@@ -51,8 +52,10 @@ function OnlineTestInstructions() {
         </ol>
       </div>
       <div className='buttonGroup'>
-        <button className='buttons' onClick={handleStartTest}>Start the test</button>
+        <button className='buttons' onClick={handleStartTest}>I Agree</button>
       </div>
+      {/* Image at the bottom-right corner */}
+      <img src={flowerImage} alt="Flower" className="bottom-right-image" />
     </div>
   );
 }
