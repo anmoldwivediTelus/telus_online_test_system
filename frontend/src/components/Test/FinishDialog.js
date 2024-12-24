@@ -2,13 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FinishDialog.css';
 
-const FinishDialog = ({ open, handleClose }) => {
+const FinishDialog = ({ open, handleClose, handleExit }) => {
   const navigate = useNavigate();
-
-  // Define the navigation logic here
-  const handleExit = () => {
-    navigate('/exit'); // Navigate to the ExitPage when "Exit" is clicked
-  };
+  
 
   if (!open) return null; // Only render if open is true
 
