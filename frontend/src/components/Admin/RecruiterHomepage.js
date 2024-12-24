@@ -47,7 +47,7 @@ function RecruiterHomepage() {
           >
             Tests/Assessment
             <button onClick={handleExpandCollapse}>
-              {isExpanded ? <img className="arrowimg" src={down} /> : <img className="arrowimg" src={up} />}
+              {isExpanded ? <img className="arrowimg" src={up} /> : <img className="arrowimg" src={down} />}
             </button>
             {isExpanded && (
               <ul className='sub-menu'>
