@@ -25,11 +25,12 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 
-function AdminQuestions() {
+function AdminQuestions({ onUpdateTestNames }) {
   const [questions, setQuestions] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [tests, setTests] = useState([]);
+
   const [formData, setFormData] = useState({
       testName:"",
       testId:"",
@@ -51,6 +52,15 @@ function AdminQuestions() {
       .then((response) => {
         console.log("Fetched Data:", response.data);
         setQuestions(response.data);
+
+
+          // Extract test names and pass them to the parent
+          const testNames = [
+            ...new Set(response.data.map((question) => question.testName)),
+          ];
+          onUpdateTestNames(testNames);
+
+          
         axios.get("http://localhost:4000/api/tests")
         .then((response) => {
           console.log("Fetched Data:", response.data);
@@ -59,7 +69,8 @@ function AdminQuestions() {
         .catch((error) => console.error("Error fetching questions:", error));
       })
       .catch((error) => console.error("Error fetching questions:", error));
-  }, []);
+    }, [onUpdateTestNames]);
+  
 
   // Handle input change
   const handleChange = (e) => {
