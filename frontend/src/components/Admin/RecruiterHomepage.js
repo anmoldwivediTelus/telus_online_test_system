@@ -11,12 +11,14 @@ function RecruiterHomepage() {
   const [selectedOption, setSelectedOption] = useState('userlist');
   const [testNames, setTestNames] = useState([]); // State to store test names
   const [isExpanded, setIsExpanded] = useState(false); // State to track expand/collapse
+  const [selectedTestName, setSelectedTestName] = useState('All'); // Store the selected test name
 
-  
    // Function to update testNames
    const handleUpdateTestNames = (testNamesFromQuestions) => {
-    setTestNames(testNamesFromQuestions);
+    setTestNames(['All', ...testNamesFromQuestions]); // Add 'All' as the first option
   };
+
+   
 
   const handleExpandCollapse = () => {
     setIsExpanded(!isExpanded);
@@ -41,7 +43,9 @@ function RecruiterHomepage() {
           <li 
              className={`questab ${selectedOption === 'questions' ? 'active' : ''}`} 
              onClick={() => {
+
               setSelectedOption('questions');
+
               handleExpandCollapse();
             }}
           >
@@ -52,7 +56,9 @@ function RecruiterHomepage() {
             {isExpanded && (
               <ul className='sub-menu'>
                 {testNames.map((testName, index) => (
-                  <li key={index}>{testName}</li>
+                  <li key={index}
+                       onClick={() => setSelectedTestName(testName)} // Set the selected test name
+              >{testName}</li>
                 ))}
               </ul>
             )}
@@ -69,7 +75,9 @@ function RecruiterHomepage() {
       <div className="main-content">
         {selectedOption === 'userlist' && <UserList />}
         {selectedOption === 'tests' && <AdminTest/>}
-        {selectedOption === 'questions' &&  <AdminQuestion onUpdateTestNames={handleUpdateTestNames} />}      
+        {selectedOption === 'questions' &&  <AdminQuestion onUpdateTestNames={handleUpdateTestNames}
+              selectedTestName={selectedTestName} // Pass selected test name
+            />}      
           {selectedOption === 'result' && <CandidateResult />}
       </div>
     </div>
