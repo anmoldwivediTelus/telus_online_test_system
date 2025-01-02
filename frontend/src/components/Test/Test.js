@@ -7,6 +7,7 @@ import FinishDialog from "./FinishDialog";
 import { IoMdTime } from "react-icons/io";
 import WebcamRecorder from "./WebcamVideo";
 import axios from "axios";
+import FinishDialog from "./FinishDialog";
 
 function Test() {
   const navigate = useNavigate();
@@ -147,7 +148,11 @@ function Test() {
 
   const handleFinishClick = () => {
     setDialogOpen(true);
+  };
+  
 
+  const handleExit = () => {
+    // Finalize the test submission
     const totalTimeTaken = 1800 - timeLeft;
     const answers = Object.keys(selectedOptions).reduce((acc, key) => {
       const questionNumber = parseInt(key) + 1;
@@ -155,17 +160,22 @@ function Test() {
       acc[questionNumber] = selectedAnswer;
       return acc;
     }, {});
-
+  
     const testData = {
       userId: localStorage.getItem("userId"),
       testId: localStorage.getItem("testId"),
       answers: answers,
       totalTimeTaken: totalTimeTaken,
     };
-
-    axios.post("http://localhost:4000/api/results", testData);
-    navigate("/exit");
-  };
+  
+    axios.post("http://localhost:4000/api/results", testData)
+      .then(() => {
+        navigate("/exit"); // Navigate after successful submission
+      })
+      .catch((err) => {
+        console.error("Error submitting test data:", err.message);
+      });
+  };  
 
   const answeredQuestionsCount = Object.keys(selectedOptions).filter(
     (key) => !markedForReview.has(parseInt(key))
@@ -220,7 +230,7 @@ function Test() {
         </div>
       )}
 
-      <FinishDialog open={dialogOpen} handleClose={() => setDialogOpen(false)} />
+      <FinishDialog open={dialogOpen} handleClose={() => setDialogOpen(false)} handleExit={handleExit} />
 
       <div className="content">
         <aside className="sidebar testSidebar">
