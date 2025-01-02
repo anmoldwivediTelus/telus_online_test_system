@@ -8,11 +8,22 @@
     margin-top: 120px;
 }
 
-.head {
+/*.head {
     text-align: center;
     font-style: italic;
     color: #502c6c;
     font-weight: bold;
+}*/
+
+.head {
+    text-align: center;
+    font-weight: bold; /* Font style changed to bold */
+    color: #ffffff;
+    background-color: #674ea7; /* Background color for the box */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners for the box */
+    border: 2px solid #502c6c; /* Border color and width */
+    font-size: 25px; /* Increased font size */
 }
 
 .list {
@@ -71,4 +82,11 @@
         flex-direction: column; /* Stack buttons vertically on mobile */
         align-items: center;
     }
+}
+.main img {
+    position: absolute;
+    bottom: 0px; /* Distance from the bottom */
+    right: 10px; /* Distance from the right */
+    width: 300px; /* Adjust width of the image */
+    height: auto; /* Maintain aspect ratio */
 }
