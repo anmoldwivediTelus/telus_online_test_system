@@ -90,7 +90,7 @@ const router = express.Router();
 
 // Test routes
 router.post('/tests', createTest);
-router.get('/tests/:id', getTestById); 
+router.get('/tests/:id/:userId', getTestById); 
 router.get('/tests', getAllTests); 
 router.put('/tests/:id', updateTest); 
 router.delete('/tests/:id', deleteTest);  
