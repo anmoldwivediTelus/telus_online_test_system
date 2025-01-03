@@ -1,5 +1,5 @@
 export const createTestInviteLink = (id,userId) => {
-  return `http://localhost:1234/test/${id}/${userId}`;
+  return `http://localhost:1234/api/tests/${id}/${userId}`;
 };
 
 export const generateInviteEmailHTML = (id, userId,email,expiresAt, testName = 'React') => {
