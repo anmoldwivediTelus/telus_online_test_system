@@ -24,6 +24,7 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import ResultPage from "./CandidateResult";
+import { API_BASE_URL } from "../../config";
 
 function UserList() {
   const [candidates, setCandidates] = useState([]);
@@ -52,12 +53,12 @@ function UserList() {
   
   // Fetch candidates from API
   useEffect(() => {
-    axios.get("http://localhost:4000/api/users")
+    axios.get(`${API_BASE_URL}/users`)
       .then((response) => {
         console.log("Fetched Data:", response.data);
         setCandidates(response.data);
         setFilteredCandidates(response.data); // Set initial filtered candidates
-        axios.get("http://localhost:4000/api/tests")
+        axios.get(`${API_BASE_URL}/tests`)
       .then((response) => {
         console.log("Fetched Data:", response.data);
         setTests(response.data);
@@ -187,7 +188,7 @@ const validateFields = (fields) => {
       if (editingIndex !== null) {
         // Update candidate
         const id = formData.id;
-        await axios.put(`http://localhost:4000/api/users/${id}`, formData);
+        await axios.put(`${API_BASE_URL}/users/${id}`, formData);
 
         // Update candidate locally
         const updatedCandidates = candidates.map((candidate) =>
@@ -197,12 +198,12 @@ const validateFields = (fields) => {
         setFilteredCandidates(updatedCandidates);
       } else {
         // Add candidate
-        const response = await axios.post("http://localhost:4000/api/users", formData);
+        const response = await axios.post(`${API_BASE_URL}/users`, formData);
         setCandidates([...candidates, response.data]);
         setFilteredCandidates([...filteredCandidates, response.data]);
       }
 // Praveen_Changes_19
-const response = await axios.get("http://localhost:4000/api/users");
+const response = await axios.get(`${API_BASE_URL}/users`);
       setCandidates(response.data);
 //........................//
       resetForm();
@@ -231,8 +232,8 @@ const response = await axios.get("http://localhost:4000/api/users");
   const handleDeleteCandidate = async (index) => {
     //const id = candidates.id; // Changed from _id to id
     try {
-      await axios.delete(`http://localhost:4000/api/users/${index}`);
-      const response = await axios.get("http://localhost:4000/api/users");
+      await axios.delete(`${API_BASE_URL}/users/${index}`);
+      const response = await axios.get(`${API_BASE_URL}/users`);
       setCandidates(response.data);
     } catch (error) {
       console.error("Error deleting candidate:", error);
@@ -255,8 +256,8 @@ const response = await axios.get("http://localhost:4000/api/users");
     const id = formData.email; // Changed from _id to id
     setLoading(true); // Show loading dialog
     try {
-      await axios.post(`http://localhost:4000/api/invites/send-invite`, { email: formData.email , testName: formData.testId.split(".")[1],testId: formData.testId.split(".")[0],userId: formData.id });
-      const response = await axios.get("http://localhost:4000/api/users");
+      await axios.post(`${API_BASE_URL}/invites/send-invite`, { email: formData.email , testName: formData.testId.split(".")[1],testId: formData.testId.split(".")[0],userId: formData.id });
+      const response = await axios.get(`${API_BASE_URL}/users`);
       setCandidates(response.data);
       setInviteDialogOpen(false);
       setSnackbarMessage1("Invite sent successfully!");

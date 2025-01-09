@@ -4,6 +4,7 @@ import axios from 'axios';
 import './OnlineTestInstructions.css';
 import { useParams } from "react-router"
 import flowerImage from '../../flowerImage.png';
+import { API_BASE_URL } from "../../config";
 
 
 function OnlineTestInstructions() {
@@ -23,7 +24,7 @@ function OnlineTestInstructions() {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:4000/api/users/${userId}`)
+      axios.get(`${API_BASE_URL}/users/${userId}`)
         .then(response => {
           setUserName(response.data.name);
         })
