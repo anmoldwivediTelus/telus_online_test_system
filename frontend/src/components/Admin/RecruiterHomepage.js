@@ -6,6 +6,7 @@ import CandidateResult from './CandidateResult';
 import AdminTest from './AdminTest';
 import down from '../../assets/img/down.png'
 import up from '../../assets/img/arrow-up.png'
+import { useCallback } from 'react';
 
 function RecruiterHomepage() {
   const [selectedOption, setSelectedOption] = useState('userlist');
@@ -14,9 +15,10 @@ function RecruiterHomepage() {
   const [selectedTestName, setSelectedTestName] = useState('All'); // Store the selected test name
 
    // Function to update testNames
-   const handleUpdateTestNames = (testNamesFromQuestions) => {
+   const handleUpdateTestNames = useCallback((testNamesFromQuestions) => {
     setTestNames(['All', ...testNamesFromQuestions]); // Add 'All' as the first option
-  };
+  }, []);
+  
 
    
 
