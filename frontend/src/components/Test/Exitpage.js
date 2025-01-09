@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate for naviga
 import './ExitPage.css';
 import axios from 'axios';
 import { useParams } from 'react-router';
+import { API_BASE_URL } from "../../config";
 
 const ExitPage = () => {
   const [data, setData] = useState(null);
@@ -11,7 +12,7 @@ const ExitPage = () => {
 console.log(localStorage.getItem("id"))
   // Fetch user data on component mount
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/users/${localStorage.getItem("userId")}`)
+    axios.get(`${API_BASE_URL}/users/${localStorage.getItem("userId")}`)
       .then((response) => setData(response.data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []); // Empty dependency array, so it runs only on mount
@@ -21,7 +22,7 @@ console.log(localStorage.getItem("userId"))
   // Update user data if updatedData is set
   useEffect(() => {
     if (updatedData) {
-      axios.put(`http://localhost:4000/api/users/${localStorage.getItem("userId")}`, updatedData)
+      axios.put(`${API_BASE_URL}/users/${localStorage.getItem("userId")}`, updatedData)
         .then((response) => {
           console.log("Data updated successfully:", response.data.user.id);
           // Optionally, you can update the data in state with the new response

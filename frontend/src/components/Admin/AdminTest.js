@@ -22,6 +22,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Delete, Description, Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../config";
 
 function AdminTest() {
   const [tests, setTests] = useState([]);
@@ -36,7 +37,7 @@ function AdminTest() {
   
   // Fetch candidates from API
   useEffect(() => {
-    axios.get("http://localhost:4000/api/tests")
+    axios.get(`${API_BASE_URL}/tests`)
       .then((response) => {
         console.log("Fetched Data:", response.data);
         setTests(response.data);
@@ -70,13 +71,13 @@ function AdminTest() {
         // Update candidate
         const id = formData.id; // Changed from _id to id
         
-        await axios.put(`http://localhost:4000/api/tests/${id}`, formData);
+        await axios.put(`${API_BASE_URL}/tests/${id}`, formData);
       } else {
         // Add candidate
-        await axios.post("http://localhost:4000/api/tests", formData);
+        await axios.post(`${API_BASE_URL}/tests`, formData);
       }
       // Refresh candidates list
-      const response = await axios.get("http://localhost:4000/api/tests");
+      const response = await axios.get(`${API_BASE_URL}/tests`);
       setTests(response.data);
       resetForm();
       setDialogOpen(false);
@@ -97,8 +98,8 @@ function AdminTest() {
   const handleDeleteCandidate = async (index) => {
     //const id = candidates.id; // Changed from _id to id
     try {
-      await axios.delete(`http://localhost:4000/api/tests/${index}`);
-      const response = await axios.get("http://localhost:4000/api/tests");
+      await axios.delete(`${API_BASE_URL}/tests/${index}`);
+      const response = await axios.get(`${API_BASE_URL}/tests`);
       setTests(response.data);
     } catch (error) {
       console.error("Error deleting candidate:", error);
@@ -109,7 +110,7 @@ function AdminTest() {
   const handleSendInvite = async (index) => {
     const id = candidates[index].email; // Changed from _id to id
     try {
-      await axios.post(`http://localhost:5000/api/invites/send-invite`, { email: id , testName: "ReactJS",testId: 2 });
+      await axios.post(`${API_BASE_URL}/invites/send-invite`, { email: id , testName: "ReactJS",testId: 2 });
       const updatedCandidates = candidates.map((candidate, i) =>
         i === index ? { ...candidate, status: "Invite Sent" } : candidate
       );

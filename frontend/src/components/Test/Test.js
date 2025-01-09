@@ -8,6 +8,7 @@ import { IoMdTime } from "react-icons/io";
 import WebcamRecorder from "./WebcamVideo";
 import axios from "axios";
 import FinishDialog from "./FinishDialog";
+import { API_BASE_URL } from "../../config";
 
 function Test() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function Test() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/questions/test/${params.id}`
+          `${API_BASE_URL}/questions/test/${params.id}`
         );
         setQuestionsData(response.data);
         setLoading(false);
@@ -186,7 +187,7 @@ const skippedCount = questionsData.filter((_, index) =>
       totalTimeTaken: totalTimeTaken,
     };
   
-    axios.post("http://localhost:4000/api/results", testData)
+    axios.post(`${API_BASE_URL}/results`, testData)
       .then(() => {
         navigate("/exit"); // Navigate after successful submission
       })
@@ -203,7 +204,7 @@ const skippedCount = questionsData.filter((_, index) =>
     console.log("Captured Webcam Image:", image);
     // Optionally send image to the backend for monitoring
     axios
-      .post("http://localhost:4000/api/webcam", { image })
+      .post(`${API_BASE_URL}/webcam`, { image })
       .catch((err) =>
         console.error("Error uploading webcam image:", err.message)
       );

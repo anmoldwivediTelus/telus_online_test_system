@@ -22,6 +22,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
+import { API_BASE_URL } from "../../config";
 
 function AdminQuestions({ onUpdateTestNames, selectedTestName }) {
   const [questions, setQuestions] = useState([]);
@@ -47,8 +48,8 @@ function AdminQuestions({ onUpdateTestNames, selectedTestName }) {
     const fetchQuestionsAndTests = async () => {
       try {
         const [questionsResponse, testsResponse] = await Promise.all([
-          axios.get("http://localhost:4000/api/questions"),
-          axios.get("http://localhost:4000/api/tests"),
+          axios.get(`${API_BASE_URL}/questions`),
+          axios.get(`${API_BASE_URL}/tests`),
         ]);
 
         setQuestions(questionsResponse.data);
@@ -105,16 +106,16 @@ function AdminQuestions({ onUpdateTestNames, selectedTestName }) {
       if (editingIndex !== null) {
         // Update question
         await axios.put(
-          `http://localhost:4000/api/questions/${editingIndex.id}`,
+          `${API_BASE_URL}/questions/${editingIndex.id}`,
           updatedFormData
         );
       } else {
         // Add new question
-        await axios.post("http://localhost:4000/api/questions", updatedFormData);
+        await axios.post(`${API_BASE_URL}/questions`, updatedFormData);
       }
 
       // Refresh questions list
-      const response = await axios.get("http://localhost:4000/api/questions");
+      const response = await axios.get(`${API_BASE_URL}/questions`);
       setQuestions(response.data);
       resetForm();
       setDialogOpen(false);
@@ -144,8 +145,8 @@ function AdminQuestions({ onUpdateTestNames, selectedTestName }) {
   // Delete question
   const handleDeleteCandidate = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/api/questions/${id}`);
-      const response = await axios.get("http://localhost:4000/api/questions");
+      await axios.delete(`${API_BASE_URL}/questions/${id}`);
+      const response = await axios.get(`${API_BASE_URL}/questions`);
       setQuestions(response.data);
     } catch (error) {
       console.error("Error deleting candidate:", error);

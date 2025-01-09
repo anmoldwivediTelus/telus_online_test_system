@@ -3,6 +3,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "./CandidateResult.css";
 import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 // Reusable Table Row Component
 const TableRow = ({ data }) => (
@@ -41,8 +42,8 @@ const ResultPage = () => {
     if (userId) {
       // Run both API calls concurrently using Promise.all
       Promise.all([
-        axios.get(`http://localhost:4000/api/users/${userId}`),
-        axios.get(`http://localhost:4000/api/results/${userId}`)
+        axios.get(`${API_BASE_URL}/users/${userId}`),
+        axios.get(`${API_BASE_URL}/results/${userId}`)
       ])
       .then(([userResponse, resultsResponse]) => {
         // Set the responses for user details and results
