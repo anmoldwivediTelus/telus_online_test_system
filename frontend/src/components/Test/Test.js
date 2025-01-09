@@ -22,6 +22,10 @@ function Test() {
   const [loading, setLoading] = useState(true);
   const [skippedQuestions, setSkippedQuestions] = useState(0);
 
+  //Code_Changes for Skipped
+  const [skippedQuestionsSet, setSkippedQuestionsSet] = useState(new Set());
+//
+
   const params = useParams();
 
   // Timer logic
@@ -122,11 +126,18 @@ function Test() {
   const handleNext = () => {
     if (currentQuestion < questionsData.length - 1) {
       if (!selectedOptions[currentQuestion] && !markedForReview.has(currentQuestion)) {
-        setSkippedQuestions((prev) => prev + 1);
+        setSkippedQuestionsSet((prev) => new Set(prev).add(currentQuestion));  //Line_Changed
       }
       setCurrentQuestion(currentQuestion + 1);
     }
   };
+  //Code_Changes for_MarkforReview
+const skippedCount = questionsData.filter((_, index) => 
+  !selectedOptions.hasOwnProperty(index) && !markedForReview.has(index)
+).length;
+
+
+//................................................//
 
   const handlePrevious = () => {
     if (currentQuestion > 0) {
@@ -141,6 +152,13 @@ function Test() {
         updatedSet.delete(currentQuestion);
       } else {
         updatedSet.add(currentQuestion);
+        //Code_Changes_For Skipped
+        setSkippedQuestionsSet((prevSkipped) => {
+          const newSkipped = new Set(prevSkipped);
+          newSkipped.delete(currentQuestion);
+          return newSkipped;
+        });
+        //............................//
       }
       return updatedSet;
     });
@@ -208,7 +226,7 @@ function Test() {
             Marked for Review: {markedForReview.size}
           </div>
           <div className="tab flex-sm-fill text-sm-center skipTab">
-            Skipped: {skippedQuestions}
+            Skipped:{Math.max(skippedCount, 0)}
           </div>
         </div>
         <div className="rightbox timer">
