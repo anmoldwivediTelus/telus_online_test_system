@@ -94,9 +94,7 @@ export default function WebcamRecorder({ onSaveToLocalStorage, testEnded }) {
   };
 
   return (
-   
-    <div
-      className="webcam-recorder">
+    <div className="webcam-recorder">
       {/* Webcam feed with reduced size */}
       <Webcam
         ref={webcamRef}

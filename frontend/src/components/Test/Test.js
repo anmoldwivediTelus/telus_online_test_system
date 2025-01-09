@@ -181,6 +181,16 @@ function Test() {
     (key) => !markedForReview.has(parseInt(key))
   ).length;
 
+  const handleWebcamCapture = (image) => {
+    console.log("Captured Webcam Image:", image);
+    // Optionally send image to the backend for monitoring
+    axios
+      .post("http://localhost:4000/api/webcam", { image })
+      .catch((err) =>
+        console.error("Error uploading webcam image:", err.message)
+      );
+  };
+  
   return (
     <div className="app">
       <header className="testheader">
@@ -314,6 +324,9 @@ function Test() {
             </div>
           </main>
         )}
+      </div>
+      <div className="webcam-section">
+        <WebcamRecorder onCapture={handleWebcamCapture} />
       </div>
     </div>
   );
