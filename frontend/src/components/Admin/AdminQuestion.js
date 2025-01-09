@@ -238,8 +238,7 @@ function AdminQuestions({ onUpdateTestNames, selectedTestName }) {
         onClose={() => setSnackbarOpen(false)}
       >
         <Alert severity="success" onClose={() => setSnackbarOpen(false)}>
-          Operation completed successfully!
-        </Alert>
+Invite sent successfully        </Alert>
       </Snackbar>
 
       <Dialog

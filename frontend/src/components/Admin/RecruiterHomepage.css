@@ -85,15 +85,86 @@ ul.sub-menu li {
   margin-bottom: 5px;
   margin-top: 5px
 }
+
 /* Media queries for responsiveness */
-@media (min-width: 768px) {
+@media only screen and (max-width: 1280px) {
+  .sidebarRecruiter {
+    width: 200px;
+    /* top: 50px; */
+}
+.MuiBox-root.css-1wcaknn {
+  display: grid;
+}
+.main-content{
+  margin-left: 200px;
+  /* margin-top: 50px; */
+}
+.addCandidate{
+  width: 100%;
+  margin-top: 0px;
+}
+}
+@media only screen and (max-width: 1086px) {
+  .sidebarRecruiter {
+    width: 200px;
+    /* top: 50px; */
+}
+.headerRow{
+  flex-wrap: nowrap !important;
+}
+.MuiBox-root.css-1wcaknn {
+  display: grid;
+}
+
+.addCandidate{
+  width: 100% !important;
+  margin-top: 0px;
+}
+}
+@media only screen and (max-width: 993px) {
+  .sidebarRecruiter {
+    width: 200px;
+    top: 50px;
+}
+.main-content{
+  margin-left: 200px;
+  margin-top: 50px;
+}
+.addCandidate{
+  width: 100% !important;
+  margin-top: 0px;
+}
+}
+
+@media screen and (max-width: 768px) {
+  .sidebarRecruiter {
+    width: 150px;
+    top: 50px;
+}
+.sidebarRecruiter li{
+  padding: 0.5rem 0.5rem;
+}
+.sidebarRecruiter {
+padding:1rem .2rem
+}
+.arrowimg {
+  width: 12px;
+}
+.main-content{
+  margin-left: 150px;
+  margin-top: 50px;
+}
+  .headerRow {
+    flex-wrap: wrap !important;
+}
+.headerRow h4{
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+.boxes{
+  flex-direction: column;
+}
   .home-container {
       flex-direction: row; /* Switch to row layout for medium and larger screens */
-  }
-
-  .sidebarRecruiter {
-      width: 252px; /* Fixed width for larger screens */
-      border-right: 2px solid #3e2159;
-      border-bottom: none; /* Remove bottom border */
   }
 }

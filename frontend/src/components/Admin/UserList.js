@@ -287,7 +287,7 @@ const response = await axios.get("http://localhost:4000/api/users");
     <Box sx={{ p: 4 }}>
        <div className="subheader">
       {/* Header Section */}
-      <Box
+      <Box className="headerRow"
         sx={{
           display: "flex",
           justifyContent: "space-between",
@@ -306,7 +306,7 @@ const response = await axios.get("http://localhost:4000/api/users");
           Recruiter Dashboard - Send Test Invites
         </Typography>
 
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box className="boxes" sx={{ display: "flex", gap: 2 }}>
           <TextField
             variant="outlined"
             placeholder="Search by name or email"
@@ -316,6 +316,7 @@ const response = await axios.get("http://localhost:4000/api/users");
           />
           <Button
             variant="contained"
+             className="addCandidate"
             onClick={() => setDialogOpen(true)}
             sx={{
               color:"#000",backgroundColor:"#fff",border:"1px solid #000",
